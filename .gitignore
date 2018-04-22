@@ -11,6 +11,7 @@ tmp/
 .classpath
 .loadpath
 .tern-project
+gen-java
 
 ## External tool builders
 .externalToolBuilders/
