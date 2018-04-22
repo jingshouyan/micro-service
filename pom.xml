@@ -14,6 +14,8 @@
         <module>io-jing-server</module>
         <module>io-jing-client</module>
         <module>userServer</module>
+        <module>io-jing-eureka</module>
+        <module>eureka-client</module>
     </modules>
 
     <parent>
@@ -72,9 +74,21 @@
         <commons-io.version>2.6</commons-io.version>
         <netty.version>4.1.19.Final</netty.version>
         <bcpkix-jdk15on.version>1.59</bcpkix-jdk15on.version>
+        <spring-eureka.version>1.4.4.RELEASE</spring-eureka.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-eureka-server</artifactId>
+                <version>${spring-eureka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+                <version>${spring-eureka.version}</version>
+            </dependency>
             <dependency>
                 <groupId>io.jing</groupId>
                 <artifactId>io-jing-base</artifactId>
@@ -406,17 +420,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <!--<distributionManagement>-->
-        <!--<repository>-->
-            <!--<id>local-nexus</id>-->
-            <!--<url>>http://192.168.0.203:8081/repository/maven-releases/</url>-->
-        <!--</repository>-->
-        <!--<snapshotRepository>-->
-            <!--<id>local-nexus</id>-->
-            <!--<url>http://192.168.0.203:8081/repository/maven-snapshots/</url>-->
-        <!--</snapshotRepository>-->
-    <!--</distributionManagement>-->
-
     <build>
         <plugins>
             <plugin>
@@ -456,6 +459,10 @@
                     <!-- 忽略测试 -->
                     <skip>true</skip>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
         <defaultGoal>compile</defaultGoal>
