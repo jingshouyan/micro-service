@@ -2,11 +2,13 @@ package io.jing.server.zk;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.jing.base.bean.MonitorInfo;
 import io.jing.base.bean.ServiceInfo;
 import io.jing.base.thrift.MicroService;
 import io.jing.base.util.net.NetUtil;
 import io.jing.server.constant.Constant;
 import io.jing.server.iface.ServiceLoad;
+import io.jing.server.monitor.MonitorUtil;
 import io.jing.server.thrift.ThreadSelectorServer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
@@ -29,7 +31,7 @@ import java.util.concurrent.*;
 @Component@Slf4j
 public class Register implements Constant {
 
-
+    private static final long UPDATE_DELAY = 60;
     public static final ServiceInfo SERVICE_INSTANCE = new ServiceInfo();
 
     private static final String host = NetUtil.getIp(THRIFT_SERVER_IP);
@@ -60,6 +62,7 @@ public class Register implements Constant {
         SERVICE_INSTANCE.setHost(host);
         SERVICE_INSTANCE.setPort(port);
         SERVICE_INSTANCE.setStartAt(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+
         System.setProperty("SERVER_INSTANCE",SERVICE_INSTANCE.key());
         TServer tServer = threadPoolServer(serviceLoad.load(),SERVICE_INSTANCE);
         executor.submit(()->registerService(SERVICE_INSTANCE));
@@ -71,6 +74,7 @@ public class Register implements Constant {
         try{
             log.info("register zk starting...");
             String fullPath = fullPath(info);
+            info.setMonitorInfo(MonitorUtil.monitor());
             String data = JSON.toJSONString(info);
             String realPath = client.create().
                     creatingParentContainersIfNeeded()
@@ -80,7 +84,7 @@ public class Register implements Constant {
             log.info("serviceInstance:[{}]", SERVICE_INSTANCE);
 
 
-//            service.scheduleAtFixedRate(()->updateService(info),10,10,TimeUnit.SECONDS);
+            service.scheduleAtFixedRate(()->updateService(info),UPDATE_DELAY,UPDATE_DELAY,TimeUnit.SECONDS);
 
             Runtime.getRuntime().addShutdownHook(new Thread(()->{
                 try{
@@ -108,9 +112,9 @@ public class Register implements Constant {
     public static void updateService(ServiceInfo info){
         try{
             String fullPath = fullPath(info);
-            info.setStartAt(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            info.setUpdatedAt(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            info.setMonitorInfo(MonitorUtil.monitor());
             String data = JSON.toJSONString(info);
-//            client.start();
             client.setData().forPath(fullPath,data.getBytes());
         }catch (Exception e){
             log.error("update zk error",e);

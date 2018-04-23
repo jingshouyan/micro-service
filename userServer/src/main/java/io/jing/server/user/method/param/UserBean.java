@@ -1,6 +1,7 @@
 package io.jing.server.user.method.param;
 
 import io.jing.util.jdbc.core.util.db.annotation.Column;
+import io.jing.util.jdbc.core.util.db.annotation.Ignore;
 import lombok.Data;
 
 import java.util.List;
@@ -80,5 +81,6 @@ public class UserBean {
     Integer addBuddySetting;
     @Column(comment="新消息提醒: 1:开启 2:关闭 默认1")
     Integer messageSetting;
+    @Ignore
     List<AccountBean> accountBeans;
 }
