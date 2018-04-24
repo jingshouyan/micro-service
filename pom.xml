@@ -75,10 +75,16 @@
         <netty.version>4.1.19.Final</netty.version>
         <bcpkix-jdk15on.version>1.59</bcpkix-jdk15on.version>
         <spring-eureka.version>1.4.4.RELEASE</spring-eureka.version>
+        <HikariCP.version>2.7.8</HikariCP.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${HikariCP.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-eureka-server</artifactId>

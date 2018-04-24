@@ -26,6 +26,7 @@ public class MonitorUtil {
         monitorInfo.setTotalCost(TOTAL_COST.get());
         monitorInfo.setTotalMemory(MENORY_BEAN.getHeapMemoryUsage().getInit());
         monitorInfo.setUsedMemory(MENORY_BEAN.getHeapMemoryUsage().getUsed());
+        monitorInfo.setFreeMemory(monitorInfo.getTotalMemory()-monitorInfo.getUsedMemory());
         monitorInfo.setMaxMemory(MENORY_BEAN.getHeapMemoryUsage().getMax());
         monitorInfo.setOsName(OS_BEAN.getName());
         monitorInfo.setTotalThread(ManagementFactory.getThreadMXBean().getThreadCount());

@@ -34,5 +34,6 @@ public class ServiceInfo {
 
     public void update(ServiceInfo serviceInfo){
         this.updatedAt = serviceInfo.updatedAt;
+        this.monitorInfo = serviceInfo.monitorInfo;
     }
 }
