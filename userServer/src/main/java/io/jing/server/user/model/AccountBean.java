@@ -1,5 +1,6 @@
-package io.jing.server.user.method.param;
+package io.jing.server.user.model;
 
+import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
 import lombok.Data;
 
@@ -8,7 +9,7 @@ import lombok.Data;
  * @date 2018/4/19 10:25
  */
 @Data
-public class AccountBean {
+public class AccountBean extends BaseBean {
     @Column(comment="用户ID")
     private String userId;
     @Column(comment="账号类型 1.电话 2.邮箱 3.自定义")

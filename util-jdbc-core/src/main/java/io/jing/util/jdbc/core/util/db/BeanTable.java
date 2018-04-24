@@ -34,7 +34,7 @@ public class BeanTable {
 
     private Map<String, BeanColumn> fieldNameMap = Maps.newHashMap();
 
-    private Map<String, BeanColumn> columnMap = Maps.newHashMap();
+    private Map<String, BeanColumn> lowerCaseColumnMap = Maps.newHashMap();
 
     /**
      * 添加列信息
@@ -45,7 +45,7 @@ public class BeanTable {
         columns.add(column);
         fieldMap.put(column.getField(), column);
         fieldNameMap.put(column.getFieldName(), column);
-        columnMap.put(column.getColumnName(), column);
+        lowerCaseColumnMap.put(column.getColumnName().toLowerCase(), column);
         //加密列
         if (column.isEncrypt()) {
             encryptColumns.add(column);

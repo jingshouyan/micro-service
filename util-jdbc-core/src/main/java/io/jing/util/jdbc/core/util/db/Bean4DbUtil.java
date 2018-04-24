@@ -1,5 +1,6 @@
 package io.jing.util.jdbc.core.util.db;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
@@ -37,8 +38,8 @@ public class Bean4DbUtil {
 
     /**
      * 获取 属性，列名 map
-     * @param clazz
-     * @return
+     * @param clazz 类
+     * @return map
      */
     public static Map<String, String> fieldColumnMap(Class<?> clazz) {
         return Maps.transformValues(getBeanTable(clazz).getFieldNameMap(), BeanColumn::getColumnName);
@@ -71,8 +72,7 @@ public class Bean4DbUtil {
         if (!field.isAccessible()) {
             field.setAccessible(true);
         }
-        Object fieldValue = field.get(bean);
-        return fieldValue;
+        return field.get(bean);
     }
 
     /**
@@ -206,11 +206,16 @@ public class Bean4DbUtil {
         }
         Map<String, Object> map = Maps.newHashMap();
         BeanTable beanTable = getBeanTable(bean.getClass());
-        for (Field field : beanTable.getFieldMap().keySet()) {
+        for (BeanColumn beanColumn : beanTable.getColumns()) {
+            Field field = beanColumn.getField();
             if (!field.isAccessible()) {
                 field.setAccessible(true);
             }
-            map.put(field.getName(), field.get(bean));
+            Object value = field.get(bean);
+            if(beanColumn.isJson()){
+                value = JSON.toJSONString(value);
+            }
+            map.put(field.getName(), value);
         }
         return map;
     }
@@ -269,29 +274,7 @@ public class Bean4DbUtil {
                 }
                 if (!fieldNames.contains(field.getName())) {
                     fieldNames.add(field.getName());
-                    BeanColumn beanColumn = new BeanColumn();
-                    beanColumn.setField(field);
-                    beanColumn.setFieldName(field.getName());
-                    Column column = field.getAnnotation(Column.class);
-                    if (null != column) {
-                        //设置列明
-                        beanColumn.setColumnName(Strings.isNullOrEmpty(column.value()) ? field.getName() : column.value());
-                        beanColumn.setColumnLength(column.length());
-                        beanColumn.setColumnType(column.type());
-                        beanColumn.setEncrypt(column.encrypt());
-                        beanColumn.setPwd(column.encryptKey());
-                        beanColumn.setIndex(column.index());
-                        beanColumn.setComment(column.comment());
-                        beanColumn.setOrder(column.order());
-                    } else {
-                        beanColumn.setColumnName(field.getName());
-                    }
-                    //是否添加了 @Key 注解
-                    Key key = field.getAnnotation(Key.class);
-                    if (null != key) {
-                        beanColumn.setKeyColumn(true);
-                        beanColumn.setAutoGen(key.generatorIfNotSet());
-                    }
+                    BeanColumn beanColumn = new BeanColumn(field);
                     beanTable.addBeanColumn(beanColumn);
                 }
             }

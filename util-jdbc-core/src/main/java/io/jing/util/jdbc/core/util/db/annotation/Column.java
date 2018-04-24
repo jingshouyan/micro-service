@@ -23,6 +23,7 @@ public @interface Column {
      */
     int length() default Constant.COLUMN_LENGTH_DEFAULT;
 
+    boolean json() default false;
     /**
      * @return 类型
      */

@@ -1,8 +1,10 @@
-package io.jing.server.user.method.param;
+package io.jing.server.user.model;
 
+import io.jing.util.jdbc.core.bean.BaseBean;
+import io.jing.util.jdbc.core.util.Constant;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
-import io.jing.util.jdbc.core.util.db.annotation.Ignore;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -10,8 +12,8 @@ import java.util.List;
  * @author jingshouyan
  * @date 2018/4/19 10:22
  */
-@Data
-public class UserBean {
+@Data@ToString(callSuper = true)
+public class UserBean extends BaseBean {
     @Column(comment="用户昵称")
     String name;
     @Column(comment="昵称模糊匹配字段",length=20000)
@@ -81,6 +83,8 @@ public class UserBean {
     Integer addBuddySetting;
     @Column(comment="新消息提醒: 1:开启 2:关闭 默认1")
     Integer messageSetting;
-    @Ignore
+    @Column(comment = "账号信息列表",json = true,length = Constant.VARCHAR_MAX_LENGTH)
     List<AccountBean> accountBeans;
+    @Column(comment = "账号信息",json = true,length = Constant.VARCHAR_MAX_LENGTH)
+    AccountBean accountBean;
 }

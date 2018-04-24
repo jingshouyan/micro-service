@@ -41,7 +41,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
         if (t instanceof ParameterizedType) {
             Type[] p = ((ParameterizedType) t).getActualTypeArguments();
             clazz = (Class<T>) p[0];
-            rowMapper = new BeanRowMapper<>(clazz);
+            rowMapper = new BeanRowMapper2<>(clazz);
             sqlGenerator = SqlGeneratorFactory.getSqlGenerator(clazz);
         }
     }
