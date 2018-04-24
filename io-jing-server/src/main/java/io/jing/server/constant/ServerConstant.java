@@ -9,7 +9,7 @@ import io.jing.base.util.config.ConfigSettings;
  * @author jingshouyan
  * @date 2018/4/16 15:22
  */
-public interface Constant extends BaseConstant {
+public interface ServerConstant extends BaseConstant {
     int THRIFT_SERVER_PORT_MIN = 11000;
     int THRIFT_SERVER_PORT_MAX = 12000;
 

@@ -2,7 +2,7 @@ package io.jing.client.transport;
 
 import com.google.common.collect.Maps;
 import io.jing.base.bean.ServiceInfo;
-import io.jing.client.constant.Constant;
+import io.jing.client.constant.ClientConstant;
 import io.jing.client.pool.TransportPool;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @date 2018/4/18 11:22
  */
 @Slf4j
-public class TransportProvider implements Constant {
+public class TransportProvider implements ClientConstant {
     private static final Map<String,TransportPool> TRANSPORT_POOL_MAP = Maps.newConcurrentMap();
 
     private static final GenericObjectPoolConfig cfg = new GenericObjectPoolConfig();

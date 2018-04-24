@@ -2,11 +2,10 @@ package io.jing.server.zk;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import io.jing.base.bean.MonitorInfo;
 import io.jing.base.bean.ServiceInfo;
 import io.jing.base.thrift.MicroService;
 import io.jing.base.util.net.NetUtil;
-import io.jing.server.constant.Constant;
+import io.jing.server.constant.ServerConstant;
 import io.jing.server.iface.ServiceLoad;
 import io.jing.server.monitor.MonitorUtil;
 import io.jing.server.thrift.ThreadSelectorServer;
@@ -16,7 +15,6 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.RetryNTimes;
 import org.apache.thrift.server.TServer;
 import org.apache.zookeeper.CreateMode;
-import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -29,7 +27,7 @@ import java.util.concurrent.*;
  * @date 2018/4/16 22:09
  */
 @Component@Slf4j
-public class Register implements Constant {
+public class Register implements ServerConstant {
 
     private static final long UPDATE_DELAY = 60;
     public static final ServiceInfo SERVICE_INSTANCE = new ServiceInfo();

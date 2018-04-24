@@ -2,7 +2,7 @@ package io.jing.client.listener;
 
 import com.alibaba.fastjson.JSON;
 import io.jing.base.bean.ServiceInfo;
-import io.jing.client.constant.Constant;
+import io.jing.client.constant.ClientConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -18,7 +18,7 @@ import java.util.function.BiConsumer;
  * @date 2018/4/17 22:13
  */
 @Slf4j
-public class ZkListener implements Constant {
+public class ZkListener implements ClientConstant {
 
     private static CuratorFramework client= CuratorFrameworkFactory.newClient(ZK_ADDRESS, new RetryNTimes(10, 5000));
 
