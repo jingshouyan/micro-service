@@ -22,47 +22,12 @@ import java.net.URL;
 @RestController
 public class Hello {
     @RequestMapping("hello")
-    public String hello(){
-        return getRealPath();
-    }
-
-    private static DatabaseReader reader ;
-    static {
-        try{
-            InputStream in = Hello.class.getClassLoader().getResourceAsStream("GeoLite2-City.mmdb");
-            reader = new DatabaseReader.Builder(in).build();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
+    public Object hello(){
+        return Register.SERVICE_INSTANCE;
     }
 
 
-    @RequestMapping("ip")
-    public String ip(@RequestParam String ip) throws Exception{
-        String address = "";
-        InetAddress ipAddress = InetAddress.getByName(ip);
-        CityResponse response = reader.city(ipAddress);
-        address += response.getCountry().getNames().get("zh-CN")+ " ";
-        address += response.getMostSpecificSubdivision().getNames().get("zh-CN")+ " ";
-        address += response.getCity().getNames().get("zh-CN")+ "";
-        return address;
-    }
 
-
-    @SneakyThrows
-    public String getRealPath() {
-        URL url =  getClass().getClassLoader().getResource("GeoLite2-City.mmdb");
-        File file = new File(url.toURI());
-        String realPath = file.getAbsolutePath();
-        try {
-            realPath = java.net.URLDecoder.decode (realPath, "utf-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return realPath;
-    }
 
 //    @RequestMapping("index")
 //    public Object index(){
