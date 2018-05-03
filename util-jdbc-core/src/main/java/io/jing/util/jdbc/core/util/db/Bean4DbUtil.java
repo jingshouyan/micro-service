@@ -27,9 +27,8 @@ import java.util.Set;
  * @date 2018/4/14 17:25
  */
 @Slf4j
-public class Bean4DbUtil {
+public class Bean4DbUtil implements Constant{
     private static final Map<Class<?>, BeanTable> BEAN_MAP = Maps.newConcurrentMap();
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     public static Set<String> getFieldNameSet(Class<?> clazz) {
         return getBeanTable(clazz).getFieldNameMap().keySet();
     }

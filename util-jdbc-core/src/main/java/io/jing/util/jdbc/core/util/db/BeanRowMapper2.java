@@ -1,7 +1,7 @@
 package io.jing.util.jdbc.core.util.db;
 
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jing.util.jdbc.core.util.Constant;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -21,8 +21,7 @@ import java.sql.SQLException;
  * @date 2018/4/24 17:25
  */
 @Slf4j
-public class BeanRowMapper2<T> implements RowMapper<T> {
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+public class BeanRowMapper2<T> implements RowMapper<T> ,Constant {
     private BeanTable beanTable;
     private ConversionService conversionService = DefaultConversionService.getSharedInstance();
     @Getter
