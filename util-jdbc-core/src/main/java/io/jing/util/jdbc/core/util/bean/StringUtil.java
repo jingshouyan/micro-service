@@ -1,8 +1,5 @@
 package io.jing.util.jdbc.core.util.bean;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializeConfig;
-import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
@@ -20,13 +17,9 @@ import java.util.regex.Pattern;
 public class StringUtil {
 
     private static final String SPLIT_STR = ",";
-    private static final SerializeConfig SERIALIZE_CONFIG = new SerializeConfig();
     private static final Pattern PATTERN = Pattern.compile("([A-Za-z\\d]+)(_)?");
 
-    static {
-        //long太长，js精度丢在，转成string输出
-        SERIALIZE_CONFIG.put(Long.class, ToStringSerializer.instance);
-    }
+
 
     public static String list2String(List<?> list) {
         if (list == null) {
@@ -134,10 +127,6 @@ public class StringUtil {
 
     public static String uuid() {
         return UUID.randomUUID().toString().toLowerCase();
-    }
-
-    public static String toJson(Object object) {
-        return JSON.toJSONString(object, SERIALIZE_CONFIG);
     }
 
 }

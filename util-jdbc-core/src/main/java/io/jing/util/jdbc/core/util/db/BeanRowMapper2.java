@@ -1,6 +1,7 @@
 package io.jing.util.jdbc.core.util.db;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -11,11 +12,9 @@ import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.JdbcUtils;
 
-import java.beans.PropertyDescriptor;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.stream.IntStream;
 
 /**
  * @author jingshouyan
@@ -23,7 +22,7 @@ import java.util.stream.IntStream;
  */
 @Slf4j
 public class BeanRowMapper2<T> implements RowMapper<T> {
-
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private BeanTable beanTable;
     private ConversionService conversionService = DefaultConversionService.getSharedInstance();
     @Getter
@@ -54,11 +53,19 @@ public class BeanRowMapper2<T> implements RowMapper<T> {
                 clazz = beanColumn.getField().getType();
             }
             Object value = JdbcUtils.getResultSetValue(rs, j, clazz);
+            if(value == null){
+                continue;
+            }
             if(beanColumn.isJson()){
-                if(beanColumn.isList()){
-                    value = JSON.parseArray(value.toString(),beanColumn.getJsonType());
-                }else{
-                    value = JSON.parseObject(value.toString(),beanColumn.getJsonType());
+                try {
+                    if (beanColumn.isList()) {
+                        JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructArrayType(beanColumn.getJsonType());
+                        value = OBJECT_MAPPER.readValue(value.toString(), javaType);
+                    } else {
+                        value = OBJECT_MAPPER.readValue(value.toString(), beanColumn.getJsonType());
+                    }
+                }catch (Exception e){
+                    throw new SQLException(e);
                 }
             }
             bw.setPropertyValue(beanColumn.getFieldName(), value);

@@ -1,6 +1,6 @@
 package io.jing.util.jdbc.core.util.db;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
@@ -8,9 +8,7 @@ import com.google.common.collect.Sets;
 import io.jing.util.jdbc.core.util.Constant;
 import io.jing.util.jdbc.core.util.aes.AesUtil;
 import io.jing.util.jdbc.core.util.bean.StringUtil;
-import io.jing.util.jdbc.core.util.db.annotation.Column;
 import io.jing.util.jdbc.core.util.db.annotation.Ignore;
-import io.jing.util.jdbc.core.util.db.annotation.Key;
 import io.jing.util.jdbc.core.util.db.annotation.Table;
 import io.jing.util.jdbc.core.util.keygen.IdUtil;
 import lombok.SneakyThrows;
@@ -31,7 +29,7 @@ import java.util.Set;
 @Slf4j
 public class Bean4DbUtil {
     private static final Map<Class<?>, BeanTable> BEAN_MAP = Maps.newConcurrentMap();
-
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     public static Set<String> getFieldNameSet(Class<?> clazz) {
         return getBeanTable(clazz).getFieldNameMap().keySet();
     }
@@ -213,7 +211,7 @@ public class Bean4DbUtil {
             }
             Object value = field.get(bean);
             if(beanColumn.isJson()){
-                value = JSON.toJSONString(value);
+                value = OBJECT_MAPPER.writeValueAsString(value);
             }
             map.put(field.getName(), value);
         }
