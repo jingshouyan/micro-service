@@ -1,11 +1,10 @@
 package io.jing.server.user.job;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import io.jing.base.util.json.JsonUtil;
 import io.jing.server.user.model.AccountBean;
 import io.jing.server.user.model.UserBean;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class TimerJob {
 
-    @Scheduled(fixedDelay = 5000)
+//    @Scheduled(fixedDelay = 5000)
     public void throwExp(){
         try{
             throw new RuntimeException("this is Runtime Exception!");
@@ -26,7 +25,7 @@ public class TimerJob {
             log.error("cache Exp",e);
         }
     }
-    @Scheduled(fixedDelay = 3000)
+//    @Scheduled(fixedDelay = 3000)
     public void json(){
         UserBean userBean = new UserBean();
         userBean.setName("张三");
@@ -43,7 +42,7 @@ public class TimerJob {
         accountBean1.setStatus(2);
         accountBean1.forCreate();
         accountBeans.add(accountBean1);
-        String json = JSON.toJSONString(userBean,true);
+        String json = JsonUtil.toJsonString(userBean);
         log.info("json log :{}" ,json);
     }
 }
