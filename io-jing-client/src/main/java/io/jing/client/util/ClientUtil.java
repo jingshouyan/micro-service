@@ -2,7 +2,7 @@ package io.jing.client.util;
 
 import com.google.common.collect.Maps;
 import io.jing.base.bean.*;
-import io.jing.base.exception.InvalidException;
+import io.jing.base.exception.MicroServiceException;
 import io.jing.base.thrift.MicroService;
 import io.jing.base.thrift.ReqBean;
 import io.jing.base.thrift.RspBean;
@@ -40,7 +40,7 @@ public class ClientUtil {
     public static Rsp call(Token token,Req req){
         try{
             return callRpc(token,req);
-        }catch (InvalidException e){
+        }catch (MicroServiceException e){
             return RspUtil.error(e);
         }
     }
@@ -60,13 +60,13 @@ public class ClientUtil {
             ServiceInfo serviceInfo = null;
             List<ServiceInfo> serviceInfoList = SERVICE_INFO_MAP.get(req.getService());
             if(serviceInfoList==null || serviceInfoList.isEmpty()){
-                throw new InvalidException(Code.SERVICE_NOT_FUND);
+                throw new MicroServiceException(Code.SERVICE_NOT_FUND);
             }
             if(req.getRouter()!=null){
                 serviceInfo = serviceInfoList.stream()
                         .filter(info->req.getRouter().equals(info.key()))
                         .findFirst()
-                        .orElseThrow(()->new InvalidException(Code.INSTANCE_NOT_FUND));
+                        .orElseThrow(()->new MicroServiceException(Code.INSTANCE_NOT_FUND));
 
             }else{
                 serviceInfo = getServiceInfo(serviceInfoList);
@@ -86,11 +86,11 @@ public class ClientUtil {
             }
             TransportProvider.restore(transport);
             return rsp;
-        }catch (InvalidException e){
+        }catch (MicroServiceException e){
             throw e;
         }catch (Exception e){
             TransportProvider.invalid(transport);
-            throw new InvalidException(Code.CLIENT_ERROR,e);
+            throw new MicroServiceException(Code.CLIENT_ERROR,e);
         }
     }
 

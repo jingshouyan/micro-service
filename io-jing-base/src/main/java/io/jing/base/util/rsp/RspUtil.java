@@ -1,7 +1,7 @@
 package io.jing.base.util.rsp;
 
 import io.jing.base.bean.Rsp;
-import io.jing.base.exception.InvalidException;
+import io.jing.base.exception.MicroServiceException;
 import io.jing.base.util.code.Code;
 
 /**
@@ -29,7 +29,7 @@ public class RspUtil {
         return error(errCode, result, null);
     }
 
-    public static Rsp error(InvalidException e){
+    public static Rsp error(MicroServiceException e){
         return error(e.getCode(),e);
     }
 

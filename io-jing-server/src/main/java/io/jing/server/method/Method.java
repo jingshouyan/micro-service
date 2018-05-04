@@ -1,7 +1,6 @@
 package io.jing.server.method;
 
-import io.jing.base.bean.Rsp;
-import io.jing.base.exception.InvalidException;
+import io.jing.base.exception.MicroServiceException;
 import io.jing.base.util.code.Code;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 
@@ -63,7 +62,7 @@ public interface Method<T> {
             sb.append("\t");
         }
         if(!cvs.isEmpty()){
-            throw new InvalidException(Code.PARAM_INVALID,sb.toString());
+            throw new MicroServiceException(Code.PARAM_INVALID,sb.toString());
         }
     }
 

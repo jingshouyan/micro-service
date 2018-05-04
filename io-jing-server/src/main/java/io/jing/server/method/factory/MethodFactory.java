@@ -1,7 +1,7 @@
 package io.jing.server.method.factory;
 
 import com.google.common.collect.Maps;
-import io.jing.base.exception.InvalidException;
+import io.jing.base.exception.MicroServiceException;
 import io.jing.base.util.code.Code;
 import io.jing.server.method.Method;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ public class MethodFactory {
 
     public static Method getMethod(String methodName){
         return METHOD_MAP.computeIfAbsent(methodName,
-                m -> {throw new InvalidException(Code.METHOD_NOT_FOUND);}
+                m -> {throw new MicroServiceException(Code.METHOD_NOT_FOUND);}
                 );
     }
 }

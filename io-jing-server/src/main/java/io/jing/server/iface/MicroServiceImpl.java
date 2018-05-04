@@ -5,14 +5,13 @@ import io.jing.base.bean.Req;
 import io.jing.base.bean.ReqAndRsp;
 import io.jing.base.bean.Rsp;
 import io.jing.base.bean.Token;
-import io.jing.base.exception.InvalidException;
+import io.jing.base.exception.MicroServiceException;
 import io.jing.base.thrift.MicroService;
 import io.jing.base.thrift.ReqBean;
 import io.jing.base.thrift.RspBean;
 import io.jing.base.thrift.TokenBean;
 import io.jing.base.util.code.Code;
 import io.jing.base.util.event.EventBusUtil;
-import io.jing.base.util.id.IdGen;
 import io.jing.base.util.rsp.RspUtil;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.server.method.Method;
@@ -58,12 +57,12 @@ public class MicroServiceImpl implements MicroService.Iface{
             try {
                 obj = JSON.parseObject(req.getParam(), clazz);
             }catch (Exception e){
-                throw new InvalidException(Code.JSON_PARSE_ERROR,e);
+                throw new MicroServiceException(Code.JSON_PARSE_ERROR,e);
             }
             @SuppressWarnings("unchecked")
             Object result = method.actionWithValidate(obj);
             rsp = RspUtil.success(result);
-        }catch (InvalidException e){
+        }catch (MicroServiceException e){
             rsp = RspUtil.error(e.getCode(),e);
         }catch (Exception e){
             log.error("call [{}] error.",methodName,e);
