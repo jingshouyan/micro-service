@@ -1,7 +1,7 @@
 package io.jing.base.bean;
 
-import com.alibaba.fastjson.JSON;
 import io.jing.base.thrift.RspBean;
+import io.jing.base.util.json.JsonUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,17 +27,18 @@ public class Rsp {
     }
 
     public RspBean rspBean(){
+
         return new RspBean()
                 .setCode(code)
                 .setMsg(message)
-                .setResult(JSON.toJSONString(data));
+                .setResult(JsonUtil.toJsonString(data));
     }
 
     public <T> T get(Class<T> clazz){
-        return JSON.parseObject(result,clazz);
+        return JsonUtil.toBean(result,clazz);
     }
 
     public <T> List<T> list(Class<T> clazz){
-        return JSON.parseArray(result,clazz);
+        return JsonUtil.toList(result,clazz);
     }
 }

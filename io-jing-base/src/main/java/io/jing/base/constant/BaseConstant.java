@@ -1,6 +1,10 @@
 package io.jing.base.constant;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jing.base.util.config.ConfigSettings;
+
+import java.util.Optional;
 
 /**
  * @author jingshouyan
@@ -15,4 +19,6 @@ public interface BaseConstant {
     String LOG_LEVEL = ConfigSettings.get("log.level").orElse("DEBUG");
     String LOG_REF = ConfigSettings.get("log.ref").orElse("STDOUT");
     String TRACE_ID = "TRACE_ID";
+
+
 }

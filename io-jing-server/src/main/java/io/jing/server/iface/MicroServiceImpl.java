@@ -1,6 +1,5 @@
 package io.jing.server.iface;
 
-import com.alibaba.fastjson.JSON;
 import io.jing.base.bean.Req;
 import io.jing.base.bean.ReqAndRsp;
 import io.jing.base.bean.Rsp;
@@ -12,6 +11,7 @@ import io.jing.base.thrift.RspBean;
 import io.jing.base.thrift.TokenBean;
 import io.jing.base.util.code.Code;
 import io.jing.base.util.event.EventBusUtil;
+import io.jing.base.util.json.JsonUtil;
 import io.jing.base.util.rsp.RspUtil;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.server.method.Method;
@@ -55,7 +55,7 @@ public class MicroServiceImpl implements MicroService.Iface{
             Class<?> clazz = method.getClazz();
             Object obj;
             try {
-                obj = JSON.parseObject(req.getParam(), clazz);
+                obj = JsonUtil.toBean(req.getParam(), clazz);
             }catch (Exception e){
                 throw new MicroServiceException(Code.JSON_PARSE_ERROR,e);
             }

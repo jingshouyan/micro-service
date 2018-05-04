@@ -1,8 +1,10 @@
 package io.jing.base.bean;
 
-import com.alibaba.fastjson.JSON;
+import io.jing.base.constant.BaseConstant;
+import io.jing.base.exception.MicroServiceException;
 import io.jing.base.thrift.ReqBean;
-import io.jing.base.thrift.TokenBean;
+import io.jing.base.util.code.Code;
+import io.jing.base.util.json.JsonUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +32,7 @@ public class Req {
     public ReqBean reqBean(){
         String p = param;
         if(null == p){
-            p = JSON.toJSONString(paramObj);
+            p = JsonUtil.toJsonString(paramObj);
         }
         return new ReqBean()
                 .setMethod(method)

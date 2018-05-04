@@ -1,9 +1,9 @@
 package io.jing.server.zk;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.jing.base.bean.ServiceInfo;
 import io.jing.base.thrift.MicroService;
+import io.jing.base.util.json.JsonUtil;
 import io.jing.base.util.net.NetUtil;
 import io.jing.server.constant.ServerConstant;
 import io.jing.server.iface.ServiceLoad;
@@ -73,7 +73,7 @@ public class Register implements ServerConstant {
             log.info("register zk starting...");
             String fullPath = fullPath(info);
             info.setMonitorInfo(MonitorUtil.monitor());
-            String data = JSON.toJSONString(info);
+            String data = JsonUtil.toJsonString(info);
             String realPath = client.create().
                     creatingParentContainersIfNeeded()
                     .withMode(CreateMode.EPHEMERAL)
@@ -112,7 +112,7 @@ public class Register implements ServerConstant {
             String fullPath = fullPath(info);
             info.setUpdatedAt(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             info.setMonitorInfo(MonitorUtil.monitor());
-            String data = JSON.toJSONString(info);
+            String data = JsonUtil.toJsonString(info);
             client.setData().forPath(fullPath,data.getBytes());
         }catch (Exception e){
             log.error("update zk error",e);
