@@ -5,8 +5,7 @@ import io.jing.server.user.constant.UserConstant;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.QueryStringDecoder;
+import io.netty.handler.codec.http.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +32,13 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
                 request.setUri(uri);
                 ctx.fireChannelRead(request.retain());
             }
+        }else{
+            DefaultFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
+            boolean keepAlive = HttpUtil.isKeepAlive(request);
+            if(keepAlive) {
+                response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+            }
         }
+
     }
 }

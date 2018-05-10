@@ -9,6 +9,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.jing.base.constant.BaseConstant;
 import lombok.SneakyThrows;
+import org.apache.thrift.TBase;
+import org.apache.thrift.TSerializer;
+import org.apache.thrift.protocol.TProtocolFactory;
+import org.apache.thrift.protocol.TSimpleJSONProtocol;
 
 import java.io.Closeable;
 import java.util.List;
@@ -27,6 +31,13 @@ public class JsonUtil implements BaseConstant {
         return objectMapper;
     });
 
+    private static final TProtocolFactory factory = new TSimpleJSONProtocol.Factory();
+
+    @SneakyThrows
+    public static String toJsonString(TBase base) {
+        TSerializer serializer = new TSerializer(factory);
+        return serializer.toString(base,"utf-8");
+    }
     @SneakyThrows
     public static String toJsonString(Object value) {
         return OBJECT_MAPPER.writeValueAsString(value);
@@ -41,8 +52,12 @@ public class JsonUtil implements BaseConstant {
         return OBJECT_MAPPER.readValue(json,javaType);
     }
     @SneakyThrows
-    public static JsonNode toJsonNode(String json){
+    public static JsonNode readTree(String json){
         return OBJECT_MAPPER.readTree(json);
+    }
+
+    public static JsonNode valueToTree(Object obj){
+        return OBJECT_MAPPER.valueToTree(obj);
     }
 
     /**
@@ -59,24 +74,17 @@ public class JsonUtil implements BaseConstant {
         JsonNode obj = json;
         for (int i = 0; i < keys.length; i++) {
             String str = keys[i];
-            boolean nullable = false;
             if(str.endsWith("?")){
-                nullable = true;
                 str = str.substring(0,str.length()-1);
+                if(null == obj){
+                    return null;
+                }
             }
             if(Pattern.matches(pattern,str)){
                 int index = Integer.parseInt(str.substring(1,str.length()-1));
-                ArrayNode array = (ArrayNode) obj;
-                if(nullable && (null == array || i>=array.size())){
-                    return null;
-                }
-                obj = array.get(index);
+                obj = obj.get(index);
             }else {
-                ObjectNode jsonObject = (ObjectNode) obj;
-                obj = jsonObject.get(str);
-            }
-            if(nullable && obj==null){
-                return null;
+                obj = obj.get(str);
             }
         }
         return obj;

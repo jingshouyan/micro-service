@@ -40,6 +40,7 @@
         var ws = null;
         var url = null;
         var transports = [];
+        var i = 0;
 
         function setConnected(connected) {
             document.getElementById('connect').disabled = connected;
@@ -63,8 +64,9 @@
                 log('Info: connection opened.');
             };
             ws.onmessage = function (event) {
+                i++;
                 // var data = JSON.parse(event.data);
-                console.log(event);
+                console.log(i);
                 log('Received: ' + event.data);
                 var toMsg = {};
                 toMsg.type = 5;

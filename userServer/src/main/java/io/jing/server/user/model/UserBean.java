@@ -5,8 +5,10 @@ import io.jing.util.jdbc.core.util.Constant;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jingshouyan
@@ -87,4 +89,7 @@ public class UserBean extends BaseBean {
     List<AccountBean> accountBeans;
     @Column(comment = "账号信息",json = true,length = Constant.VARCHAR_MAX_LENGTH)
     AccountBean accountBean;
+    @Column(length = Constant.VARCHAR_MAX_LENGTH,json = true)
+    Map<String,AccountBean> map;
+
 }
