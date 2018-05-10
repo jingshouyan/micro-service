@@ -32,7 +32,6 @@ public class BeanColumn {
     private boolean index = false;
     private String comment = "";
     private int order = Constant.COLUMN_ORDER_DEFAULT;
-    private Class<?> jsonType;
 
 
     public BeanColumn(Field field){
@@ -53,21 +52,6 @@ public class BeanColumn {
         } else {
             this.setColumnName(field.getName());
         }
-        if(field.getType() == List.class){
-            this.setList(true);
-            // 如果是List类型，得到其Generic的类型
-            Type genericType = field.getGenericType();
-            if(genericType instanceof ParameterizedType) {
-                ParameterizedType pt = (ParameterizedType) genericType;
-                //得到泛型里的class类型对象
-                Class<?> genericClazz = (Class<?>)pt.getActualTypeArguments()[0];
-                this.setJsonType(genericClazz);
-            }
-
-        }else{
-            this.setJsonType(field.getType());
-        }
-
         //是否添加了 @Key 注解
         Key key = field.getAnnotation(Key.class);
         if (null != key) {

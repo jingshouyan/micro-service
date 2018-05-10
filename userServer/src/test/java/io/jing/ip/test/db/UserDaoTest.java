@@ -1,6 +1,7 @@
 package io.jing.ip.test.db;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import io.jing.server.App;
 import io.jing.server.user.dao.UserDao;
 import io.jing.server.user.model.AccountBean;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jingshouyan
@@ -40,6 +42,9 @@ public class UserDaoTest {
         accountBean1.setStatus(2);
         accountBean1.forCreate();
         accountBeans.add(accountBean1);
+        Map<String,AccountBean> map = Maps.newHashMap();
+        map.put("str",accountBean1);
+        userBean.setMap(map);
         userDao.insert(userBean);
     }
 

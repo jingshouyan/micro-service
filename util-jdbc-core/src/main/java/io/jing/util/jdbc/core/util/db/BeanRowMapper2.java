@@ -57,12 +57,8 @@ public class BeanRowMapper2<T> implements RowMapper<T> ,Constant {
             }
             if(beanColumn.isJson()){
                 try {
-                    if (beanColumn.isList()) {
-                        JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructArrayType(beanColumn.getJsonType());
-                        value = OBJECT_MAPPER.readValue(value.toString(), javaType);
-                    } else {
-                        value = OBJECT_MAPPER.readValue(value.toString(), beanColumn.getJsonType());
-                    }
+                    JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructType(beanColumn.getField().getGenericType());
+                    value = OBJECT_MAPPER.readValue(value.toString(), javaType);
                 }catch (Exception e){
                     throw new SQLException(e);
                 }
