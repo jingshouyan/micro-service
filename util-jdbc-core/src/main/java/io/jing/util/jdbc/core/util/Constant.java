@@ -19,7 +19,7 @@ public interface Constant {
     String COLUMN_ENCRYPT_KEY_PREFIX_FIELD = "field:";
     String COLUMN_ENCRYPT_KEY_DEFAULT = COLUMN_ENCRYPT_KEY_PREFIX_FIXED +"abc1234_Linkdood";
 
-    public static final ObjectMapper OBJECT_MAPPER = Optional.<ObjectMapper>empty().orElseGet(()->{
+    ObjectMapper OBJECT_MAPPER = Optional.<ObjectMapper>empty().orElseGet(()->{
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
         return objectMapper;

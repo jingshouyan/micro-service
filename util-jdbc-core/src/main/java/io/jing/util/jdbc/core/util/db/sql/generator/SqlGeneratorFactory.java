@@ -12,6 +12,7 @@ public class SqlGeneratorFactory {
     public static final String ORACLE = "oracle";
     public static final String MSSQL = "mssql";
     public static final String KINGBASE = "kingbase";
+    public static final String GBASE = "gbase";
 
     public static final String DATABASE_ID = "DATABASE_ID";
 
@@ -34,6 +35,8 @@ public class SqlGeneratorFactory {
                 return new SqlGenerator4Oracle<>(clazz);
             case KINGBASE:
                 return new SqlGenerator4Kingbase<>(clazz);
+            case GBASE:
+                return new SqlGenerator4Gbase<>(clazz);
             case MSSQL:
 
             default:
