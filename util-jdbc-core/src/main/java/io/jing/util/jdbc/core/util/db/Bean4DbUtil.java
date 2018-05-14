@@ -209,6 +209,9 @@ public class Bean4DbUtil implements Constant{
                 field.setAccessible(true);
             }
             Object value = field.get(bean);
+            if(null == value) {
+                continue;
+            }
             if(beanColumn.isJson()){
                 value = OBJECT_MAPPER.writeValueAsString(value);
             }
