@@ -63,7 +63,7 @@ public class SqlGenerator4Gbase<T> extends AbstractSqlGenerator<T> {
     @Override
     public SqlPrepared dropTableSql() {
         SqlPrepared sqlPrepared = new SqlPrepared();
-        String sql = "DROP TABLE " + tableName() ;
+        String sql = "DROP TABLE IF EXIST" + tableName() ;
         sqlPrepared.setSql(sql);
         return sqlPrepared;
     }
@@ -97,7 +97,7 @@ public class SqlGenerator4Gbase<T> extends AbstractSqlGenerator<T> {
                     str = "NUMERIC(20,11)";
                     break;
                 default:
-                    if (column.getColumnLength() <= Constant.VARCHAR_MAX_LENGTH) {
+                    if (column.getColumnLength() < Constant.VARCHAR_MAX_LENGTH) {
                         str = "LVARCHAR(" + column.getColumnLength() + ")";
                     } else {
                         str = "TEXT";

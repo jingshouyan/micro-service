@@ -104,7 +104,7 @@ public class SqlGenerator4Oracle<T> extends AbstractSqlGenerator<T> implements S
                     str = "NUMBER(20,11)";
                     break;
                 default:
-                    if (column.getColumnLength() <= Constant.VARCHAR_MAX_LENGTH) {
+                    if (column.getColumnLength() < Constant.VARCHAR_MAX_LENGTH) {
                         str = "VARCHAR2(" + column.getColumnLength() + ")";
                     } else {
                         str = "CLOB";

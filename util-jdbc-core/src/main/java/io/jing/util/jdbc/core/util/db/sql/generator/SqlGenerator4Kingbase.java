@@ -44,7 +44,7 @@ public class SqlGenerator4Kingbase<T> extends SqlGenerator4Oracle<T> {
                     str = "NUMERIC(20,11)";
                     break;
                 default:
-                    if (column.getColumnLength() <= Constant.VARCHAR_MAX_LENGTH) {
+                    if (column.getColumnLength() < Constant.VARCHAR_MAX_LENGTH) {
                         str = "VARCHAR(" + column.getColumnLength() + ")";
                     } else {
                         str = "CLOB";
