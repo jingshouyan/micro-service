@@ -199,7 +199,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
     @Override
-    public int delete4List(List<Object> ids) {
+    public int delete4List(List<?> ids) {
         List<Compare> compares = CompareUtil.newInstance().field(key()).in(ids).compares();
         int fetch = delete4Batch(compares);
         //添加删除事件
@@ -213,8 +213,8 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
     @Override
-    public int delete(Object... ids) {
-        List<Object> l = Lists.newArrayList(ids);
+    public int delete(Object id) {
+        List<Object> l = Lists.newArrayList(id);
         return delete4List(l);
     }
 

@@ -113,15 +113,15 @@ public interface BaseDao<T> {
      * @param ids 主键列表
      * @return 影响行数
      */
-    int delete4List(List<Object> ids);
+    int delete4List(List<?> ids);
 
     /**
      * 根据主键列表删除数据
      *
-     * @param ids 主键列表
+     * @param id 主键列表
      * @return 影响行数
      */
-    int delete(Object... ids);
+    int delete(Object id);
 
     /**
      * 条件删除数据
