@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.ToString;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -91,5 +92,7 @@ public class UserBean extends BaseBean {
     AccountBean accountBean;
     @Column(length = Constant.VARCHAR_MAX_LENGTH,json = true)
     Map<String,AccountBean> map;
+
+    Date date;
 
 }

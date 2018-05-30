@@ -10,8 +10,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ public class UserDaoTest {
     private UserDao userDao;
 
     @Test
+    @Order(1)
     public void insert(){
         UserBean userBean = new UserBean();
         userBean.setName("张三");
@@ -45,10 +48,12 @@ public class UserDaoTest {
         Map<String,AccountBean> map = Maps.newHashMap();
         map.put("str",accountBean1);
         userBean.setMap(map);
+        userBean.setDate(new Date());
         userDao.insert(userBean);
     }
 
     @Test
+    @Order(2)
     public void query(){
         List<UserBean> userBeans = userDao.query(Lists.newArrayList());
         for (UserBean u: userBeans) {

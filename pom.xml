@@ -77,11 +77,17 @@
         <spring-eureka.version>1.4.4.RELEASE</spring-eureka.version>
         <HikariCP.version>2.7.8</HikariCP.version>
         <jackson.version>2.8.10</jackson.version>
-        <netty-socketio.version>1.7.12</netty-socketio.version>
+        <netty-socketio.version>1.7.15</netty-socketio.version>
+        <geoip2.version>2.12.0</geoip2.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.maxmind.geoip2</groupId>
+                <artifactId>geoip2</artifactId>
+                <version>${geoip2.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.corundumstudio.socketio</groupId>
                 <artifactId>netty-socketio</artifactId>
