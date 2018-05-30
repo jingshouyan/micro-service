@@ -13,9 +13,10 @@
         <module>io-jing-base</module>
         <module>io-jing-server</module>
         <module>io-jing-client</module>
-        <module>userServer</module>
+        <module>user</module>
         <module>io-jing-eureka</module>
         <module>eureka-client</module>
+        <module>message</module>
     </modules>
 
     <parent>
