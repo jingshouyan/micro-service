@@ -1,6 +1,6 @@
 package io.jing.ip.test;
 
-import io.jing.server.user.model.UserBean;
+import io.jing.server.user.bean.UserBean;
 import io.jing.util.jdbc.core.util.db.Bean4DbUtil;
 import io.jing.util.jdbc.core.util.db.BeanTable;
 

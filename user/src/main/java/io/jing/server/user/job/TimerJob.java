@@ -2,8 +2,8 @@ package io.jing.server.user.job;
 
 import com.google.common.collect.Lists;
 import io.jing.base.util.json.JsonUtil;
-import io.jing.server.user.model.AccountBean;
-import io.jing.server.user.model.UserBean;
+import io.jing.server.user.bean.AccountBean;
+import io.jing.server.user.bean.UserBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

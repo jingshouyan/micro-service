@@ -1,7 +1,7 @@
 package io.jing.server.user.dao.impl;
 
 import io.jing.server.user.dao.UserDao;
-import io.jing.server.user.model.UserBean;
+import io.jing.server.user.bean.UserBean;
 import io.jing.util.jdbc.core.dao.impl.BaseDaoImpl;
 import org.springframework.stereotype.Repository;
 

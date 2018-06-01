@@ -1,6 +1,6 @@
 package io.jing.server.user.dao;
 
-import io.jing.server.user.model.UserBean;
+import io.jing.server.user.bean.UserBean;
 import io.jing.util.jdbc.core.dao.BaseDao;
 
 /**

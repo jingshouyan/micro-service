@@ -1,11 +1,10 @@
-package io.jing.server.user.model;
+package io.jing.server.user.bean;
 
 import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.util.Constant;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;

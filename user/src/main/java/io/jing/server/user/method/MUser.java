@@ -1,7 +1,7 @@
 package io.jing.server.user.method;
 
 import io.jing.server.method.Method;
-import io.jing.server.user.model.UserBean;
+import io.jing.server.user.bean.UserBean;
 import org.springframework.stereotype.Component;
 
 /**
