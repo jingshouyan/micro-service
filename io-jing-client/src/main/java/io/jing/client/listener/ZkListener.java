@@ -38,7 +38,7 @@ public class ZkListener implements ClientConstant {
                         data = byte2String(childData.getData());
                     }
                     ServiceInfo info = toInfo(data);
-                    log.info("tree changed type:[{}] path:[{}] data:[{}]", type, path, data);
+                    log.info("tree changed messageType:[{}] path:[{}] data:[{}]", type, path, data);
                     if (null != info || event.getType() == TreeCacheEvent.Type.INITIALIZED || event.getType() == TreeCacheEvent.Type.NODE_REMOVED) {
                         if (event.getType() == TreeCacheEvent.Type.NODE_REMOVED && null == info) {
                             info = new ServiceInfo();

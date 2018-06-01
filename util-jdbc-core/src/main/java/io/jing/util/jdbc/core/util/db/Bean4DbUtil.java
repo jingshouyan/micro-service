@@ -112,7 +112,7 @@ public class Bean4DbUtil implements Constant{
                 } else if (clazz == String.class) {
                     field.set(bean, String.valueOf(key4Set));
                 } else {
-                    throw new IllegalArgumentException("key[" + field.getName() + "] type must be long|string.");
+                    throw new IllegalArgumentException("key[" + field.getName() + "] messageType must be long|string.");
                 }
             }
         }

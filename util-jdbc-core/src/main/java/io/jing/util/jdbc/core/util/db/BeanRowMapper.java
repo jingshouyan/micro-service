@@ -74,7 +74,7 @@ public class BeanRowMapper<T> implements RowMapper<T> {
      * Create a new {@code BeanPropertyRowMapper}, accepting unpopulated
      * properties in the target bean.
      * <p>Consider using the {@link #newInstance} factory method instead,
-     * which allows for specifying the mapped type once only.
+     * which allows for specifying the mapped messageType once only.
      *
      * @param mappedClass the class that each row should be mapped to
      */
@@ -237,7 +237,7 @@ public class BeanRowMapper<T> implements RowMapper<T> {
                     Object value = getColumnValue(rs, index, pd);
                     if (rowNumber == 0 && log.isTraceEnabled()) {
                         log.trace("Mapping column '" + column + "' to property '" + pd.getName() +
-                                "' of type '" + ClassUtils.getQualifiedName(pd.getPropertyType()) + "'");
+                                "' of messageType '" + ClassUtils.getQualifiedName(pd.getPropertyType()) + "'");
                     }
                     try {
                         bw.setPropertyValue(pd.getName(), value);
@@ -246,7 +246,7 @@ public class BeanRowMapper<T> implements RowMapper<T> {
                             if (log.isTraceEnabled()) {
                                 log.trace("Intercepted TypeMismatchException for row " + rowNumber +
                                         " and column '" + column + "' with null value when setting property '" +
-                                        pd.getName() + "' of type '" +
+                                        pd.getName() + "' of messageType '" +
                                         ClassUtils.getQualifiedName(pd.getPropertyType()) +
                                         "' on object: " + mappedObject, ex);
                             }

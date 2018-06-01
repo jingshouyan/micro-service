@@ -22,4 +22,12 @@ public class WsConnDaoImpl extends BaseDaoImpl<WsConnBean> implements WsConnDao 
         List<WsConnBean> wsConnBeans = query(compares);
         return wsConnBeans;
     }
+
+    @Override
+    public List<WsConnBean> listByUserIdList(List<String> userIdList) {
+        List<Compare> compares = CompareUtil.newInstance()
+                .field("userId").in(userIdList).compares();
+        List<WsConnBean> wsConnBeans = query(compares);
+        return wsConnBeans;
+    }
 }

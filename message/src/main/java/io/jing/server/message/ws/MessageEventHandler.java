@@ -6,6 +6,8 @@ import com.corundumstudio.socketio.annotation.OnDisconnect;
 import com.corundumstudio.socketio.annotation.OnEvent;
 import io.jing.server.message.bean.WsConnBean;
 import io.jing.server.message.dao.WsConnDao;
+import io.jing.server.message.bean.Message;
+import io.jing.server.zk.Register;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -76,6 +78,7 @@ public class MessageEventHandler {
         wsConnBean.setClientType(1);
         wsConnBean.setTokenId(tokenId);
         wsConnBean.setUserId(tokenId);
+        wsConnBean.setServiceInstanc(Register.SERVICE_INSTANCE.key());
         wsConnBean.forCreate();
         wsConnDao.insert(wsConnBean);
     }
@@ -88,14 +91,13 @@ public class MessageEventHandler {
     }
 
     @OnEvent(value = "message")
-    public void onMessageEvent(SocketIOClient client, AckRequest request,Message data){
-        log.info("message:{}",data);
-        data.setMessage(data.getMessage()+ 1_000_000_000_000_000_000L);
+    public void onMessageEvent(SocketIOClient client, AckRequest request,Message message){
+        log.info("message:{}",message);
         client.sendEvent("message", new VoidAckCallback() {
             @Override
             protected void onSuccess() {
                 log.info("send success . {}",client.getSessionId());
             }
-        }, data);
+        }, message);
     }
 }

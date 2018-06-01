@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface WsConnDao extends BaseDao<WsConnBean> {
     List<WsConnBean> listByTokenId(String tokenId);
+
+    List<WsConnBean> listByUserIdList(List<String> userIdList);
 }

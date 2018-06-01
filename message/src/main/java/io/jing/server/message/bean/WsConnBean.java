@@ -13,4 +13,5 @@ public class WsConnBean extends BaseBean {
     private String tokenId;
     private String userId;
     private Integer clientType;
+    private String serviceInstanc;
 }

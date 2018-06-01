@@ -490,7 +490,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
       }
       iprot.readStructEnd();
 
-      // check for required fields of primitive type, which can't be checked in the validate method
+      // check for required fields of primitive messageType, which can't be checked in the validate method
       struct.validate();
     }
 

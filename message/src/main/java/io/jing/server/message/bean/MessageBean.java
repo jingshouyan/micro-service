@@ -13,13 +13,15 @@ import lombok.*;
 @ToString(callSuper = true)
 public class MessageBean extends BaseBean {
     private String userId;
+    private Long messageId;
     private String senderId;
     private String targetId;
     private String targetType;
-    private String type;
+    private String messageType;
     @Column(length = Constant.VARCHAR_MAX_LENGTH)
     private String data;
     private Long flag;
+    private Long sentAt;
     private Integer read1;
     private Integer read2;
     private Integer read3;
