@@ -18,7 +18,7 @@ public class StringUtil {
 
     private static final String SPLIT_STR = ",";
     private static final Pattern PATTERN = Pattern.compile("([A-Za-z\\d]+)(_)?");
-
+    private static final Pattern PATTERN2 = Pattern.compile("([A-Z][a-z\\d]*)(_)?");
 
 
     public static String list2String(List<?> list) {
@@ -99,7 +99,7 @@ public class StringUtil {
         }
         line = String.valueOf(line.charAt(0)).toUpperCase().concat(line.substring(1));
         StringBuffer sb = new StringBuffer();
-        Matcher matcher = PATTERN.matcher(line);
+        Matcher matcher = PATTERN2.matcher(line);
         while (matcher.find()) {
             String word = matcher.group();
             sb.append(word.toUpperCase());

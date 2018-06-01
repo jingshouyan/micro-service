@@ -1,8 +1,11 @@
 package io.jing.util.jdbc.core.bean;
 
+import io.jing.util.jdbc.core.util.Constant;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
 import io.jing.util.jdbc.core.util.db.annotation.Key;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -12,13 +15,12 @@ import java.io.Serializable;
  * @author jingshouyan
  * @date 2018/4/14 17:25
  */
-@Data
-@ToString
+@Getter@Setter@ToString
 public abstract class BaseBean implements Serializable{
 
 
     @Key
-    @Column(length = 32,order = -1000)
+    @Column(length = Constant.ID_FIELD_LENGTH,order = -1000)
     private String id;
 
     @Column(order = 1001,comment = "创建时间")
