@@ -7,9 +7,6 @@ import io.jing.util.jdbc.core.util.db.annotation.Key;
 import lombok.Data;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.List;
 
 /**
  * 对象属性

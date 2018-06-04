@@ -6,19 +6,17 @@ import io.jing.base.bean.Token;
 import io.jing.base.util.json.JsonUtil;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.client.util.ClientUtil;
-import io.jing.server.iface.MicroServiceImpl;
 import io.jing.server.message.bean.Message;
 import io.jing.server.message.bean.MessageBean;
 import io.jing.server.message.bean.MessagePush;
 import io.jing.server.message.bean.WsConnBean;
+import io.jing.server.message.cache.WsConnCache;
 import io.jing.server.message.constant.MessageConstant;
 import io.jing.server.message.dao.MessageDao;
-import io.jing.server.message.dao.WsConnDao;
 import io.jing.server.method.Method;
 import io.jing.server.zk.Register;
 import io.jing.util.jdbc.core.util.db.Bean4DbUtil;
 import io.jing.util.jdbc.core.util.keygen.IdUtil;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,13 +33,13 @@ import java.util.stream.Collectors;
 public class SendMessage implements Method<Message> {
 
     @Autowired
-    private WsConnDao wsConnDao;
-
-    @Autowired
     private MessageDao messageDao;
 
     @Autowired
     private PushMessage pushMessage;
+
+    @Autowired
+    private WsConnCache wsConnCache;
 
 
     @Override
@@ -54,7 +52,7 @@ public class SendMessage implements Method<Message> {
             List<MessageBean> messageBeanList = userIdList.stream()
                     .map(userId -> toMessageBean(userId,message)).collect(Collectors.toList());
             messageDao.batchInsert(messageBeanList);
-            List<WsConnBean> wsConnBeanList = wsConnDao.listByUserIdList(userIdList);
+            List<WsConnBean> wsConnBeanList = wsConnCache.getByUserIds(userIdList);
             Map<String,List<WsConnBean>> map = wsConnBeanList.stream()
                     .collect(Collectors.groupingBy(WsConnBean::getServiceInstance));
             String thisInstance = Register.SERVICE_INSTANCE.key();

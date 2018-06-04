@@ -1,7 +1,6 @@
 package io.jing.server.method.threadlocal;
 
 import io.jing.base.bean.Token;
-import io.jing.base.util.id.IdGen;
 
 /**
  * @author jingshouyan

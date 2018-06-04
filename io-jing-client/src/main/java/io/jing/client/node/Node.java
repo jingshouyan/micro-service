@@ -1,7 +1,6 @@
 package io.jing.client.node;
 
 import io.jing.base.bean.ServiceInfo;
-import io.jing.base.thrift.MicroService;
 import lombok.Data;
 
 import java.util.concurrent.atomic.AtomicInteger;

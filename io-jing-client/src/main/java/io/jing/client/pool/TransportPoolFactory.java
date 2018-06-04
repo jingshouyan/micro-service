@@ -1,7 +1,6 @@
 package io.jing.client.pool;
 
 import io.jing.base.bean.ServiceInfo;
-import io.jing.base.util.config.ConfigSettings;
 import io.jing.client.transport.Transport;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.BasePooledObjectFactory;

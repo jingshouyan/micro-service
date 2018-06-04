@@ -5,8 +5,6 @@ import io.jing.base.bean.Trace;
 import io.jing.base.constant.BaseConstant;
 import org.slf4j.MDC;
 
-import java.util.Optional;
-
 /**
  * @author jingshouyan
  * @date 2018/4/15 0:16

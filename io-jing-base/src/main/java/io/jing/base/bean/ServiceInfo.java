@@ -1,6 +1,5 @@
 package io.jing.base.bean;
 
-import lombok.Builder;
 import lombok.Data;
 
 /**

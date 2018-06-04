@@ -1,6 +1,5 @@
 package io.jing.base.exception;
 
-import io.jing.base.util.code.Code;
 import lombok.Getter;
 
 /**

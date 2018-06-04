@@ -4,9 +4,6 @@ import io.jing.base.bean.Rsp;
 import io.jing.base.bean.ServiceInfo;
 import io.jing.base.bean.Token;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 /**
  * @author jingshouyan
  * @date 2018/4/15 1:02

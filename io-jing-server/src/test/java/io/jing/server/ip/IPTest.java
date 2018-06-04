@@ -1,10 +1,10 @@
 package io.jing.server.ip;
 
-import io.jing.base.util.net.NetUtil;
-
-import java.net.*;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.Enumeration;
-import java.util.Map;
 
 /**
  * @author jingshouyan

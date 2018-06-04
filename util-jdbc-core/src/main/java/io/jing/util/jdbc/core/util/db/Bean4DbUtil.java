@@ -1,6 +1,5 @@
 package io.jing.util.jdbc.core.util.db;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;

@@ -3,7 +3,10 @@ package io.jing.base.util.net;
 import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
 
-import java.net.*;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.Socket;
 import java.util.Enumeration;
 import java.util.Map;
 

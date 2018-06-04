@@ -1,6 +1,8 @@
 package io.jing.server.message.ws;
 
-import com.corundumstudio.socketio.*;
+import com.corundumstudio.socketio.AckRequest;
+import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.OnConnect;
 import com.corundumstudio.socketio.annotation.OnDisconnect;
 import com.corundumstudio.socketio.annotation.OnEvent;
@@ -8,12 +10,11 @@ import io.jing.base.bean.Req;
 import io.jing.base.bean.Token;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.server.iface.MicroServiceImpl;
-import io.jing.server.message.bean.TokenBean;
+import io.jing.server.message.bean.Message;
 import io.jing.server.message.bean.WsConnBean;
+import io.jing.server.message.cache.WsConnCache;
 import io.jing.server.message.constant.MessageConstant;
 import io.jing.server.message.dao.WsConnDao;
-import io.jing.server.message.bean.Message;
-import io.jing.server.message.method.SendMessage;
 import io.jing.server.zk.Register;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class MessageEventHandler {
     private WsConnDao wsConnDao;
 
     @Autowired
-    private SendMessage sendMessage;
+    private WsConnCache wsConnCache;
 
     @Autowired
     private MicroServiceImpl microService;
@@ -97,6 +98,7 @@ public class MessageEventHandler {
         wsConnDao.insert(wsConnBean);
         Token token = Token.builder().ticket(tokenId).userId(tokenId).build();
         client.set(MessageConstant.WS_STORE_TOKEN,token);
+        wsConnCache.removeByUserId(token.getUserId());
     }
 
     @OnDisconnect
@@ -104,6 +106,8 @@ public class MessageEventHandler {
         String id = client.getSessionId().toString();
         log.info("sessionId[{}] disconnect",id);
         wsConnDao.delete(id);
+        Token token = client.get(MessageConstant.WS_STORE_TOKEN);
+        wsConnCache.removeByUserId(token.getUserId());
     }
 
     @OnEvent(value = "message")
@@ -112,13 +116,6 @@ public class MessageEventHandler {
         ThreadLocalUtil.setToken(client.get(MessageConstant.WS_STORE_TOKEN));
 
         log.info("message:{}",message);
-//        client.sendEvent("message", new VoidAckCallback() {
-//            @Override
-//            protected void onSuccess() {
-//                log.info("send success . {}",client.getSessionId());
-//            }
-//        }, message);
-
         Token token = ThreadLocalUtil.getToken();
         Req req = Req.builder()
                 .service(MessageConstant.THRIFT_SERVER_NAME)

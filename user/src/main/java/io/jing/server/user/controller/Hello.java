@@ -1,19 +1,8 @@
 package io.jing.server.user.controller;
 
-import com.google.common.collect.Maps;
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.model.CityResponse;
 import io.jing.server.zk.Register;
-import lombok.SneakyThrows;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.File;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.URL;
 
 /**
  * @author jingshouyan

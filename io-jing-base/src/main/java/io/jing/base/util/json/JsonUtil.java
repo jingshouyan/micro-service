@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.jing.base.constant.BaseConstant;
 import lombok.SneakyThrows;
 import org.apache.thrift.TBase;
@@ -15,7 +13,6 @@ import org.apache.thrift.TSerializer;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.protocol.TSimpleJSONProtocol;
 
-import java.io.Closeable;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;

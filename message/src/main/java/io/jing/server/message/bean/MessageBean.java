@@ -3,7 +3,9 @@ package io.jing.server.message.bean;
 import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.util.Constant;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author jingshouyan

@@ -1,7 +1,9 @@
 package io.jing.server.message.bean;
 
 import io.jing.util.jdbc.core.bean.BaseBean;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author jingshouyan

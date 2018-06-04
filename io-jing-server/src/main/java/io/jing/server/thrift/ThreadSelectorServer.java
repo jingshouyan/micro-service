@@ -1,7 +1,8 @@
 package io.jing.server.thrift;
 
 import io.jing.base.bean.ServiceInfo;
-import io.jing.base.thrift.MicroService.*;
+import io.jing.base.thrift.MicroService.Iface;
+import io.jing.base.thrift.MicroService.Processor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
