@@ -21,6 +21,7 @@ public class Message {
     @NotNull
     private String messageType;
     private Text text;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long flag;
     private long sentAt;
 

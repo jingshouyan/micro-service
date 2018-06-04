@@ -14,4 +14,6 @@ public interface MessageConstant extends ServerConstant {
     public static final String DS_URL= ConfigSettings.get("datasource.url").get();
     public static final int WS_PORT = ConfigSettings.get("ws.port").map(Integer::parseInt).orElse(8888);
     public static final String HOST_NAME = ConfigSettings.get("host.name").orElse("localhost");
+    public static final String EVENT_MESSAGE = "message";
+    public static final String WS_STORE_TOKEN = "WS_STORE_TOKEN";
 }

@@ -1,11 +1,17 @@
 package io.jing.server.message.method;
 
 import com.google.common.collect.Lists;
+import io.jing.base.bean.Req;
+import io.jing.base.bean.Token;
 import io.jing.base.util.json.JsonUtil;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
+import io.jing.client.util.ClientUtil;
+import io.jing.server.iface.MicroServiceImpl;
 import io.jing.server.message.bean.Message;
 import io.jing.server.message.bean.MessageBean;
+import io.jing.server.message.bean.MessagePush;
 import io.jing.server.message.bean.WsConnBean;
+import io.jing.server.message.constant.MessageConstant;
 import io.jing.server.message.dao.MessageDao;
 import io.jing.server.message.dao.WsConnDao;
 import io.jing.server.method.Method;
@@ -18,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +40,10 @@ public class SendMessage implements Method<Message> {
     @Autowired
     private MessageDao messageDao;
 
+    @Autowired
+    private PushMessage pushMessage;
+
+
     @Override
     public Object action(Message message) {
         message.setId(IdUtil.longId());
@@ -44,14 +55,32 @@ public class SendMessage implements Method<Message> {
                     .map(userId -> toMessageBean(userId,message)).collect(Collectors.toList());
             messageDao.batchInsert(messageBeanList);
             List<WsConnBean> wsConnBeanList = wsConnDao.listByUserIdList(userIdList);
-            List<WsConnBean> thisService = Lists.newArrayList();
-            List<WsConnBean> otherService = Lists.newArrayList();
-            String servcieInstance = Register.SERVICE_INSTANCE.key();
-            wsConnBeanList.forEach(wsConnBean -> {
-                if (servcieInstance.equals(wsConnBean.getServiceInstanc())){
-                    thisService.add(wsConnBean);
+            Map<String,List<WsConnBean>> map = wsConnBeanList.stream()
+                    .collect(Collectors.groupingBy(WsConnBean::getServiceInstance));
+            String thisInstance = Register.SERVICE_INSTANCE.key();
+            map.forEach((serviceInstance,connList)->{
+                List<String> conns = connList.stream()
+                        .map(WsConnBean::getId)
+                        .collect(Collectors.toList());
+                MessagePush messagePush = new MessagePush();
+                messagePush.setMessage(message);
+                messagePush.setConnIdList(conns);
+                if(serviceInstance.equals(thisInstance)){
+                    try{
+                        pushMessage.actionWithValidate(messagePush);
+                    }catch (Exception e){
+                        log.warn("pushMessage error.",e);
+                    }
                 }else{
-                    otherService.add(wsConnBean);
+                    Token token = ThreadLocalUtil.getToken();
+                    Req req = Req.builder()
+                            .service(MessageConstant.THRIFT_SERVER_NAME)
+                            .router(serviceInstance)
+                            .oneWay(true)
+                            .method("PushMessage")
+                            .paramObj(messagePush)
+                            .build();
+                    ClientUtil.call(token,req);
                 }
             });
         }
@@ -76,10 +105,12 @@ public class SendMessage implements Method<Message> {
 
     private MessageBean toMessageBean(String userId,Message message){
         MessageBean messageBean = new MessageBean();
+        messageBean.setUserId(userId);
         messageBean.setMessageId(message.getId());
         messageBean.setSenderId(message.getSenderId());
         messageBean.setTargetId(message.getTargetId());
         messageBean.setTargetType(message.getTargetType());
+        messageBean.setMessageType(message.getMessageType());
         messageBean.setData(getData(message));
         messageBean.setFlag(message.getFlag());
         messageBean.setSentAt(message.getSentAt());

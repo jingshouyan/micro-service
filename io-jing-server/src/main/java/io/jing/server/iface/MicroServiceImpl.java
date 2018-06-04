@@ -40,7 +40,7 @@ public class MicroServiceImpl implements MicroService.Iface{
         call(token,req);
     }
 
-    private Rsp run(Token token,Req req){
+    public Rsp run(Token token,Req req){
         ReqAndRsp reqAndRsp = new ReqAndRsp();
         reqAndRsp.setTraceId(ThreadLocalUtil.getTrace().getTraceId());
         String methodName = req.getMethod();
@@ -54,10 +54,14 @@ public class MicroServiceImpl implements MicroService.Iface{
             Method method = MethodFactory.getMethod(methodName);
             Class<?> clazz = method.getClazz();
             Object obj;
-            try {
-                obj = JsonUtil.toBean(req.getParam(), clazz);
-            }catch (Exception e){
-                throw new MicroServiceException(Code.JSON_PARSE_ERROR,e);
+            if(req.getParamObj()!=null){
+                obj = req.getParamObj();
+            }else {
+                try {
+                    obj = JsonUtil.toBean(req.getParam(), clazz);
+                }catch (Exception e){
+                    throw new MicroServiceException(Code.JSON_PARSE_ERROR,e);
+                }
             }
             @SuppressWarnings("unchecked")
             Object result = method.actionWithValidate(obj);
