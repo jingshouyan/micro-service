@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -23,8 +24,11 @@ public class PushMessage implements Method<MessagePush> {
         messagePush.getConnIdList().stream()
                 .map(UUID::fromString)
                 .map(server::getClient)
-                .filter(client -> client != null)
-                .forEach(client -> client.sendEvent(MessageConstant.EVENT_MESSAGE,messagePush.getMessage()));
+                .filter(Objects::nonNull)
+                .forEach(client -> {
+                    //TODO: 更新已送达
+                    client.sendEvent(MessageConstant.EVENT_MESSAGE,messagePush.getMessage());
+                });
         return null;
     }
 }

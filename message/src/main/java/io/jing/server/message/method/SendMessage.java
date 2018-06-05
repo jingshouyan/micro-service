@@ -94,9 +94,9 @@ public class SendMessage implements Method<Message> {
                     userIdList.add(message.getTargetId());
                 }
                 break;
-                default:
-                    log.warn("Unsupport targetType[{}]",message.getMessageType());
-                    break;
+            default:
+                log.warn("Unsupport targetType[{}]",message.getMessageType());
+                break;
         }
         return userIdList;
     }
