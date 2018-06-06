@@ -18,7 +18,7 @@ public class WsConnDaoImpl extends BaseDaoImpl<WsConnBean> implements WsConnDao 
     @Override
     public List<WsConnBean> listByTokenId(String tokenId){
         List<Compare> compares = CompareUtil.newInstance()
-                .field("tokenId").eq(tokenId).compares();
+                .field("ticket").eq(tokenId).compares();
         List<WsConnBean> wsConnBeans = query(compares);
         return wsConnBeans;
     }

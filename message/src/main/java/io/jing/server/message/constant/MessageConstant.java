@@ -21,4 +21,8 @@ public interface MessageConstant extends ServerConstant {
     int CLIENT_TYPE_1= 1;
     int CLIENT_TYPE_2= 2;
     int CLIENT_TYPE_3= 3;
+
+    int NON_PUSH_MESSAGE_FITCH_SIZE = 2000;
+
+    long CONN_HANDLE_DELAY = 1000;
 }

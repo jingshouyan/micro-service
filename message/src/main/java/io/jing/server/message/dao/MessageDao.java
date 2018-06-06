@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface MessageDao extends BaseDao<MessageBean> {
     int updatePush(List<String> idList,int clientType);
+    List<MessageBean> nonPushList(String userId, int clientType, long latestMessageId);
 }

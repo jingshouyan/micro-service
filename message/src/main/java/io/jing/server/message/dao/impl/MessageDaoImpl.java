@@ -6,6 +6,7 @@ import io.jing.server.message.dao.MessageDao;
 import io.jing.util.jdbc.core.dao.impl.BaseDaoImpl;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
+import io.jing.util.jdbc.core.util.db.Page;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,5 +37,35 @@ public class MessageDaoImpl extends BaseDaoImpl<MessageBean> implements MessageD
         }
         List<Compare> compares = CompareUtil.newInstance().field("id").in(idList).compares();
         return update(bean4Update,compares);
+    }
+
+    @Override
+    public List<MessageBean> nonPushList(String userId, int clientType, long latestMessageId){
+        List<Compare> compares = CompareUtil.newInstance()
+                .field("userId").eq(userId)
+                .field("messageId").gt(latestMessageId)
+                .compares();
+        Compare compare = new Compare();
+        switch (clientType){
+            case MessageConstant.CLIENT_TYPE_1:
+                compare.setField("push1");
+                break;
+            case MessageConstant.CLIENT_TYPE_2:
+                compare.setField("push2");
+                break;
+            case MessageConstant.CLIENT_TYPE_3:
+                compare.setField("push3");
+                break;
+            default:
+                compare.setField("push");
+                break;
+        }
+        compare.setEq(MessageConstant.MESSAGE_PUSH_NO);
+        compares.add(compare);
+        Page<MessageBean> page = new Page<>();
+        page.setPage(1);
+        page.setPageSize(MessageConstant.NON_PUSH_MESSAGE_FITCH_SIZE);
+        page.addOrderBy("messageId",true);
+        return queryLimit(compares,page);
     }
 }

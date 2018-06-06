@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter@Setter
 @ToString(callSuper = true)
 public class WsConnBean extends BaseBean {
-    private String tokenId;
+    private String ticket;
     private String userId;
     private Integer clientType;
     private String serviceInstance;
