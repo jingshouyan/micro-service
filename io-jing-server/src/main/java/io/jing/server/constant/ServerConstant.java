@@ -17,4 +17,5 @@ public interface ServerConstant extends BaseConstant {
     String THRIFT_SERVER_NAME = ConfigSettings.get("thrift.server.name").orElse("microService");
     String THRIFT_SERVER_VERSION = ConfigSettings.get("thrift.server.version").orElse("1.0");
     String THRIFT_SERVER_IP = ConfigSettings.get("thrift.server.ip").orElse("127.0.0.1");
+    boolean SQL_LOG_SHOW = ConfigSettings.get("sql.log.show").filter("true"::equalsIgnoreCase).isPresent();
 }

@@ -1,5 +1,6 @@
 package io.jing.server.aop;
 
+import io.jing.server.constant.ServerConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -17,7 +18,7 @@ import java.util.List;
 @Slf4j(topic = "JDBC-TEMPLATE-SQL")
 public class SqlLog {
 
-    private static boolean showSql = true;
+    private static boolean showSql = ServerConstant.SQL_LOG_SHOW;
 
     @Pointcut("bean(*JdbcTemplate)")
     public void aspect() {
