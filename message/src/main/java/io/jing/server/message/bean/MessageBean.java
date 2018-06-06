@@ -6,6 +6,9 @@ import io.jing.util.jdbc.core.util.db.annotation.Column;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author jingshouyan
@@ -23,9 +26,11 @@ public class MessageBean extends BaseBean {
     @Column(length = Constant.VARCHAR_MAX_LENGTH)
     private String data;
     private Long flag;
+    @Column(length = Constant.VARCHAR_MAX_LENGTH,json = true)
+    private List<String> relatedUsers;
     private Long sentAt;
-    private Integer read1;
-    private Integer read2;
-    private Integer read3;
-    private Integer read;
+    private Integer push1;
+    private Integer push2;
+    private Integer push3;
+    private Integer push;
 }

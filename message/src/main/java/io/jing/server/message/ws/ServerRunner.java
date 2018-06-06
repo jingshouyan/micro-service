@@ -19,9 +19,6 @@ public class ServerRunner implements CommandLineRunner {
     private SocketIOServer socketIOServer;
 
     @Autowired
-    private MessageEventHandler messageEventHandler;
-
-    @Autowired
     public ServerRunner(SocketIOServer socketIOServer){
         this.socketIOServer = socketIOServer;
     }

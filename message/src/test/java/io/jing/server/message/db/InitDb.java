@@ -28,8 +28,7 @@ public class InitDb {
     public void createTable() {
         Map<String, BaseDao> map = ctx.getBeansOfType(BaseDao.class);
 
-        for (BaseDao dao : map.values()
-                ) {
+        for (BaseDao dao : map.values()) {
             dao.createTable();
         }
     }
@@ -39,8 +38,7 @@ public class InitDb {
     public void dropTable() {
         Map<String, BaseDao> map = ctx.getBeansOfType(BaseDao.class);
 
-        for (BaseDao dao : map.values()
-                ) {
+        for (BaseDao dao : map.values()) {
             dao.dropTable();
         }
     }

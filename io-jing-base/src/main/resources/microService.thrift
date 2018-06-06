@@ -4,6 +4,7 @@ struct TokenBean{
     1:string traceId;
     2:string userId;
     3:string ticket;
+    4:i32 clientType;
 }
 struct ReqBean{
     1:string method;

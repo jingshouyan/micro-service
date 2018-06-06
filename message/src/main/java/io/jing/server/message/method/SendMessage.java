@@ -3,7 +3,6 @@ package io.jing.server.message.method;
 import com.google.common.collect.Lists;
 import io.jing.base.bean.Req;
 import io.jing.base.bean.Token;
-import io.jing.base.util.json.JsonUtil;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.client.util.ClientUtil;
 import io.jing.server.message.bean.Message;
@@ -13,9 +12,9 @@ import io.jing.server.message.bean.WsConnBean;
 import io.jing.server.message.cache.WsConnCache;
 import io.jing.server.message.constant.MessageConstant;
 import io.jing.server.message.dao.MessageDao;
+import io.jing.server.message.util.MessageConverter;
 import io.jing.server.method.Method;
 import io.jing.server.zk.Register;
-import io.jing.util.jdbc.core.util.db.Bean4DbUtil;
 import io.jing.util.jdbc.core.util.keygen.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,8 @@ public class SendMessage implements Method<Message> {
         List<String> userIdList = relatedUserId(message);
         if(!userIdList.isEmpty()){
             List<MessageBean> messageBeanList = userIdList.stream()
-                    .map(userId -> toMessageBean(userId,message)).collect(Collectors.toList());
+                    .map(userId -> MessageConverter.toMessageBean(userId,message))
+                    .collect(Collectors.toList());
             messageDao.batchInsert(messageBeanList);
             List<WsConnBean> wsConnBeanList = wsConnCache.getByUserIds(userIdList);
             Map<String,List<WsConnBean>> map = wsConnBeanList.stream()
@@ -98,28 +98,14 @@ public class SendMessage implements Method<Message> {
                 log.warn("Unsupport targetType[{}]",message.getMessageType());
                 break;
         }
+        if(message.getRelatedUsers()!=null){
+            userIdList = userIdList.stream()
+                    .filter(message.getRelatedUsers()::contains)
+                    .collect(Collectors.toList());
+        }
         return userIdList;
     }
 
-    private MessageBean toMessageBean(String userId,Message message){
-        MessageBean messageBean = new MessageBean();
-        messageBean.setUserId(userId);
-        messageBean.setMessageId(message.getId());
-        messageBean.setSenderId(message.getSenderId());
-        messageBean.setTargetId(message.getTargetId());
-        messageBean.setTargetType(message.getTargetType());
-        messageBean.setMessageType(message.getMessageType());
-        messageBean.setData(getData(message));
-        messageBean.setFlag(message.getFlag());
-        messageBean.setSentAt(message.getSentAt());
-        messageBean.forCreate();
-        return messageBean;
-    }
 
-    private String getData(Message message){
-        String messageType = message.getMessageType();
-        Object data = Bean4DbUtil.getFieldValue(message,messageType);
-        return JsonUtil.toJsonString(data);
-    }
 
 }

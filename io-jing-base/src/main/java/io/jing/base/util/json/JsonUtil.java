@@ -13,6 +13,7 @@ import org.apache.thrift.TSerializer;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.protocol.TSimpleJSONProtocol;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -44,6 +45,11 @@ public class JsonUtil implements BaseConstant {
     @SneakyThrows
     public static <T> T toBean(String json, Class<T> clazz){
         return OBJECT_MAPPER.readValue(json,clazz);
+    }
+    @SneakyThrows
+    public static <T> T toBean(String json, Type type){
+        JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructType(type);
+        return OBJECT_MAPPER.readValue(json,javaType);
     }
     @SneakyThrows
     public static <T> List<T> toList(String json, Class<T> clazz){

@@ -13,6 +13,7 @@ import lombok.Data;
 public class Token {
     private String userId;
     private String ticket;
+    private int clientType;
 
     public Token(){
     }
@@ -22,18 +23,21 @@ public class Token {
     public Token(TokenBean tokenBean){
         userId = tokenBean.getUserId();
         ticket = tokenBean.getTicket();
+        clientType = tokenBean.getClientType();
     }
 
     public TokenBean tokenBean(){
         return new TokenBean()
                 .setUserId(userId)
-                .setTicket(ticket);
+                .setTicket(ticket)
+                .setClientType(clientType);
     }
 
     public Token copy(){
         Token token = new Token();
         token.setUserId(userId);
         token.setTicket(ticket);
+        token.setClientType(clientType);
         return token;
     }
 }

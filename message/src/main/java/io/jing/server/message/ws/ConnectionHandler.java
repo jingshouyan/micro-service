@@ -68,7 +68,7 @@ public class ConnectionHandler {
         wsConnBean.setServiceInstance(Register.SERVICE_INSTANCE.key());
         wsConnBean.forCreate();
         wsConnDao.insert(wsConnBean);
-        Token token = Token.builder().ticket(tokenId).userId(tokenId).build();
+        Token token = Token.builder().ticket(tokenId).userId(tokenId).clientType(1).build();
         client.set(MessageConstant.WS_STORE_TOKEN,token);
         wsConnCache.removeByUserId(token.getUserId());
     }

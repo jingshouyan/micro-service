@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author jingshouyan
@@ -23,6 +24,7 @@ public class Message {
     private Text text;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long flag;
+    private List<String> relatedUsers;
     private long sentAt;
 
     public boolean selfMessage(){
