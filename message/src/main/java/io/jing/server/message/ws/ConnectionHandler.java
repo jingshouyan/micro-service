@@ -122,10 +122,14 @@ public class ConnectionHandler  implements CommandLineRunner {
                         continue;
                     }
                     Token token = client.get(MessageConstant.WS_STORE_TOKEN);
-                    if(null!=client&&client.isChannelOpen()){
+                    if(null != client &&client.isChannelOpen()){
                         ExecUtil.exec(exec,()->{
                             long latestId = 0;
+                            boolean connStore = false;
                             while(true){
+                                if (!client.isChannelOpen()){
+                                    break;
+                                }
                                 List<MessageBean> list = messageDao.nonPushList(token.getUserId(),1,latestId);
                                 for (MessageBean messageBean: list) {
                                     Message message = MessageConverter.toMessage(messageBean);
@@ -136,21 +140,26 @@ public class ConnectionHandler  implements CommandLineRunner {
                                     latestId = message.getId();
                                 }
                                 if(list.size()<MessageConstant.NON_PUSH_MESSAGE_FITCH_SIZE){
-                                    break;
+                                    if(!connStore){
+                                        WsConnBean wsConnBean = new WsConnBean();
+                                        wsConnBean.setId(client.getSessionId().toString());
+                                        wsConnBean.setClientType(1);
+                                        wsConnBean.setTicket(token.getTicket());
+                                        wsConnBean.setUserId(token.getUserId());
+                                        wsConnBean.setServiceInstance(Register.SERVICE_INSTANCE.key());
+                                        wsConnBean.forCreate();
+                                        wsConnDao.insert(wsConnBean);
+                                        wsConnCache.removeByUserId(token.getUserId());
+                                        connStore = true;
+                                    }else {
+                                        break;
+                                    }
                                 }
                             }
-                            WsConnBean wsConnBean = new WsConnBean();
-                            wsConnBean.setId(client.getSessionId().toString());
-                            wsConnBean.setClientType(1);
-                            wsConnBean.setTicket(token.getTicket());
-                            wsConnBean.setUserId(token.getUserId());
-                            wsConnBean.setServiceInstance(Register.SERVICE_INSTANCE.key());
-                            wsConnBean.forCreate();
-                            wsConnDao.insert(wsConnBean);
-                            wsConnCache.removeByUserId(token.getUserId());
                         });
                     }
                 }catch (Exception e){
+                    log.error("",e);
                 }
             }
         });
