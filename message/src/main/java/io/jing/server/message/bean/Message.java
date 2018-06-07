@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Data
 public class Message {
+
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long id;
     private String senderId;
@@ -29,5 +30,24 @@ public class Message {
 
     public boolean selfMessage(){
         return senderId !=null && senderId.equals(targetId);
+    }
+
+    private static final int LONG_MAX_POSITION = 63;
+    public boolean yon(int position){
+        if(position>LONG_MAX_POSITION||position<0){
+            return false;
+        }
+        return (flag>>position & 1L) == 1L;
+    }
+
+    public Message bitSet(int position,boolean yon){
+        if( position >= 0 && position <= LONG_MAX_POSITION ){
+            if(yon){
+                flag = 1L<<position | flag;
+            }else {
+                flag = ~(1L<<position) & flag;
+            }
+        }
+        return this;
     }
 }

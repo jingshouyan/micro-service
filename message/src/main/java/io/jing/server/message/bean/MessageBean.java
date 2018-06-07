@@ -33,4 +33,24 @@ public class MessageBean extends BaseBean {
     private Integer push2;
     private Integer push3;
     private Integer push;
+
+
+    private static final int LONG_MAX_POSITION = 63;
+    public boolean yon(int position){
+        if(position>LONG_MAX_POSITION||position<0){
+            return false;
+        }
+        return (flag>>position & 1L) == 1L;
+    }
+
+    public MessageBean bitSet(int position,boolean yon){
+        if( position >= 0 && position <= LONG_MAX_POSITION ){
+            if(yon){
+                flag = 1L<<position | flag;
+            }else {
+                flag = ~(1L<<position) & flag;
+            }
+        }
+        return this;
+    }
 }
