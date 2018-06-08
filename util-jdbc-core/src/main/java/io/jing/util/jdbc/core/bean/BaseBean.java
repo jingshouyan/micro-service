@@ -17,11 +17,6 @@ import java.io.Serializable;
 @Getter@Setter@ToString
 public abstract class BaseBean implements Serializable{
 
-
-    @Key
-    @Column(length = Constant.ID_FIELD_LENGTH,order = -1000)
-    private String id;
-
     @Column(order = 1001,comment = "创建时间")
     private Long createdAt;
     @Column(order = 1002,comment = "修改时间")

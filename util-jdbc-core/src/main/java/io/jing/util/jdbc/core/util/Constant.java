@@ -11,7 +11,7 @@ import java.util.Optional;
  * @date 2018/4/14 17:25
  */
 public interface Constant {
-    int ID_FIELD_LENGTH = 36;
+    int ID_FIELD_LENGTH = 50;
     int COLUMN_ORDER_DEFAULT = 10;
     int COLUMN_LENGTH_DEFAULT = 255;
     int VARCHAR_MAX_LENGTH = 5000;

@@ -1,6 +1,7 @@
 package io.jing.ip.test;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * @author jingshouyan
@@ -14,5 +15,13 @@ public class AtomicTest {
         System.out.println( atomicInteger.getAndAdd(Integer.MAX_VALUE));
         System.out.println( atomicInteger.getAndAdd(Integer.MAX_VALUE));
         System.out.println( atomicInteger.getAndAdd(Integer.MAX_VALUE));
+
+        LongAdder longAdder = new LongAdder();
+        longAdder.add(Long.MAX_VALUE);
+        System.out.println(longAdder.longValue());
+        longAdder.add(Long.MAX_VALUE);
+        System.out.println(longAdder.longValue());
+        longAdder.add(Long.MAX_VALUE);
+        System.out.println(longAdder.longValue());
     }
 }
