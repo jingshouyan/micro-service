@@ -10,6 +10,8 @@ import java.util.List;
  * #date 2018/5/30 16:41
  */
 public interface MessageDao extends BaseDao<MessageBean> {
+
     int updatePush(List<String> idList,int clientType);
+
     List<MessageBean> nonPushList(String userId, int clientType, long latestMessageId);
 }

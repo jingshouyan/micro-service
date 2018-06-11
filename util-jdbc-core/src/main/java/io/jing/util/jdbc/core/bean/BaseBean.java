@@ -1,8 +1,6 @@
 package io.jing.util.jdbc.core.bean;
 
-import io.jing.util.jdbc.core.util.Constant;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
-import io.jing.util.jdbc.core.util.db.annotation.Key;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

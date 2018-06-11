@@ -10,7 +10,7 @@ import java.util.List;
  * #date 2018/5/30 17:40
  */
 public interface WsConnDao extends BaseDao<WsConnBean> {
-    List<WsConnBean> listByTokenId(String tokenId);
+    List<WsConnBean> listByTicket(String tokenId);
 
     List<WsConnBean> listByUserIdList(List<String> userIdList);
 }

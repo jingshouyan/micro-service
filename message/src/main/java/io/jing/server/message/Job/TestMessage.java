@@ -8,15 +8,13 @@ import io.jing.server.message.method.SendMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.annotation.Schedules;
-import org.springframework.stereotype.Component;
 
 /**
  * @author jingshouyan
  * #date 2018/6/6 19:53
  */
-@Component@Slf4j
+//@Component
+@Slf4j
 public class TestMessage implements CommandLineRunner {
 
     @Autowired

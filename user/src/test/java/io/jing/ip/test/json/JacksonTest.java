@@ -2,11 +2,9 @@ package io.jing.ip.test.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.jing.base.thrift.ReqBean;
 import io.jing.base.util.json.JsonUtil;
-import io.jing.server.user.bean.AccountBean;
 import io.jing.server.user.bean.UserBean;
 import io.jing.server.user.constant.UserConstant;
 import lombok.SneakyThrows;
@@ -17,7 +15,6 @@ import org.apache.thrift.protocol.TCompactProtocol;
 import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TTupleProtocol;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -194,20 +191,20 @@ public class JacksonTest implements UserConstant {
 
     public static UserBean userBean(){
         UserBean userBean = new UserBean();
-        userBean.setName("张三");
-        userBean.setUserType(1);
-        AccountBean accountBean = new AccountBean();
-        accountBean.setContactInfo("abcdef");
-        accountBean.setStatus(1);
-        userBean.setAccountBean(accountBean);
-        List<AccountBean> accountBeans = Lists.newArrayList(accountBean);
-        userBean.setAccountBeans(accountBeans);
-        userBean.forCreate();
-        AccountBean accountBean1 = new AccountBean();
-        accountBean1.setContactInfo("wwww");
-        accountBean1.setStatus(2);
-        accountBean1.forCreate();
-        accountBeans.add(accountBean1);
+//        userBean.setName("张三");
+//        userBean.setUserType(1);
+//        AccountBean accountBean = new AccountBean();
+//        accountBean.setContactInfo("abcdef");
+//        accountBean.setStatus(1);
+//        userBean.setAccountBean(accountBean);
+//        List<AccountBean> accountBeans = Lists.newArrayList(accountBean);
+//        userBean.setAccountBeans(accountBeans);
+//        userBean.forCreate();
+//        AccountBean accountBean1 = new AccountBean();
+//        accountBean1.setContactInfo("wwww");
+//        accountBean1.setStatus(2);
+//        accountBean1.forCreate();
+//        accountBeans.add(accountBean1);
         return userBean;
     }
 }

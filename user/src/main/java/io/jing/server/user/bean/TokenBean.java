@@ -8,15 +8,15 @@ import lombok.ToString;
 
 /**
  * @author jingshouyan
- * @date 2018/4/19 10:22
+ * #date 2018/6/11 10:47
  */
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class UserBean extends BaseBean {
+public class TokenBean extends BaseBean {
     @Key
-    private Long id;
-    private String username;
-    private String password;
-    private Integer userType;
+    String ticket;
+    String userId;
+    String userType;
+    Integer clientType;
 }

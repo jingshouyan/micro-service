@@ -7,7 +7,6 @@ import com.corundumstudio.socketio.annotation.OnDisconnect;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.jing.base.bean.Token;
-import io.jing.base.thrift.MicroService;
 import io.jing.base.util.thread.ExecUtil;
 import io.jing.server.message.bean.Message;
 import io.jing.server.message.bean.MessageBean;
@@ -21,6 +20,7 @@ import io.jing.server.message.method.PushMessage;
 import io.jing.server.message.util.MessageConverter;
 import io.jing.server.zk.Register;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -64,7 +64,7 @@ public class ConnectionHandler  implements CommandLineRunner {
             60, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(1024),
             new ThreadFactoryBuilder().setNameFormat("delay-queue-%d").build(),
-            new ThreadPoolExecutor.AbortPolicy()
+            new ThreadPoolExecutor.CallerRunsPolicy()
     );
 
     @OnConnect
@@ -80,7 +80,7 @@ public class ConnectionHandler  implements CommandLineRunner {
         log.info("token[{}],sessionId[{}] connected.",tokenId,connId);
         Token token = Token.builder().ticket(tokenId).userId(tokenId).clientType(1).build();
         client.set(MessageConstant.WS_STORE_TOKEN,token);
-        List<WsConnBean> oldList = wsConnDao.listByTokenId(token.getTicket());
+        List<WsConnBean> oldList = wsConnDao.listByTicket(token.getTicket());
         if(!oldList.isEmpty()){
             List<String> idList = oldList.stream()
                     .map(WsConnBean::getId)
@@ -95,8 +95,9 @@ public class ConnectionHandler  implements CommandLineRunner {
                         }
                     });
         }
-        delayQueue.put(new ConnDelayed(connId,MessageConstant.CONN_HANDLE_DELAY));
-
+        ConnDelayed connDelayed =  new ConnDelayed(connId,MessageConstant.CONN_HANDLE_DELAY);
+        delayQueue.put(connDelayed);
+        log.info("delayQueue put {}",connDelayed);
 
     }
 
@@ -117,6 +118,7 @@ public class ConnectionHandler  implements CommandLineRunner {
             while (true){
                 try{
                     ConnDelayed connDelayed = delayQueue.take();
+                    log.info("delayQueue take {}",connDelayed);
                     SocketIOClient client = socketIOServer.getClient(UUID.fromString(connDelayed.getConnId()));
                     if(client == null){
                         continue;
@@ -165,6 +167,7 @@ public class ConnectionHandler  implements CommandLineRunner {
         });
     }
 
+    @ToString
     private static class ConnDelayed implements Delayed {
         private long runAt;
         @Getter

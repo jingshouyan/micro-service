@@ -17,6 +17,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 
@@ -51,13 +52,10 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
 
     @Override
-    public T find(Object id) {
+    public Optional<T> find(Object id) {
         List<Compare> compares = CompareUtil.newInstance().field(key()).eq(id).compares();
         List<T> ts = query(compares);
-        if (ts.isEmpty()) {
-            return null;
-        }
-        return ts.get(0);
+        return ts.stream().findFirst();
     }
 
 

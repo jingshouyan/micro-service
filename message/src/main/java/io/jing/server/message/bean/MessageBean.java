@@ -7,7 +7,6 @@ import io.jing.util.jdbc.core.util.db.annotation.Key;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

@@ -15,7 +15,6 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.RetryNTimes;
 import org.apache.thrift.server.TServer;
 import org.apache.zookeeper.CreateMode;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,7 +25,7 @@ import java.util.concurrent.*;
  * @author jingshouyan
  * @date 2018/4/16 22:09
  */
-@Component@Slf4j
+@Slf4j
 public class Register implements ServerConstant {
 
     private static final long UPDATE_DELAY = 60;

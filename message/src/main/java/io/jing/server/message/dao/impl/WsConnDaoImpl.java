@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public class WsConnDaoImpl extends BaseDaoImpl<WsConnBean> implements WsConnDao {
     @Override
-    public List<WsConnBean> listByTokenId(String tokenId){
+    public List<WsConnBean> listByTicket(String tokenId){
         List<Compare> compares = CompareUtil.newInstance()
                 .field("ticket").eq(tokenId).compares();
         List<WsConnBean> wsConnBeans = query(compares);

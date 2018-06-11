@@ -4,6 +4,7 @@ import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -18,7 +19,7 @@ public interface BaseDao<T> {
      * @param id 主键
      * @return null或单条数据
      */
-    T find(Object id);
+    Optional<T> find(Object id);
 
     /**
      * 根据主键列表查询数据
