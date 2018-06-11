@@ -22,6 +22,7 @@ import org.apache.thrift.protocol.TProtocol;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -49,7 +50,7 @@ public class ClientUtil {
         Transport transport = null;
         Rsp rsp;
         try{
-            COUNT_DOWN_LATCH.wait(ZK_WAIT_TIMEOUT);
+            COUNT_DOWN_LATCH.await(ZK_WAIT_TIMEOUT,TimeUnit.MILLISECONDS);
             Trace trace = ThreadLocalUtil.getTrace();
             String traceId;
             if(trace.getTraceId()==null){
@@ -89,6 +90,7 @@ public class ClientUtil {
         }catch (MicroServiceException e){
             throw e;
         }catch (Exception e){
+            e.printStackTrace();
             TransportProvider.invalid(transport);
             throw new MicroServiceException(Code.CLIENT_ERROR,e);
         }
