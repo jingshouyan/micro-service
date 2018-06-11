@@ -1,5 +1,6 @@
 package io.jing.server.method;
 
+import io.jing.base.constant.BaseConstant;
 import io.jing.base.exception.MicroServiceException;
 import io.jing.base.util.code.Code;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
@@ -56,9 +57,14 @@ public interface Method<T> {
         Set<ConstraintViolation<T>> cvs = VALIDATOR.validate(t);
         StringBuilder sb = new StringBuilder();
         for (ConstraintViolation<T> cv : cvs) {
+            String message = cv.getMessage();
+            if(message.startsWith(BaseConstant.INVALID_CODE_PREFIX)){
+                int code = Integer.parseInt(message.substring(BaseConstant.INVALID_CODE_PREFIX.length()));
+                throw new MicroServiceException(code);
+            }
             sb.append(cv.getPropertyPath().toString());
             sb.append(" ");
-            sb.append(cv.getMessage());
+            sb.append(message);
             sb.append("\t");
         }
         if(!cvs.isEmpty()){

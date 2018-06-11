@@ -15,6 +15,7 @@ public interface BaseConstant {
     String LOG_LEVEL = ConfigSettings.get("log.level").orElse("DEBUG");
     String LOG_REF = ConfigSettings.get("log.ref").orElse("STDOUT");
     String TRACE_ID = "TRACE_ID";
+    String INVALID_CODE_PREFIX = "CODE:";
 
 
 }

@@ -34,7 +34,7 @@ public class Code {
     public static String getMessage(int errCode) {
         String message = CODE_MAP.get(errCode);
         if (null == message) {
-            message = "this error code [" + errCode + "] is undefined";
+            message = "code[" + errCode + "] is undefined";
         }
         return message;
     }
