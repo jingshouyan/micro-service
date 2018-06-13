@@ -1,7 +1,10 @@
 package io.jing.server.user.bean;
 
+import io.jing.server.user.constant.UserCode;
+import io.jing.server.user.constant.UserConstant;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,11 +13,13 @@ import javax.validation.constraints.Size;
  * @author jingshouyan
  * #date 2018/6/11 13:36
  */
-@Getter@Setter
+@Getter
+@Setter
+@ToString
 public class UserReg {
     @NotNull@Size(min = 6,max = 20)
     private String username;
-    @NotNull
+    @NotNull(message = UserConstant.INVALID_CODE_PREFIX+UserCode.PASSWORD_ILLEGALLY)
     private String password;
     private Integer userType = 1;
 }

@@ -3,6 +3,8 @@ package io.jing.base.util.threadlocal;
 import io.jing.base.bean.Token;
 import io.jing.base.bean.Trace;
 import io.jing.base.constant.BaseConstant;
+import io.jing.base.exception.MicroServiceException;
+import io.jing.base.util.code.Code;
 import org.slf4j.MDC;
 
 /**
@@ -45,5 +47,19 @@ public class ThreadLocalUtil {
         return TOKEN_THREAD_LOCAL.get();
     }
 
+    public static String userId(){
+        String userId = getToken().getUserId();
+        if(null == userId){
+            throw new MicroServiceException(Code.USERID_NOTSET);
+        }
+        return userId;
+    }
 
+    public static String ticket(){
+        String ticket = getToken().getTicket();
+        if(null == ticket){
+            throw new MicroServiceException(Code.TICKET_NOTSET);
+        }
+        return ticket;
+    }
 }

@@ -31,11 +31,12 @@ public class RegUser implements Method<UserReg> {
         UserBean userBean = new UserBean();
         userBean.setUsername(userReg.getUsername());
         String salt = BCrypt.gensalt();
-        String password = BCrypt.hashpw(userReg.getPassword(),salt);
-        userBean.setPassword(password);
+        String pwHash = BCrypt.hashpw(userReg.getPassword(),salt);
+        userBean.setPwHash(pwHash);
         userBean.setUserType(userReg.getUserType());
         userBean.forCreate();
         userDao.insert(userBean);
+        userBean.setPwHash(null);
         return userBean;
     }
 }

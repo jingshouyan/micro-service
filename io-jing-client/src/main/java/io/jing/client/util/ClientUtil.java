@@ -76,7 +76,7 @@ public class ClientUtil {
             TProtocol tProtocol = new TBinaryProtocol(transport.getTTransport());
             MicroService.Client client = new MicroService.Client(tProtocol);
             ReqBean reqBean = req.reqBean();
-            TokenBean tokenBean = token.tokenBean();
+            TokenBean tokenBean = token==null ? new TokenBean() : token.tokenBean();
             tokenBean.setTraceId(traceId);
             if(req.isOneWay()){
                 client.send(tokenBean,reqBean);

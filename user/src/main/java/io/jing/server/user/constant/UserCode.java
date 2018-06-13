@@ -10,8 +10,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserCode {
     public static final int USERNAME_IN_USE = 10001;
-
+    public static final int PASSWORD_ILLEGALLY = 10002;
+    public static final int USER_UNREGISTER = 10003;
+    public static final int PASSWORD_WRONG = 10004;
+    public static final int TICKET_INVALID = 10005;
     static{
-        Code.regCode(USERNAME_IN_USE,"username in use.");
+        Code.regCode(USERNAME_IN_USE,"username in use");
+        Code.regCode(PASSWORD_ILLEGALLY,"password illegally");
+        Code.regCode(USER_UNREGISTER,"user unregister");
+        Code.regCode(PASSWORD_WRONG,"password wrong");
+        Code.regCode(TICKET_INVALID,"ticket invalid");
     }
 }

@@ -15,8 +15,8 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class UserBean extends BaseBean {
     @Key
-    private Long id;
+    private String id;
     private String username;
-    private String password;
+    private String pwHash;
     private Integer userType;
 }

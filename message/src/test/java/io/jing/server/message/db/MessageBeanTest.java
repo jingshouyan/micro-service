@@ -1,6 +1,5 @@
 package io.jing.server.message.db;
 
-import io.jing.server.App;
 import io.jing.server.message.bean.Message;
 import io.jing.server.message.bean.MessageBean;
 import io.jing.server.message.dao.MessageDao;

@@ -15,8 +15,8 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class TokenBean extends BaseBean {
     @Key
-    String ticket;
-    String userId;
-    String userType;
-    Integer clientType;
+    private String ticket;
+    private String userId;
+    private Integer userType;
+    private Integer clientType;
 }

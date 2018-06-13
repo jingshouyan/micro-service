@@ -17,6 +17,7 @@
         <module>io-jing-eureka</module>
         <module>eureka-client</module>
         <module>message</module>
+        <module>relationship</module>
     </modules>
 
     <parent>

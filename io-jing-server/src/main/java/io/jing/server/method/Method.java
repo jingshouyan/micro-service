@@ -1,5 +1,6 @@
 package io.jing.server.method;
 
+import io.jing.base.bean.Token;
 import io.jing.base.constant.BaseConstant;
 import io.jing.base.exception.MicroServiceException;
 import io.jing.base.util.code.Code;
@@ -20,14 +21,10 @@ public interface Method<T> {
 
     Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
 
-    /**
-     * 获取当前请求 userId
-     * @return userId
-     */
-    default String getUserId(){
-        String userId = ThreadLocalUtil.getToken().getUserId();
-        assert userId != null;
-        return userId;
+    default Token token(){
+        Token token = ThreadLocalUtil.getToken();
+        assert token != null;
+        return token;
     }
 
     /**
