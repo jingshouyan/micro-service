@@ -1,6 +1,7 @@
 package io.jing.ip.test.db;
 
 import com.google.common.collect.Lists;
+import io.jing.server.App;
 import io.jing.server.user.bean.UserBean;
 import io.jing.server.user.dao.UserDao;
 import org.junit.Test;

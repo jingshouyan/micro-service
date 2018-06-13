@@ -1,5 +1,6 @@
 package io.jing.ip.test.db;
 
+import io.jing.server.App;
 import io.jing.util.jdbc.core.dao.BaseDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
