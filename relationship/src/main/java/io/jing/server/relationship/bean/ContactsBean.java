@@ -1,6 +1,5 @@
 package io.jing.server.relationship.bean;
 
-import io.jing.base.constant.BaseConstant;
 import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.util.Constant;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
@@ -21,6 +20,8 @@ public class ContactsBean extends BaseBean {
     private String id;
     private String myId;
     private String userId;
+    private String nickname;
+    private String icon;
     private String remark;
     private Integer type;
     private Long revision;

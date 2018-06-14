@@ -6,6 +6,7 @@ import io.jing.util.jdbc.core.dao.impl.BaseDaoImpl;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
 import io.jing.util.jdbc.core.util.db.Page;
+import io.jing.util.jdbc.core.util.keygen.IdUtil;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class ContactsDaoImpl extends BaseDaoImpl<ContactsBean> implements Contac
     @Override
     public int addContacts(ContactsBean contactsBean){
         String id = contactsBean.genId();
+        contactsBean.setRevision(IdUtil.longId());
         contactsBean.forUpdate();
         int fetch = update(contactsBean);
         if(fetch==0){
@@ -52,6 +54,7 @@ public class ContactsDaoImpl extends BaseDaoImpl<ContactsBean> implements Contac
         contactsBean.setMyId(myId);
         contactsBean.setUserId(userId);
         contactsBean.genId();
+        contactsBean.setRevision(IdUtil.longId());
         contactsBean.forDelete();
         return update(contactsBean);
     }
