@@ -9,7 +9,6 @@ import io.jing.server.relationship.bean.RoomBean;
 import io.jing.server.relationship.bean.RoomUser;
 import io.jing.server.relationship.bean.RoomUserAdd;
 import io.jing.server.relationship.bean.RoomUserBean;
-import io.jing.server.relationship.constant.RelationshipCode;
 import io.jing.server.relationship.dao.RoomDao;
 import io.jing.server.relationship.dao.RoomUserDao;
 import io.jing.util.jdbc.core.util.db.Compare;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
