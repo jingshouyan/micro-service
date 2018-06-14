@@ -21,5 +21,8 @@ public class UserReg {
     private String username;
     @NotNull(message = UserConstant.INVALID_CODE_PREFIX+UserCode.PASSWORD_ILLEGALLY)
     private String password;
+    @NotNull@Size(min = 2,max = 20)
+    private String nickname;
+    private String icon = "";
     private Integer userType = 1;
 }

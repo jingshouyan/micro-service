@@ -34,6 +34,8 @@ public class RegUser implements Method<UserReg> {
         String pwHash = BCrypt.hashpw(userReg.getPassword(),salt);
         userBean.setPwHash(pwHash);
         userBean.setUserType(userReg.getUserType());
+        userBean.setNickname(userReg.getNickname());
+        userBean.setIcon(userReg.getIcon());
         userBean.forCreate();
         userDao.insert(userBean);
         userBean.setPwHash(null);
