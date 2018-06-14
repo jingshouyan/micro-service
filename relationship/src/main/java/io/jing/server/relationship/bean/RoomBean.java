@@ -14,5 +14,6 @@ public class RoomBean extends BaseBean {
     private String id;
     private String name;
     private String icon;
+    private Integer userCount;
     private Long revision;
-}
+    }

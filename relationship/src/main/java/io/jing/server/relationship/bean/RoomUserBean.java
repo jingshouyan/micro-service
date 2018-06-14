@@ -21,4 +21,10 @@ public class RoomUserBean extends BaseBean {
     private Long revisionUser;
     private Long revisionRoom;
 
+    public String genId(){
+        assert roomId != null;
+        assert userId != null;
+        return roomId+"#"+userId;
+    }
+
 }

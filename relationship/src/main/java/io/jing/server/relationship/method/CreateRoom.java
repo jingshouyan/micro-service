@@ -39,7 +39,7 @@ public class CreateRoom implements Method<RoomCreate> {
         roomBean.setIcon(roomCreate.getIcon());
         roomBean.setRevision(IdUtil.longId());
         roomBean.forCreate();
-        roomDao.insert(roomBean);
+
         Set<String> uSet = Sets.newHashSet(myId);
         List<RoomUserBean> roomUserBeanList = Lists.newArrayList();
         RoomUserBean owner = new RoomUserBean();
@@ -62,9 +62,12 @@ public class CreateRoom implements Method<RoomCreate> {
             roomUserBean.setUserLevel(roomUser.getUserLevel());
             roomUserBean.setRevisionUser(IdUtil.longId());
             roomUserBean.setRevisionRoom(roomBean.getRevision());
+            roomUserBean.genId();
             roomUserBean.forCreate();
             roomUserBeanList.add(roomUserBean);
         }
+        roomBean.setUserCount(roomUserBeanList.size());
+        roomDao.insert(roomBean);
         roomUserDao.batchInsert(roomUserBeanList);
         return roomBean;
     }

@@ -19,6 +19,8 @@ public class Code {
     public static final int PARAM_INVALID = 99900004;
     public static final int USERID_NOTSET = 99900005;
     public static final int TICKET_NOTSET = 99900006;
+    public static final int BAD_REQUEST = 99900007;
+    public static final int PERMISSION_DENIED = 99900008;
     private static final Map<Integer, String> CODE_MAP = new HashMap<>();
 
     static {
@@ -33,6 +35,8 @@ public class Code {
         CODE_MAP.put(PARAM_INVALID, "param invalid");
         CODE_MAP.put(USERID_NOTSET, "userId not set");
         CODE_MAP.put(TICKET_NOTSET, "ticket not set");
+        CODE_MAP.put(BAD_REQUEST,"bad request");
+        CODE_MAP.put(PERMISSION_DENIED,"permission denied");
     }
 
     public static String getMessage(int errCode) {
