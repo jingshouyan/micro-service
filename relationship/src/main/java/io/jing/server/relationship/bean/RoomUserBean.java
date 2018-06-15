@@ -1,6 +1,7 @@
 package io.jing.server.relationship.bean;
 
 import io.jing.util.jdbc.core.bean.BaseBean;
+import io.jing.util.jdbc.core.util.db.annotation.Ignore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,6 +21,8 @@ public class RoomUserBean extends BaseBean {
     private Integer userLevel;
     private Long revisionUser;
     private Long revisionRoom;
+    @Ignore
+    private RoomBean room;
 
     public String genId(){
         assert roomId != null;
