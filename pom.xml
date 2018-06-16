@@ -18,6 +18,7 @@
         <module>eureka-client</module>
         <module>message</module>
         <module>relationship</module>
+        <module>gateway</module>
     </modules>
 
     <parent>
