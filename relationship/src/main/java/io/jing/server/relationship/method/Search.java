@@ -1,9 +1,10 @@
-package io.jing.server.user.method;
+package io.jing.server.relationship.method;
 
 import io.jing.server.method.Method;
-import io.jing.server.user.bean.SearchReq;
-import io.jing.server.user.bean.UserBean;
-import io.jing.server.user.dao.UserDao;
+
+import io.jing.server.relationship.bean.RoomBean;
+import io.jing.server.relationship.bean.SearchReq;
+import io.jing.server.relationship.dao.RoomDao;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
 import io.jing.util.jdbc.core.util.db.Page;
@@ -20,18 +21,18 @@ import java.util.List;
 public class Search implements Method<SearchReq> {
 
     @Autowired
-    private UserDao userDao;
+    private RoomDao roomDao;
 
     @Override
     public Object action(SearchReq queryBean) {
         List<Compare> compares = CompareUtil.newInstance()
-                .field("nickname").like("%"+queryBean.getQ()+"%")
+                .field("name").like("%"+queryBean.getQ()+"%")
                 .field("deleteAt").eq(-1)
                 .compares();
-        Page<UserBean> page = new Page<>();
+        Page<RoomBean> page = new Page<>();
         page.setPage(queryBean.getPage());
         page.setPageSize(queryBean.getSize());
-        page = userDao.query(compares,page);
+        page = roomDao.query(compares,page);
         return page;
     }
 }

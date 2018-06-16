@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
  * #date 2018/6/16 16:24
  */
 @Getter@Setter@ToString
-public class QueryBean {
+public class SearchReq {
     @NotNull@Size(min = 1,max = 200)
     private String q;
     @Min(1)
