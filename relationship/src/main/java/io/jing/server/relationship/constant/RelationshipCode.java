@@ -1,6 +1,5 @@
 package io.jing.server.relationship.constant;
 
-import io.jing.base.util.code.Code;
 import org.springframework.stereotype.Component;
 
 /**

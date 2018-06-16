@@ -2,13 +2,16 @@ package io.jing.server.relationship.method;
 
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.server.method.Method;
-import io.jing.server.relationship.bean.*;
+import io.jing.server.relationship.bean.QueryParam;
+import io.jing.server.relationship.bean.RoomBean;
+import io.jing.server.relationship.bean.RoomUserBean;
 import io.jing.server.relationship.dao.RoomDao;
 import io.jing.server.relationship.dao.RoomUserDao;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
 import io.jing.util.jdbc.core.util.db.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
  * @author jingshouyan
  * #date 2018/6/15 11:23
  */
+@Component
 public class ListRoom implements Method<QueryParam> {
 
     @Autowired
@@ -41,7 +45,7 @@ public class ListRoom implements Method<QueryParam> {
         }
         Page<RoomUserBean> page = new Page<>();
         page.setPageSize(queryParam.getSize());
-        page.addOrderBy("revision");
+        page.addOrderBy("revisionRoom");
         List<RoomUserBean> roomUserBeanList = roomUserDao.queryLimit(compares,page);
         if (!roomUserBeanList.isEmpty()){
             List<String> roomIds = roomUserBeanList.stream()
