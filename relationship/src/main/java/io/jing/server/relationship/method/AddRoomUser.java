@@ -11,6 +11,7 @@ import io.jing.server.relationship.bean.RoomUserAdd;
 import io.jing.server.relationship.bean.RoomUserBean;
 import io.jing.server.relationship.dao.RoomDao;
 import io.jing.server.relationship.dao.RoomUserDao;
+import io.jing.server.relationship.helper.RoomHelper;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
 import io.jing.util.jdbc.core.util.keygen.IdUtil;
@@ -32,6 +33,8 @@ public class AddRoomUser implements Method<RoomUserAdd> {
     private RoomDao roomDao;
     @Autowired
     private RoomUserDao roomUserDao;
+    @Autowired
+    private RoomHelper roomHelper;
 
     @Override
     public Object action(RoomUserAdd roomUserAdd) {
@@ -93,17 +96,6 @@ public class AddRoomUser implements Method<RoomUserAdd> {
                     }).collect(Collectors.toList());
             roomUserDao.batchInsert(u4Insert);
         }
-        List<Compare> compareList = CompareUtil.newInstance()
-                .field("roomId").eq(roomUserAdd.getRoomId())
-                .field("deletedAt").eq(-1)
-                .compares();
-        int count = roomUserDao.count(compareList);
-        RoomBean roomBean = new RoomBean();
-        roomBean.setId(roomUserAdd.getRoomId());
-        roomBean.setUserCount(count);
-        roomBean.setRevision(revisionRoom);
-        roomBean.forUpdate();
-        roomDao.update(roomBean);
-        return null;
+        return roomHelper.countRoomUser(roomUserAdd.getRoomId());
     }
 }
