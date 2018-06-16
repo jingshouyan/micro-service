@@ -1,6 +1,7 @@
 package io.jing.server.user.method;
 
 import io.jing.server.method.Method;
+import io.jing.server.user.bean.UserBean;
 import io.jing.server.user.bean.UserGet;
 import io.jing.server.user.dao.UserDao;
 import io.jing.util.jdbc.core.util.db.Compare;

@@ -32,7 +32,6 @@ public class Search implements Method<QueryBean> {
         page.setPage(queryBean.getPage());
         page.setPageSize(queryBean.getSize());
         page = userDao.query(compares,page);
-        page.getList().forEach(u->u.setPwHash(null));
         return page;
     }
 }
