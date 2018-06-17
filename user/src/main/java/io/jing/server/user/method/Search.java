@@ -26,12 +26,11 @@ public class Search implements Method<SearchReq> {
     public Object action(SearchReq queryBean) {
         List<Compare> compares = CompareUtil.newInstance()
                 .field("nickname").like("%"+queryBean.getQ()+"%")
-                .field("deleteAt").eq(-1)
+                .field("deletedAt").eq(-1)
                 .compares();
         Page<UserBean> page = new Page<>();
         page.setPage(queryBean.getPage());
         page.setPageSize(queryBean.getSize());
-        page = userDao.query(compares,page);
-        return page;
+        return userDao.queryLimit(compares,page);
     }
 }

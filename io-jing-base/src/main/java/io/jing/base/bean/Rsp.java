@@ -41,4 +41,8 @@ public class Rsp {
     public <T> List<T> list(Class<T> clazz){
         return JsonUtil.toList(result,clazz);
     }
+
+    public String json(){
+        return "{\"code\":"+code+",\"message\":\""+message+"\",\"data\":"+result+"}";
+    }
 }
