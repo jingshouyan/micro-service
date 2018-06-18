@@ -2,8 +2,8 @@ package io.jing.server.relationship.method;
 
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.server.method.Method;
-import io.jing.server.relationship.bean.ContactsDel;
-import io.jing.server.relationship.dao.ContactsDao;
+import io.jing.server.relationship.bean.ContactDel;
+import io.jing.server.relationship.dao.ContactDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
  * #date 2018/6/13 12:17
  */
 @Component
-public class DelContacts implements Method<ContactsDel> {
+public class DelContact implements Method<ContactDel> {
     @Autowired
-    private ContactsDao contactsDao;
+    private ContactDao contactDao;
     @Override
-    public Object action(ContactsDel contactsDel) {
+    public Object action(ContactDel contactsDel) {
         String myId = ThreadLocalUtil.userId();
         String userId = contactsDel.getUserId();
-        contactsDao.delContacts(myId,userId);
+        contactDao.delContacts(myId,userId);
         return null;
     }
 }

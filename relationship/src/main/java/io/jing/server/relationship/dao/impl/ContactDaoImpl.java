@@ -1,7 +1,7 @@
 package io.jing.server.relationship.dao.impl;
 
-import io.jing.server.relationship.bean.ContactsBean;
-import io.jing.server.relationship.dao.ContactsDao;
+import io.jing.server.relationship.bean.ContactBean;
+import io.jing.server.relationship.dao.ContactDao;
 import io.jing.util.jdbc.core.dao.impl.BaseDaoImpl;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
@@ -16,9 +16,9 @@ import java.util.List;
  * #date 2018/6/12 20:21
  */
 @Repository
-public class ContactsDaoImpl extends BaseDaoImpl<ContactsBean> implements ContactsDao {
+public class ContactDaoImpl extends BaseDaoImpl<ContactBean> implements ContactDao {
     @Override
-    public List<ContactsBean> ListContacts(String myId, long revision,int size, boolean containDel) {
+    public List<ContactBean> ListContacts(String myId, long revision, int size, boolean containDel) {
         List<Compare> compares = CompareUtil.newInstance()
                 .field("myId").eq(myId)
                 .field("revision").gt(revision)
@@ -29,14 +29,14 @@ public class ContactsDaoImpl extends BaseDaoImpl<ContactsBean> implements Contac
             c.setEq(-1);
             compares.add(c);
         }
-        Page<ContactsBean> page = new Page<>();
+        Page<ContactBean> page = new Page<>();
         page.setPageSize(size);
         page.addOrderBy("revision");
         return queryLimit(compares,page);
     }
 
     @Override
-    public int addContacts(ContactsBean contactsBean){
+    public int addContacts(ContactBean contactsBean){
         String id = contactsBean.genId();
         contactsBean.setRevision(IdUtil.longId());
         contactsBean.forUpdate();
@@ -50,7 +50,7 @@ public class ContactsDaoImpl extends BaseDaoImpl<ContactsBean> implements Contac
 
     @Override
     public int delContacts(String myId, String userId) {
-        ContactsBean contactsBean = new ContactsBean();
+        ContactBean contactsBean = new ContactBean();
         contactsBean.setMyId(myId);
         contactsBean.setUserId(userId);
         contactsBean.genId();

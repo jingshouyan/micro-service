@@ -4,16 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * @author jingshouyan
- * #date 2018/6/13 11:09
+ * #date 2018/6/13 14:28
  */
 @Getter@Setter@ToString
-public class ContactsAdd {
-    @NotNull
+public class ContactDel {
     private String userId;
-    private String remark = "";
-    private Integer type = 1;
 }

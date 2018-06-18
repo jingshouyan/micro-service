@@ -2,9 +2,9 @@ package io.jing.server.relationship.method;
 
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.server.method.Method;
-import io.jing.server.relationship.bean.ContactsAdd;
-import io.jing.server.relationship.bean.ContactsBean;
-import io.jing.server.relationship.dao.ContactsDao;
+import io.jing.server.relationship.bean.ContactAdd;
+import io.jing.server.relationship.bean.ContactBean;
+import io.jing.server.relationship.dao.ContactDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,20 +13,20 @@ import org.springframework.stereotype.Component;
  * #date 2018/6/13 11:08
  */
 @Component
-public class AddContacts implements Method<ContactsAdd> {
+public class AddContact implements Method<ContactAdd> {
 
     @Autowired
-    private ContactsDao contactsDao;
+    private ContactDao contactDao;
 
     @Override
-    public Object action(ContactsAdd contactsAdd) {
-        ContactsBean contactsBean = new ContactsBean();
+    public Object action(ContactAdd contactsAdd) {
+        ContactBean contactsBean = new ContactBean();
         String userId = ThreadLocalUtil.userId();
         contactsBean.setMyId(userId);
         contactsBean.setUserId(contactsAdd.getUserId());
         contactsBean.setType(contactsAdd.getType());
         contactsBean.setRemark(contactsAdd.getRemark());
-        contactsDao.addContacts(contactsBean);
+        contactDao.addContacts(contactsBean);
         return contactsBean;
     }
 

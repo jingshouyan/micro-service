@@ -14,7 +14,7 @@ import lombok.ToString;
  * #date 2018/6/12 17:23
  */
 @Getter@Setter@ToString(callSuper = true)
-public class ContactsBean extends BaseBean {
+public class ContactBean extends BaseBean {
     @Key
     @Column(length = Constant.ID_FIELD_LENGTH)
     private String id;
