@@ -5,6 +5,7 @@ import io.jing.base.bean.Trace;
 import io.jing.base.constant.BaseConstant;
 import io.jing.base.exception.MicroServiceException;
 import io.jing.base.util.code.Code;
+import io.jing.base.util.id.IdGen;
 import org.slf4j.MDC;
 
 /**
@@ -17,6 +18,9 @@ public class ThreadLocalUtil {
     private static final ThreadLocal<Trace> TRACE_THREAD_LOCAL = ThreadLocal.withInitial(Trace::new);
     public static void setTraceId(String traceId){
         Trace trace = new Trace();
+        if(null == traceId){
+            traceId = IdGen.gen();
+        }
         trace.setTraceId(traceId);
         setTrace(trace);
     }
