@@ -10,6 +10,12 @@ import io.jing.base.util.config.ConfigSettings;
  * @date 2018/4/16 15:22
  */
 public interface ServerConstant extends BaseConstant {
+
+    String DS_DRIVER = ConfigSettings.get("datasource.driver").orElse("");
+    String DS_USERNAME = ConfigSettings.get("datasource.username").orElse("");
+    String DS_PASSWORD = ConfigSettings.get("datasource.password").orElse("");
+    String DS_URL= ConfigSettings.get("datasource.url").orElse("");
+
     int THRIFT_SERVER_PORT_MIN = 11000;
     int THRIFT_SERVER_PORT_MAX = 12000;
 
