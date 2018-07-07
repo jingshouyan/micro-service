@@ -17,34 +17,37 @@ public class RspUtil {
         return error(Code.SUCCESS, result, null);
     }
 
-    public static Rsp error(int errCode) {
-        return error(errCode, null, null);
+    public static Rsp error(int code) {
+        return error(code, null, null);
     }
 
-    public static Rsp error(int errCode, Throwable e) {
-        return error(errCode, null, e);
+    public static Rsp error(int code, Throwable e) {
+        return error(code, null, e);
     }
 
-    public static Rsp error(int errCode, Object result) {
-        return error(errCode, result, null);
+    public static Rsp error(int code, Object result) {
+        return error(code, result, null);
     }
 
     public static Rsp error(MicroServiceException e){
-        return error(e.getCode(),e);
+        return error(e.getCode(),e.getMsg(),e.getData(),e);
     }
 
     /**
-     * @param errCode 错误码
+     * @param code 错误码
      * @param result  返回对象
      * @param e       异常信息
-     * @return Rsp对象  msg根据errCode对应的消息 result json序列化
+     * @return Rsp对象  msg根据code对应的消息 result json序列化
      * @Description 生成Rsp对象
      */
-    public static Rsp error(int errCode, Object result, Throwable e) {
+    public static Rsp error(int code, Object result, Throwable e) {
+        return error(code,Code.getMessage(code),result,e);
+    }
+
+    private static Rsp error(int code,String message,Object data,Throwable e){
         Rsp res = new Rsp();
-        res.setCode(errCode);
-        res.setData(result);
-        String message = Code.getMessage(errCode);
+        res.setCode(code);
+        res.setData(data);
         if (null != e && null != e.getMessage()) {
             message = message + "|" + e.getMessage();
         }
@@ -52,10 +55,4 @@ public class RspUtil {
         return res;
     }
 
-    public static Rsp error(int errCode, String message) {
-        Rsp res = new Rsp();
-        res.setCode(errCode);
-        res.setMessage(message);
-        return res;
-    }
 }

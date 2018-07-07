@@ -4,27 +4,24 @@ import io.jing.base.bean.Empty;
 import io.jing.base.exception.MicroServiceException;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.server.method.Method;
-import io.jing.server.user.bean.TokenBean;
 import io.jing.server.user.constant.UserCode;
-import io.jing.server.user.dao.TokenDao;
+import io.jing.server.user.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 /**
  * @author jingshouyan
- * #date 2018/6/13 14:52
+ * #date 2018/7/6 23:14
  */
 @Component
-public class GetToken implements Method<Empty> {
+public class Me implements Method<Empty>{
 
     @Autowired
-    private TokenDao tokenDao;
+    private UserDao userDao;
     @Override
     public Object action(Empty empty) {
-        String ticket = ThreadLocalUtil.ticket();
-        Optional<TokenBean> tokenBeanOptional = tokenDao.find(ticket);
-        return tokenBeanOptional.orElseThrow(()->new MicroServiceException(UserCode.TICKET_INVALID));
+        String userId = ThreadLocalUtil.userId();
+        return userDao.find(userId)
+                .orElseThrow(()-> new MicroServiceException(UserCode.UNSER_NOT_FOUND));
     }
 }

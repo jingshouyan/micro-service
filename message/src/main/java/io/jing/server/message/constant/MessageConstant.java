@@ -8,10 +8,6 @@ import io.jing.server.constant.ServerConstant;
  * #date 2018/5/30 16:58
  */
 public interface MessageConstant extends ServerConstant {
-    String DS_DRIVER = ConfigSettings.get("datasource.driver").get();
-    String DS_USERNAME = ConfigSettings.get("datasource.username").get();
-    String DS_PASSWORD = ConfigSettings.get("datasource.password").get();
-    String DS_URL= ConfigSettings.get("datasource.url").get();
     int WS_PORT = ConfigSettings.get("ws.port").map(Integer::parseInt).orElse(8888);
     String HOST_NAME = ConfigSettings.get("host.name").orElse("localhost");
     String EVENT_MESSAGE = "message";

@@ -19,6 +19,7 @@
         <module>message</module>
         <module>relationship</module>
         <module>gateway</module>
+        <module>sms</module>
     </modules>
 
     <parent>
@@ -82,10 +83,17 @@
         <jackson.version>2.8.10</jackson.version>
         <netty-socketio.version>1.7.7</netty-socketio.version>
         <geoip2.version>2.12.0</geoip2.version>
+        <caffeine.version>2.6.2</caffeine.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.maxmind.geoip2</groupId>
                 <artifactId>geoip2</artifactId>

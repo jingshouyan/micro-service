@@ -43,6 +43,20 @@ public class Rsp {
     }
 
     public String json(){
-        return "{\"code\":"+code+",\"message\":\""+message+"\",\"data\":"+result+"}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"code\":");
+        sb.append(code);
+        sb.append(",\"message\":\"");
+        sb.append(message);
+        sb.append("\"");
+        if (result == null && data != null) {
+            result = JsonUtil.toJsonString(data);
+        }
+        if(result != null){
+            sb.append(",\"data\":");
+            sb.append(result);
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }

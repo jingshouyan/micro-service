@@ -18,6 +18,9 @@ public class Token {
     public Token(){
     }
 
+    public boolean valid(){
+        return userId != null && ticket != null;
+    }
 
 
     public Token(TokenBean tokenBean){

@@ -14,11 +14,13 @@ public class UserCode {
     public static final int USER_UNREGISTER = 10003;
     public static final int PASSWORD_WRONG = 10004;
     public static final int TICKET_INVALID = 10005;
+    public static final int UNSER_NOT_FOUND = 10006;
     static{
         Code.regCode(USERNAME_IN_USE,"username in use");
         Code.regCode(PASSWORD_ILLEGALLY,"password illegally");
         Code.regCode(USER_UNREGISTER,"user unregister");
         Code.regCode(PASSWORD_WRONG,"password wrong");
         Code.regCode(TICKET_INVALID,"ticket invalid");
+        Code.regCode(UNSER_NOT_FOUND,"user not found");
     }
 }

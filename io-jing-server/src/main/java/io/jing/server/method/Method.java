@@ -65,6 +65,7 @@ public interface Method<T> {
             sb.append("\t");
         }
         if(!cvs.isEmpty()){
+            sb.deleteCharAt(sb.length()-1);
             throw new MicroServiceException(Code.PARAM_INVALID,sb.toString());
         }
     }

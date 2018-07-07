@@ -67,7 +67,7 @@ public class MicroServiceImpl implements MicroService.Iface{
             Object result = method.actionWithValidate(obj);
             rsp = RspUtil.success(result);
         }catch (MicroServiceException e){
-            rsp = RspUtil.error(e.getCode(),e);
+            rsp = RspUtil.error(e);
         }catch (Exception e){
             log.error("call [{}] error.",methodName,e);
             rsp = RspUtil.error(Code.SERVER_ERROR,e);

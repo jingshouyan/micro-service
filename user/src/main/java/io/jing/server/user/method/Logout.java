@@ -18,9 +18,7 @@ public class Logout implements Method<Empty> {
 
     @Override
     public Object action(Empty empty) {
-        Token token = ThreadLocalUtil.getToken();
-        String ticket = token.getTicket();
-        assert ticket != null;
+        String ticket = ThreadLocalUtil.ticket();
         tokenDao.delete(ticket);
         return null;
     }
