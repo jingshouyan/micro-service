@@ -28,7 +28,7 @@ import java.util.concurrent.*;
 @Slf4j
 public class Register implements ServerConstant {
 
-    private static final long UPDATE_DELAY = 60;
+    private static final long UPDATE_DELAY = 600;
     public static final ServiceInfo SERVICE_INSTANCE = new ServiceInfo();
 
     private static final String host = NetUtil.getIp(THRIFT_SERVER_IP);

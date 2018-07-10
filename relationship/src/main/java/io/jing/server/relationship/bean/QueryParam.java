@@ -16,6 +16,6 @@ public class QueryParam {
     private String id = "";
     private long revision = 0;
     @Min(1)@Max(1000)
-    private int size = 10;
+    private int size = 1000;
     private boolean containDel = true;
 }

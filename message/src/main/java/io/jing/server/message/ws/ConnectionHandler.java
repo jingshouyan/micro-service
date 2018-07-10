@@ -71,7 +71,6 @@ public class ConnectionHandler  implements CommandLineRunner {
     public void onConnect(SocketIOClient client){
         String tokenId = client.getHandshakeData().getSingleUrlParam("token");
         String connId = client.getSessionId().toString();
-
         //TODO: check token
         if(tokenId == null){
             client.disconnect();

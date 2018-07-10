@@ -40,8 +40,9 @@ public class Api {
         Rsp rsp;
         try(InputStream in = request.getInputStream();
             ByteArrayOutputStream out = new ByteArrayOutputStream();){
-            String traceId = request.getHeader("traceId");
-            String ticket = request.getHeader("ticket");
+//            Thread.sleep(3000);
+            String traceId = request.getHeader("Trace-Id");
+            String ticket = request.getHeader("Ticket");
             traceId = traceId + "."+UUID.randomUUID();
             ThreadLocalUtil.setTraceId(traceId);
             byte[] buf = new byte[1024];
@@ -55,13 +56,17 @@ public class Api {
                 data = "{}";
             }
             String str = service+"."+method;
-            Token token = new Token();
+            Token token = Token.builder().ticket(ticket).build();
             if(!NO_AUTH.contains(str)){
                 token = tokenHelper.getToken(ticket);
             }
-            Req req = Req.builder().service(service).method(method).param(data).build();
-            rsp = ClientUtil.call(token,req);
-
+            if(str.equals(LOGOUT)){
+                tokenHelper.removeToken(token);
+                rsp = RspUtil.success();
+            } else {
+                Req req = Req.builder().service(service).method(method).param(data).build();
+                rsp = ClientUtil.call(token,req);
+            }
         }catch (MicroServiceException e) {
             rsp = RspUtil.error(e);
         }catch (Exception e) {
@@ -71,6 +76,11 @@ public class Api {
         return rsp.json();
     }
 
-    private static final Set<String> NO_AUTH = Sets.newHashSet("user.RegUser","user.Login");
+    private static final String LOGOUT = "user.Logout";
+    private static final Set<String> NO_AUTH = Sets.newHashSet(
+            "user.RegUser",
+            "user.Login",LOGOUT
+    );
+
 
 }

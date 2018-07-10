@@ -21,15 +21,16 @@ public class RegTest {
         token.setClientType(1);
         Req req = new Req();
         UserReg userReg = new UserReg();
-        userReg.setUsername("WWE_ERE");
-        userReg.setPassword("123");
+        userReg.setUsername("jingsy");
+        userReg.setPassword("123456");
+        userReg.setNickname("立刻解放");
 //        userReg.setUserType();
         req.setParamObj(userReg);
         req.setService("user");
         req.setMethod("RegUser");
         Rsp rsp = ClientUtil.call(token,req);
         System.out.println(rsp);
-        login("WWE_ERE","123");
+        login("jingle","J123456");
     }
 
     private static TokenBean login(String username,String password){

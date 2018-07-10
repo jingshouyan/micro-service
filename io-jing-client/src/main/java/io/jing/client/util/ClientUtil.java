@@ -39,11 +39,16 @@ public class ClientUtil {
     private static final long ZK_WAIT_TIMEOUT = 3000;
 
     public static Rsp call(Token token,Req req){
+        Rsp rsp;
+        log.info("call rpc | token:{}",token);
+        log.info("call rpc | req:{}",req);
         try{
-            return callRpc(token,req);
+            rsp = callRpc(token,req);
         }catch (MicroServiceException e){
-            return RspUtil.error(e);
+            rsp = RspUtil.error(e);
         }
+        log.info("call rpc | rsp:{}",rsp);
+        return rsp;
     }
 
     private static Rsp callRpc(Token token, Req req){
@@ -90,8 +95,8 @@ public class ClientUtil {
         }catch (MicroServiceException e){
             throw e;
         }catch (Exception e){
-            e.printStackTrace();
             TransportProvider.invalid(transport);
+            log.error("call rpc error",e);
             throw new MicroServiceException(Code.CLIENT_ERROR,e);
         }
     }

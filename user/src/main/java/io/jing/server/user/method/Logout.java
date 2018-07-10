@@ -6,11 +6,13 @@ import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.server.method.Method;
 import io.jing.server.user.dao.TokenDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author jingshouyan
  * #date 2018/6/11 20:39
  */
+@Component
 public class Logout implements Method<Empty> {
 
     @Autowired

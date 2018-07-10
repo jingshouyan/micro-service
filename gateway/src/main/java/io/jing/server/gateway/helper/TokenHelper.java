@@ -25,10 +25,11 @@ public class TokenHelper implements AppConstant {
             .expireAfterAccess(TOKEN_CACHE_DURATION_SECOND,TimeUnit.SECONDS)
             .build(ticket->{
                 Token token = new Token();
+                token.setTicket(ticket);
                 Req req = Req.builder().service("user").method("GetToken").param("{}").build();
                 Rsp rsp = ClientUtil.call(token,req);
                 if(rsp.getCode()!=Code.SUCCESS){
-                    throw new MicroServiceException(rsp.getCode());
+                    throw new MicroServiceException(rsp.getCode(),"user:"+rsp.getMessage());
                 }
                 token = rsp.get(Token.class);
                 return token;
@@ -38,9 +39,8 @@ public class TokenHelper implements AppConstant {
         return TOKEN_LOADING_CACHE.get(ticket);
     }
 
-    public void removeToken(String ticket){
-        Token token = getToken(ticket);
-        TOKEN_LOADING_CACHE.invalidate(ticket);
+    public void removeToken(Token token){
+        TOKEN_LOADING_CACHE.invalidate(token.getTicket());
         if(token.valid()){
             Req req = Req.builder().service("user").method("Logout").param("{}").build();
             ClientUtil.call(token,req);
