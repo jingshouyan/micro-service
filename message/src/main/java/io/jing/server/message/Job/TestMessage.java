@@ -8,6 +8,7 @@ import io.jing.server.message.method.SendMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 /**
  * @author jingshouyan
@@ -39,12 +40,12 @@ public class TestMessage implements CommandLineRunner {
     public void task(){
             i++;
             Token token = new Token();
-            token.setUserId("user200");
+            token.setUserId("222494662458343430");
             token.setTicket("user200");
             token.setClientType(1);
             ThreadLocalUtil.setToken(token);
             Message message = new Message();
-            message.setTargetId("user600");
+            message.setTargetId("222381119654330369");//"222381119654330369"
             message.setTargetType("user");
             message.setMessageType("text");
             Text text = new Text();
@@ -53,5 +54,6 @@ public class TestMessage implements CommandLineRunner {
             message.setFlag(0);
             message.setSentAt(System.currentTimeMillis());
             sendMessage.action(message);
+            log.info("{}",message);
     }
 }

@@ -6,8 +6,13 @@ import com.corundumstudio.socketio.annotation.OnConnect;
 import com.corundumstudio.socketio.annotation.OnDisconnect;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.jing.base.bean.Req;
+import io.jing.base.bean.Rsp;
 import io.jing.base.bean.Token;
+import io.jing.base.exception.MicroServiceException;
+import io.jing.base.util.code.Code;
 import io.jing.base.util.thread.ExecUtil;
+import io.jing.client.util.ClientUtil;
 import io.jing.server.message.bean.Message;
 import io.jing.server.message.bean.MessageBean;
 import io.jing.server.message.bean.MessagePush;
@@ -69,15 +74,19 @@ public class ConnectionHandler  implements CommandLineRunner {
 
     @OnConnect
     public void onConnect(SocketIOClient client){
-        String tokenId = client.getHandshakeData().getSingleUrlParam("token");
+        String ticket = client.getHandshakeData().getSingleUrlParam("ticket");
         String connId = client.getSessionId().toString();
-        //TODO: check token
-        if(tokenId == null){
+
+        Token token = Token.builder().ticket(ticket).build();
+        Req req = Req.builder().service("user").method("GetToken").param("{}").build();
+        Rsp rsp = ClientUtil.call(token,req);
+        if(rsp.getCode()!=Code.SUCCESS){
             client.disconnect();
             return;
         }
-        log.info("token[{}],sessionId[{}] connected.",tokenId,connId);
-        Token token = Token.builder().ticket(tokenId).userId(tokenId).clientType(1).build();
+        token = rsp.get(Token.class);
+
+        log.info("ticket[{}],conn[{}] connected.",ticket,connId);
         client.set(MessageConstant.WS_STORE_TOKEN,token);
         List<WsConnBean> oldList = wsConnDao.listByTicket(token.getTicket());
         if(!oldList.isEmpty()){
@@ -89,7 +98,7 @@ public class ConnectionHandler  implements CommandLineRunner {
                     .forEach(uuid->{
                         SocketIOClient oldClient = socketIOServer.getClient(uuid);
                         if(oldClient!=null){
-                            log.info("sessionId[{}] kicked",uuid);
+                            log.info("conn[{}] kicked",uuid);
                             oldClient.disconnect();
                         }
                     });
@@ -105,10 +114,12 @@ public class ConnectionHandler  implements CommandLineRunner {
     @OnDisconnect
     public void onDisconnect(SocketIOClient client){
         String id = client.getSessionId().toString();
-        log.info("sessionId[{}] disconnect",id);
+        log.info("conn[{}] disconnect",id);
         wsConnDao.delete(id);
         Token token = client.get(MessageConstant.WS_STORE_TOKEN);
-        wsConnCache.removeByUserId(token.getUserId());
+        if(token != null){
+            wsConnCache.removeByUserId(token.getUserId());
+        }
     }
 
     @Override
