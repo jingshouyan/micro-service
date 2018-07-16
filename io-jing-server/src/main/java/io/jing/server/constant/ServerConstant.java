@@ -15,7 +15,7 @@ public interface ServerConstant extends BaseConstant {
     String DS_USERNAME = ConfigSettings.get("datasource.username").orElse("");
     String DS_PASSWORD = ConfigSettings.get("datasource.password").orElse("");
     String DS_URL= ConfigSettings.get("datasource.url").orElse("");
-
+    long DS_INIT = ConfigSettings.get("datasource.init").map(Long::parseLong).orElse(1L);
     int THRIFT_SERVER_PORT_MIN = 11000;
     int THRIFT_SERVER_PORT_MAX = 12000;
 

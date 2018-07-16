@@ -14,12 +14,11 @@
         <module>io-jing-server</module>
         <module>io-jing-client</module>
         <module>user</module>
-        <module>io-jing-eureka</module>
-        <module>eureka-client</module>
         <module>message</module>
         <module>relationship</module>
         <module>gateway</module>
         <module>sms</module>
+        <module>db-provider</module>
     </modules>
 
     <parent>
@@ -142,6 +141,11 @@
             <dependency>
                 <groupId>io.jing</groupId>
                 <artifactId>util-jdbc-core</artifactId>
+                <version>${io.jing.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jing</groupId>
+                <artifactId>db-provider</artifactId>
                 <version>${io.jing.framework.version}</version>
             </dependency>
             <dependency>

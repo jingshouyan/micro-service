@@ -1,8 +1,8 @@
-package io.jing.server.relationship.config;
+package io.jing.server.db.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import io.jing.server.relationship.constant.RelationshipConstant;
+import io.jing.server.constant.ServerConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +12,12 @@ import javax.sql.DataSource;
 
 /**
  * @author jingshouyan
- * @date 2018/4/24 21:33
+ * #date 2018/7/13 10:12
  */
 @Configuration
 @Slf4j
-public class ServerConfig {
+public class DbConfig {
+
     @Bean
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
         DataSource dataSource = dataSource();
@@ -30,10 +31,10 @@ public class ServerConfig {
 
     private DataSource initDataSource(){
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(RelationshipConstant.DS_URL);
-        config.setDriverClassName(RelationshipConstant.DS_DRIVER);
-        config.setUsername(RelationshipConstant.DS_USERNAME);
-        config.setPassword(RelationshipConstant.DS_PASSWORD);
+        config.setJdbcUrl(ServerConstant.DS_URL);
+        config.setDriverClassName(ServerConstant.DS_DRIVER);
+        config.setUsername(ServerConstant.DS_USERNAME);
+        config.setPassword(ServerConstant.DS_PASSWORD);
         config.setMaximumPoolSize(20);
         config.setMinimumIdle(5);
         config.addDataSourceProperty("cachePrepStmts", "true");
@@ -42,5 +43,4 @@ public class ServerConfig {
         HikariDataSource dataSource = new HikariDataSource(config);
         return dataSource;
     }
-
 }

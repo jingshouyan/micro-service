@@ -37,6 +37,7 @@ public class MicroServiceImpl implements MicroService.Iface{
 
     @Override
     public void send(TokenBean token, ReqBean req){
+        req.setOneWay(true);
         call(token,req);
     }
 
