@@ -5,6 +5,7 @@ import io.jing.base.bean.Req;
 import io.jing.base.bean.Token;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.client.util.ClientUtil;
+import io.jing.server.db.helper.IdHelper;
 import io.jing.server.message.bean.Message;
 import io.jing.server.message.bean.MessageBean;
 import io.jing.server.message.bean.MessagePush;
@@ -40,20 +41,43 @@ public class SendMessage implements Method<Message> {
     @Autowired
     private WsConnCache wsConnCache;
 
+    @Autowired
+    private IdHelper idHelper;
+
 
     @Override
     public Object action(Message message) {
-        message.setId(IdUtil.longId());
-        message.setSenderId(ThreadLocalUtil.getToken().getUserId());
+        message.setId(idHelper.genId(MessageConstant.ID_TYPE_MESSAGE));
+        message.setSenderId(ThreadLocalUtil.userId());
+        String ticket = ThreadLocalUtil.ticket();
+        int clientType = ThreadLocalUtil.getToken().getClientType();
         message.setSentAt(System.currentTimeMillis());
         List<String> userIdList = relatedUserId(message);
         if(!userIdList.isEmpty()){
             List<MessageBean> messageBeanList = userIdList.stream()
                     .map(userId -> MessageConverter.toMessageBean(userId,message))
+                    .map(messageBean -> {
+                        if(messageBean.getUserId().equals(messageBean.getSenderId())){
+                            switch (clientType){
+                                case 1:
+                                    messageBean.setPush1(MessageConstant.MESSAGE_PUSH_YES);
+                                    break;
+                                case 2:
+                                    messageBean.setPush2(MessageConstant.MESSAGE_PUSH_YES);
+                                    break;
+                                case 3:
+                                    messageBean.setPush3(MessageConstant.MESSAGE_PUSH_YES);
+                                    break;
+                            }
+                            messageBean.setPush(MessageConstant.MESSAGE_PUSH_YES);
+                        }
+                        return messageBean;
+                    })
                     .collect(Collectors.toList());
             messageDao.batchInsert(messageBeanList);
             List<WsConnBean> wsConnBeanList = wsConnCache.getByUserIds(userIdList);
             Map<String,List<WsConnBean>> map = wsConnBeanList.stream()
+                    .filter(wsConnBean -> !wsConnBean.getTicket().equals(ticket))
                     .collect(Collectors.groupingBy(WsConnBean::getServiceInstance));
             String thisInstance = Register.SERVICE_INSTANCE.key();
             map.forEach((serviceInstance,connList)->{
@@ -82,7 +106,7 @@ public class SendMessage implements Method<Message> {
                 }
             });
         }
-        return null;
+        return message;
     }
 
     private List<String> relatedUserId(Message message){
@@ -95,10 +119,10 @@ public class SendMessage implements Method<Message> {
                 }
                 break;
             default:
-                log.warn("Unsupport targetType[{}]",message.getMessageType());
+                log.warn("Unsupport targetType[{}]",message.getTargetType());
                 break;
         }
-        if(message.getRelatedUsers()!=null){
+        if(message.getRelatedUsers()!=null && !message.getRelatedUsers().isEmpty()){
             userIdList = userIdList.stream()
                     .filter(message.getRelatedUsers()::contains)
                     .collect(Collectors.toList());

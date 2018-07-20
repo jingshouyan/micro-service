@@ -16,4 +16,6 @@ public interface UserConstant extends ServerConstant {
     String RESOURCE_PATH = "META-INF/resources";
     String Ticket = "ticket";
     AttributeKey<Token> TOKEN_KEY = AttributeKey.valueOf("user.token");
+
+    String ID_TYPE_USER = "user";
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class Message {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+//    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long id;
     private String senderId;
     @NotNull
@@ -23,7 +23,7 @@ public class Message {
     @NotNull
     private String messageType;
     private Text text;
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+//    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long flag;
     private List<String> relatedUsers;
     private long sentAt;

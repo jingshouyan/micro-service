@@ -21,4 +21,6 @@ public interface MessageConstant extends ServerConstant {
     int NON_PUSH_MESSAGE_FITCH_SIZE = 2000;
 
     long CONN_HANDLE_DELAY = 1000;
+
+    String ID_TYPE_MESSAGE = "message";
 }

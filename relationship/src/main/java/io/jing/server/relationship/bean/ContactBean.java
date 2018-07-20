@@ -18,12 +18,19 @@ public class ContactBean extends BaseBean {
     @Key
     @Column(length = Constant.ID_FIELD_LENGTH)
     private String id;
+    @Column(comment = "我的id",index = true)
     private String myId;
+    @Column(comment = "联系人id")
     private String userId;
+    @Column(comment = "联系人昵称")
     private String nickname;
+    @Column(comment = "联系人头像")
     private String icon;
+    @Column(comment = "联系人备注")
     private String remark;
+    @Column(comment = "联系人类型")
     private Integer type;
+    @Column(comment = "版本号")
     private Long revision;
 
     public String genId(){

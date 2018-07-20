@@ -16,4 +16,6 @@ public interface RelationshipConstant extends ServerConstant {
     int ROOM_LEVEL_OWNER = 3;
     int ROOM_LEVEL_ADMIN = 2;
     int ROOM_LEVEL_NORMAL = 1;
+
+    String ID_TYPE_ROOM = "room";
 }

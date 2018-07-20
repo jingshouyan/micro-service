@@ -3,6 +3,7 @@ package io.jing.server.relationship.method;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
+import io.jing.server.db.helper.IdHelper;
 import io.jing.server.method.Method;
 import io.jing.server.relationship.bean.RoomBean;
 import io.jing.server.relationship.bean.RoomCreate;
@@ -30,11 +31,14 @@ public class CreateRoom implements Method<RoomCreate> {
     @Autowired
     private RoomUserDao roomUserDao;
 
+    @Autowired
+    private IdHelper idHelper;
+
     @Override
     public Object action(RoomCreate roomCreate) {
         String myId = ThreadLocalUtil.userId();
         RoomBean roomBean = new RoomBean();
-        roomBean.setId(IdUtil.stringId());
+        roomBean.setId(idHelper.genIdStr(RelationshipConstant.ID_TYPE_ROOM));
         roomBean.setName(roomCreate.getName());
         roomBean.setIcon(roomCreate.getIcon());
         roomBean.setRevision(IdUtil.longId());

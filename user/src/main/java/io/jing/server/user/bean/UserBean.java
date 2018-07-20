@@ -19,11 +19,15 @@ import lombok.ToString;
 public class UserBean extends BaseBean {
     @Key
     private String id;
+    @Column(index = true,comment = "账号")
     private String username;
+    @Column(comment = "昵称")
     private String nickname;
-    @Column(length = Constant.VARCHAR_MAX_LENGTH)
+    @Column(length = Constant.VARCHAR_MAX_LENGTH,comment = "头像")
     private String icon;
     @JsonIgnore
+    @Column(comment = "密码hash")
     private String pwHash;
+    @Column(comment = "用户类型")
     private Integer userType;
 }

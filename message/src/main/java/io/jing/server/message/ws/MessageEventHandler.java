@@ -4,6 +4,7 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.annotation.OnEvent;
 import io.jing.base.bean.Req;
+import io.jing.base.bean.Rsp;
 import io.jing.base.bean.Token;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.server.iface.MicroServiceImpl;
@@ -33,13 +34,13 @@ public class MessageEventHandler {
         Token token = ThreadLocalUtil.getToken();
         Req req = Req.builder()
                 .service(MessageConstant.THRIFT_SERVER_NAME)
-                .oneWay(true)
+                .oneWay(false)
                 .method("SendMessage")
                 .paramObj(message)
                 .build();
 
-        microService.run(token,req);
-
+        Rsp rsp = microService.run(token,req);
+        request.sendAckData(rsp);
         ThreadLocalUtil.removeToken();
         ThreadLocalUtil.removeTrace();
     }
