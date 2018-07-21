@@ -24,8 +24,9 @@ public class GetUser implements Method<UserGet> {
     @Override
     public Object action(UserGet userGet) {
         List<Compare> compares = CompareUtil.newInstance()
-                .field("id").in(userGet.getIdList())
+                .field("id").in(userGet.getIds())
                 .compares();
+        System.out.println(compares);
         return userDao.query(compares);
     }
 }

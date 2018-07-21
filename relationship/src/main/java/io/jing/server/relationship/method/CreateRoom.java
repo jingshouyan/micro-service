@@ -41,7 +41,7 @@ public class CreateRoom implements Method<RoomCreate> {
         roomBean.setId(idHelper.genIdStr(RelationshipConstant.ID_TYPE_ROOM));
         roomBean.setName(roomCreate.getName());
         roomBean.setIcon(roomCreate.getIcon());
-        roomBean.setRevision(IdUtil.longId());
+        roomBean.setRevision(idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_REVISION));
         roomBean.forCreate();
 
         Set<String> uSet = Sets.newHashSet(myId);
@@ -51,9 +51,10 @@ public class CreateRoom implements Method<RoomCreate> {
         owner.setRemark("");
         owner.setRoomId(roomBean.getId());
         owner.setUserLevel(RelationshipConstant.ROOM_LEVEL_OWNER);
-        owner.setRevisionUser(IdUtil.longId());
-        owner.setRevisionRoom(IdUtil.longId());
+        owner.setRevisionUser(idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_USER_REVISION));
+        owner.setRevisionRoom(roomBean.getRevision());
         owner.forCreate();
+        roomUserBeanList.add(owner);
         for (RoomUser roomUser : roomCreate.getRoomUsers()){
             if(uSet.contains(roomUser.getUserId())){
                 continue;
@@ -64,7 +65,7 @@ public class CreateRoom implements Method<RoomCreate> {
             roomUserBean.setRemark(roomUser.getRemark());
             roomUserBean.setRoomId(roomBean.getId());
             roomUserBean.setUserLevel(roomUser.getUserLevel());
-            roomUserBean.setRevisionUser(IdUtil.longId());
+            roomUserBean.setRevisionUser(idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_USER_REVISION));
             roomUserBean.setRevisionRoom(roomBean.getRevision());
             roomUserBean.genId();
             roomUserBean.forCreate();

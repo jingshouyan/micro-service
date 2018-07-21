@@ -14,6 +14,7 @@ import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.protocol.TSimpleJSONProtocol;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -53,7 +54,7 @@ public class JsonUtil implements BaseConstant {
     }
     @SneakyThrows
     public static <T> List<T> toList(String json, Class<T> clazz){
-        JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructArrayType(clazz);
+        JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructParametricType(ArrayList.class,clazz);
         return OBJECT_MAPPER.readValue(json,javaType);
     }
     @SneakyThrows

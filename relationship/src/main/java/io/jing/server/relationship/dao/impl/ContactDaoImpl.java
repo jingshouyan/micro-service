@@ -1,12 +1,15 @@
 package io.jing.server.relationship.dao.impl;
 
+import io.jing.server.db.helper.IdHelper;
 import io.jing.server.relationship.bean.ContactBean;
+import io.jing.server.relationship.constant.RelationshipConstant;
 import io.jing.server.relationship.dao.ContactDao;
 import io.jing.util.jdbc.core.dao.impl.BaseDaoImpl;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
 import io.jing.util.jdbc.core.util.db.Page;
 import io.jing.util.jdbc.core.util.keygen.IdUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,6 +20,10 @@ import java.util.List;
  */
 @Repository
 public class ContactDaoImpl extends BaseDaoImpl<ContactBean> implements ContactDao {
+
+    @Autowired
+    private IdHelper idHelper;
+
     @Override
     public List<ContactBean> ListContacts(String myId, long revision, int size, boolean containDel) {
         List<Compare> compares = CompareUtil.newInstance()
@@ -38,8 +45,7 @@ public class ContactDaoImpl extends BaseDaoImpl<ContactBean> implements ContactD
     @Override
     public int addContacts(ContactBean contactsBean){
         String id = contactsBean.genId();
-        contactsBean.setRevision(IdUtil.longId());
-        contactsBean.forUpdate();
+        contactsBean.forUndelete();
         int fetch = update(contactsBean);
         if(fetch==0){
             contactsBean.forCreate();
@@ -54,7 +60,7 @@ public class ContactDaoImpl extends BaseDaoImpl<ContactBean> implements ContactD
         contactsBean.setMyId(myId);
         contactsBean.setUserId(userId);
         contactsBean.genId();
-        contactsBean.setRevision(IdUtil.longId());
+        contactsBean.setRevision(idHelper.genId(RelationshipConstant.ID_TYPE_CONTACT_REVISION));
         contactsBean.forDelete();
         return update(contactsBean);
     }
