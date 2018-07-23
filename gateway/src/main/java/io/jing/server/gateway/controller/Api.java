@@ -35,7 +35,7 @@ public class Api {
     @Autowired
     private TokenHelper tokenHelper;
 
-    @RequestMapping(path = "api/{service}/{method}.json")
+    @RequestMapping(path = "{service}/{method}.json")
     public String api(@PathVariable String service, @PathVariable String method, HttpServletRequest request) throws Exception{
         Rsp rsp;
         try(InputStream in = request.getInputStream();

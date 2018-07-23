@@ -18,6 +18,11 @@ public interface SmsConstant extends ServerConstant {
     String SEND_CODE_URL = "https://api.netease.im/sms/sendcode.action";
     long JWT_PERIOD = ConfigSettings.get("jwt.period.mm").map(Long::valueOf).orElse(10L)*60*1000L;
 
+    int PAY92_PAYID = ConfigSettings.get("pay92.payId").map(Integer::parseInt).orElse(4);
+    String PAY92_PAYKEY = ConfigSettings.get("pay92.payKey").orElse("");
+    String PAY92_NOTIFY_URL = ConfigSettings.get("pay92.Notify_url").orElse("");
+    String PAY92_RETURN_URL = ConfigSettings.get("pay92.Return_url").orElse("");
+    String PAY92_PAY_URL = ConfigSettings.get("pay92.pay_url").orElse("");
     int CODE_STATE_OK = 1;
     int CODE_STATE_NO = 2;
 }
