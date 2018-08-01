@@ -56,7 +56,7 @@ public class SendMessage implements Method<Message> {
         if(!userIdList.isEmpty()){
             List<MessageBean> messageBeanList = userIdList.stream()
                     .map(userId -> MessageConverter.toMessageBean(userId,message))
-                    .map(messageBean -> {
+                    .peek(messageBean -> {
                         if(messageBean.getUserId().equals(messageBean.getSenderId())){
                             switch (clientType){
                                 case 1:
@@ -71,7 +71,6 @@ public class SendMessage implements Method<Message> {
                             }
                             messageBean.setPush(MessageConstant.MESSAGE_PUSH_YES);
                         }
-                        return messageBean;
                     })
                     .collect(Collectors.toList());
             messageDao.batchInsert(messageBeanList);

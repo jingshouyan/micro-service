@@ -30,6 +30,8 @@ public class MessageBean extends BaseBean {
     private String data;
     private Long flag;
     @Column(length = Constant.VARCHAR_MAX_LENGTH,json = true)
+    private List<String> atUsers;
+    @Column(length = Constant.VARCHAR_MAX_LENGTH,json = true)
     private List<String> relatedUsers;
     private Long sentAt;
     private Integer push1;

@@ -19,8 +19,7 @@ import javax.sql.DataSource;
 public class DbConfig {
 
     @Bean
-    public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
-        DataSource dataSource = dataSource();
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
         return new NamedParameterJdbcTemplate(dataSource);
     }
 

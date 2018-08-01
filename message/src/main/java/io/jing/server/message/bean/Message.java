@@ -26,6 +26,7 @@ public class Message {
 //    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private long flag;
     private List<String> relatedUsers;
+    private List<String> atUsers;
     private long sentAt;
 
     public boolean selfMessage(){
