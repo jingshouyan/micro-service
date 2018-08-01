@@ -10,4 +10,6 @@ import io.jing.server.constant.ServerConstant;
 public interface AppConstant extends ServerConstant {
     long TOKEN_CACHE_SIZE = ConfigSettings.get("token.cache.size").map(Long::valueOf).orElse(10000L);
     long TOKEN_CACHE_DURATION_SECOND = ConfigSettings.get("token.cache.duration.second").map(Long::valueOf).orElse(120L);
+
+    String UPLOAD_PATH = "./upload/";
 }
