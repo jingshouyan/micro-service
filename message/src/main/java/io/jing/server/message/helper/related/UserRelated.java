@@ -16,11 +16,7 @@ public class UserRelated implements Related{
         if(!message.selfMessage()){
             userIdList.add(message.getTargetId());
         }
-        if(message.getRelatedUsers()!=null && !message.getRelatedUsers().isEmpty()){
-            userIdList = userIdList.stream()
-                    .filter(message.getRelatedUsers()::contains)
-                    .collect(Collectors.toList());
-        }
+        userIdList = filterRelated(message,userIdList);
         function.apply(userIdList);
     }
 }
