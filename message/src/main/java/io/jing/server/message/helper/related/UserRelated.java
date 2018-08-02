@@ -1,22 +1,25 @@
-package io.jing.server.message.related;
+package io.jing.server.message.helper.related;
 
 import com.google.common.collect.Lists;
 import io.jing.server.message.bean.Message;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.function.Consumer;
 
+@Component
 public class UserRelated implements Related{
 
     @Override
-    public void r(Message message, Function<List<String>, Boolean> function) {
+    public void actionBatch(Message message, Consumer<List<String>> consumer) {
         List<String> userIdList = Lists.newArrayList();
         userIdList.add(message.getSenderId());
         if(!message.selfMessage()){
             userIdList.add(message.getTargetId());
         }
         userIdList = filterRelated(message,userIdList);
-        function.apply(userIdList);
+        if(!userIdList.isEmpty()){
+            consumer.accept(userIdList);
+        }
     }
 }

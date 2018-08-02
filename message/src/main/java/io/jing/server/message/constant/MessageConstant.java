@@ -23,4 +23,7 @@ public interface MessageConstant extends ServerConstant {
     long CONN_HANDLE_DELAY = 1000;
 
     String ID_TYPE_MESSAGE = "message";
+
+    String MESSAGE_TARGET_TYPE_USER = "user";
+    String MESSAGE_TARGET_TYPE_ROOM = "room";
 }
