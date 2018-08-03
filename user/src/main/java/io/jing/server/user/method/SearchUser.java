@@ -1,10 +1,9 @@
-package io.jing.server.relationship.method;
+package io.jing.server.user.method;
 
 import io.jing.server.method.Method;
-
-import io.jing.server.relationship.bean.RoomBean;
-import io.jing.server.relationship.bean.SearchReq;
-import io.jing.server.relationship.dao.RoomDao;
+import io.jing.server.user.bean.SearchReq;
+import io.jing.server.user.bean.UserBean;
+import io.jing.server.user.dao.UserDao;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
 import io.jing.util.jdbc.core.util.db.Page;
@@ -18,21 +17,20 @@ import java.util.List;
  * #date 2018/6/16 16:23
  */
 @Component
-public class Search implements Method<SearchReq> {
+public class SearchUser implements Method<SearchReq> {
 
     @Autowired
-    private RoomDao roomDao;
+    private UserDao userDao;
 
     @Override
     public Object action(SearchReq queryBean) {
         List<Compare> compares = CompareUtil.newInstance()
-                .field("name").like("%"+queryBean.getQ()+"%")
-                .field("deleteAt").eq(-1)
+                .field("nickname").like("%"+queryBean.getQ()+"%")
+                .field("deletedAt").eq(-1)
                 .compares();
-        Page<RoomBean> page = new Page<>();
+        Page<UserBean> page = new Page<>();
         page.setPage(queryBean.getPage());
         page.setPageSize(queryBean.getSize());
-        page = roomDao.query(compares,page);
-        return page;
+        return userDao.queryLimit(compares,page);
     }
 }

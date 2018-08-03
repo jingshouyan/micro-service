@@ -19,7 +19,7 @@ import java.util.Optional;
  * @author jingshouyan
  * @date 2018/4/27 21:09
  */
-@Component
+//@Component
 public class ChatServer implements Runnable,Closeable {
     private final EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     private final EventLoopGroup workerGroup  = new NioEventLoopGroup();

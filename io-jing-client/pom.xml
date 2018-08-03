@@ -16,6 +16,10 @@
             <groupId>io.jing</groupId>
             <artifactId>io-jing-base</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.jing</groupId>
+            <artifactId>io-jing-server</artifactId>
+        </dependency>
         <!-- zookeeper -->
         <dependency>
             <groupId>org.apache.curator</groupId>
@@ -24,11 +28,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
         </dependency>
 
         <dependency>

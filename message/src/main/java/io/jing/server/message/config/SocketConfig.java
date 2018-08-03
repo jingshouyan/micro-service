@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ServerConfig {
+public class SocketConfig {
 
     @Bean
     public SocketIOServer socketIOServer(){

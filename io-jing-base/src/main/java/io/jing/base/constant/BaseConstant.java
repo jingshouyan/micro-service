@@ -16,6 +16,7 @@ public interface BaseConstant {
     String LOG_REF = ConfigSettings.get("log.ref").orElse("STDOUT");
     String TRACE_ID = "TRACE_ID";
     String INVALID_CODE_PREFIX = "CODE:";
+    boolean ALL_IN_ONE = ConfigSettings.get("all.in.one").filter("true"::equalsIgnoreCase).isPresent();
 
 
 }

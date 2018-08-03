@@ -19,6 +19,7 @@
         <module>gateway</module>
         <module>sms</module>
         <module>db-provider</module>
+        <module>sign</module>
     </modules>
 
     <parent>

@@ -1,0 +1,8 @@
+server:
+  port: 9000
+  context-path: /api
+spring:
+  http:
+    multipart:
+      max-file-size: 10Mb
+      max-request-size: 10Mb

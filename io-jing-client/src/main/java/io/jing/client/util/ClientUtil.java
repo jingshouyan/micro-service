@@ -2,6 +2,7 @@ package io.jing.client.util;
 
 import com.google.common.collect.Maps;
 import io.jing.base.bean.*;
+import io.jing.base.constant.BaseConstant;
 import io.jing.base.exception.MicroServiceException;
 import io.jing.base.thrift.MicroService;
 import io.jing.base.thrift.ReqBean;
@@ -9,11 +10,13 @@ import io.jing.base.thrift.RspBean;
 import io.jing.base.thrift.TokenBean;
 import io.jing.base.util.code.Code;
 import io.jing.base.util.id.IdGen;
+import io.jing.base.util.json.JsonUtil;
 import io.jing.base.util.rsp.RspUtil;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.client.listener.ZkListener;
 import io.jing.client.transport.Transport;
 import io.jing.client.transport.TransportProvider;
+import io.jing.server.iface.MicroServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.shaded.com.google.common.collect.Lists;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -37,8 +40,18 @@ public class ClientUtil {
     private static final Map<String,List<ServiceInfo>> SERVICE_INFO_MAP = Maps.newConcurrentMap();
     private static final CountDownLatch COUNT_DOWN_LATCH = new CountDownLatch(1);
     private static final long ZK_WAIT_TIMEOUT = 3000;
+    private static final MicroServiceImpl MICRO_SERVICE = new MicroServiceImpl();
 
     public static Rsp call(Token token,Req req){
+        //如果是单服务
+        if(BaseConstant.ALL_IN_ONE){
+            Rsp r = MICRO_SERVICE.run(token,req);
+            if(r.getData()!=null){
+                r.setResult(JsonUtil.toJsonString(r.getData()));
+            }
+            return r;
+        }
+
         Rsp rsp;
         log.info("call rpc | token:{}",token);
         log.info("call rpc | req:{}",req);

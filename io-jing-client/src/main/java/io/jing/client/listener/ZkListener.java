@@ -1,7 +1,7 @@
 package io.jing.client.listener;
 
-import com.alibaba.fastjson.JSON;
 import io.jing.base.bean.ServiceInfo;
+import io.jing.base.util.json.JsonUtil;
 import io.jing.client.constant.ClientConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
@@ -65,7 +65,7 @@ public class ZkListener implements ClientConstant {
         ServiceInfo info = null;
         if (null != data && !"".equals(data)) {
             try {
-                info = JSON.parseObject(data, ServiceInfo.class);
+                info = JsonUtil.toBean(data, ServiceInfo.class);
             } catch (Exception e) {
                 log.warn("data:[{}] convert to ServiceInfo error", data, e);
             }
