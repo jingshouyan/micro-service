@@ -43,7 +43,7 @@ public class Api {
 //            Thread.sleep(3000);
             String traceId = request.getHeader("Trace-Id");
             String ticket = request.getHeader("Ticket");
-            traceId = traceId + "."+UUID.randomUUID();
+//            traceId = traceId + "."+UUID.randomUUID();
             ThreadLocalUtil.setTraceId(traceId);
             byte[] buf = new byte[1024];
             int len = 0;

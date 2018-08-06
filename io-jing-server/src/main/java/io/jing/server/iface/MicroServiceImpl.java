@@ -4,6 +4,7 @@ import io.jing.base.bean.Req;
 import io.jing.base.bean.ReqAndRsp;
 import io.jing.base.bean.Rsp;
 import io.jing.base.bean.Token;
+import io.jing.base.constant.BaseConstant;
 import io.jing.base.exception.MicroServiceException;
 import io.jing.base.thrift.MicroService;
 import io.jing.base.thrift.ReqBean;
@@ -73,7 +74,10 @@ public class MicroServiceImpl implements MicroService.Iface{
             log.error("call [{}] error.",methodName,e);
             rsp = RspUtil.error(Code.SERVER_ERROR,e);
         }finally {
-            ThreadLocalUtil.removeToken();
+            //不是单机模式,需要清除token
+            if(!BaseConstant.ALL_IN_ONE){
+                ThreadLocalUtil.removeToken();
+            }
         }
         long end = System.currentTimeMillis();
         long cost = end - start;
