@@ -78,7 +78,7 @@ public class ConnectionHandler  implements CommandLineRunner {
         String connId = client.getSessionId().toString();
 
         Token token = Token.builder().ticket(ticket).build();
-        Req req = Req.builder().service("user").method("GetToken").param("{}").build();
+        Req req = Req.builder().service("user").method("getToken").param("{}").build();
         Rsp rsp = ClientUtil.call(token,req);
         if(rsp.getCode()!=Code.SUCCESS){
             client.disconnect();
