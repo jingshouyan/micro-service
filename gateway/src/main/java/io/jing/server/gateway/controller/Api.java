@@ -76,10 +76,10 @@ public class Api {
         return rsp.json();
     }
 
-    private static final String LOGOUT = "user.Logout";
+    private static final String LOGOUT = "user.logout";
     private static final Set<String> NO_AUTH = Sets.newHashSet(
-            "user.RegUser",
-            "user.Login",LOGOUT
+            "user.regUser",
+            "user.login",LOGOUT
     );
 
 
