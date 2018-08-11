@@ -13,7 +13,7 @@ import java.util.List;
  * #date 2018/6/16 16:36
  */
 @Getter@Setter@ToString
-public class UserGet {
+public class UserIds {
     @NotNull
     @Size(min = 1,max = 1000)
     List<String> ids;
