@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @author jingshouyan
  * #date 2018/6/4 14:08
  */
-@Component("message.push")
+@Component("message.pushMessage")
 @Slf4j
 public class PushMessage implements Method<MessagePush> , CommandLineRunner {
 

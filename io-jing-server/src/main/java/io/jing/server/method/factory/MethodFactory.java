@@ -1,6 +1,7 @@
 package io.jing.server.method.factory;
 
 import com.google.common.collect.Maps;
+import io.jing.base.constant.BaseConstant;
 import io.jing.base.exception.MicroServiceException;
 import io.jing.base.util.code.Code;
 import io.jing.server.method.Method;
@@ -26,15 +27,20 @@ public class MethodFactory {
     @PostConstruct
     private void init() {
         Map<String, Method> methods = ctx.getBeansOfType(Method.class);
-        for (Method method : methods.values()) {
-            register(method);
-        }
+        methods.forEach((key,method) -> {
+            if(BaseConstant.ALL_IN_ONE){
+                register(key,method);
+            }else {
+                String[] ss = key.split("\\.");
+                key = ss[ss.length -1];
+                register(key,method);
+            }
+        });
     }
 
-    public static void register(Method method){
-        String methodName = method.getClass().getSimpleName();
-        METHOD_MAP.put(methodName,method);
-        log.info("method register [{} = {}]", methodName, method);
+    public static void register(String name,Method method){
+        METHOD_MAP.put(name,method);
+        log.info("method register [{} = {}]", name, method);
     }
 
     public static Method getMethod(String methodName){

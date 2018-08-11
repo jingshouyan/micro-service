@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * @author jingshouyan
  * #date 2018/6/1 13:18
  */
-@Component("message.send")
+@Component("message.sendMessage")
 @Slf4j
 public class SendMessage implements Method<Message> {
 
@@ -112,7 +112,7 @@ public class SendMessage implements Method<Message> {
                         .service(MessageConstant.THRIFT_SERVER_NAME)
                         .router(serviceInstance)
                         .oneWay(true)
-                        .method("PushMessage")
+                        .method("pushMessage")
                         .paramObj(messagePush)
                         .build();
                 ClientUtil.call(token,req);

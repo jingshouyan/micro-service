@@ -11,7 +11,7 @@ public class FactoryTest {
     public static void main(String[] args) {
         try{
             TestMethod testMethod = new TestMethod();
-            MethodFactory.register(testMethod);
+            MethodFactory.register("TestMethod",testMethod);
             Method method = MethodFactory.getMethod("TestMethod");
             System.out.println(method);
             method = MethodFactory.getMethod("abc");
