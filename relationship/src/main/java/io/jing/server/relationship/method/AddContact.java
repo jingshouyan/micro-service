@@ -52,7 +52,7 @@ public class AddContact implements Method<ContactAdd> {
 
     private UserBean getUser(String id){
         Token token = ThreadLocalUtil.getToken();
-        Req req = Req.builder().service("user").method("GetUser").param("{\"ids\":[\""+id+"\"]}").build();
+        Req req = Req.builder().service("user").method("getUser").param("{\"ids\":[\""+id+"\"]}").build();
         Rsp rsp = ClientUtil.call(token,req);
         if(rsp.getCode() == Code.SUCCESS){
             List<UserBean> userBeanList = rsp.list(UserBean.class);
