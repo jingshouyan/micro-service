@@ -27,7 +27,8 @@ import java.util.stream.Collectors;
  * @author jingshouyan
  * #date 2018/6/4 14:08
  */
-@Component@Slf4j
+@Component("message.push")
+@Slf4j
 public class PushMessage implements Method<MessagePush> , CommandLineRunner {
 
     private final BlockingQueue<MessageRes> queue = new LinkedBlockingDeque<>(10000);

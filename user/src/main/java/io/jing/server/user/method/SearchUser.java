@@ -16,7 +16,7 @@ import java.util.List;
  * @author jingshouyan
  * #date 2018/6/16 16:23
  */
-@Component
+@Component("user.searchUser")
 public class SearchUser implements Method<SearchReq> {
 
     @Autowired
@@ -31,6 +31,6 @@ public class SearchUser implements Method<SearchReq> {
         Page<UserBean> page = new Page<>();
         page.setPage(queryBean.getPage());
         page.setPageSize(queryBean.getSize());
-        return userDao.queryLimit(compares,page);
+        return userDao.query(compares,page);
     }
 }

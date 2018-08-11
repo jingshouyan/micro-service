@@ -23,7 +23,7 @@ import java.util.Set;
  * @author jingshouyan
  * #date 2018/6/14 15:30
  */
-@Component
+@Component("relationship.createRoom")
 public class CreateRoom implements Method<RoomCreate> {
 
     @Autowired

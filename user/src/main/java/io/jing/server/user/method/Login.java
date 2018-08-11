@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @author jingshouyan
  * #date 2018/6/11 19:56
  */
-@Component
+@Component("user.login")
 public class Login implements Method<UserLogin> {
 
     @Autowired

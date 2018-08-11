@@ -20,7 +20,7 @@ import java.util.Optional;
  * @author jingshouyan
  * #date 2018/6/16 15:18
  */
-@Component
+@Component("relationship.listRoomUser")
 public class ListRoomUser implements Method<QueryParam> {
 
     @Autowired

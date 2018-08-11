@@ -28,7 +28,8 @@ import java.util.stream.Collectors;
  * @author jingshouyan
  * #date 2018/6/1 13:18
  */
-@Component@Slf4j
+@Component("message.send")
+@Slf4j
 public class SendMessage implements Method<Message> {
 
     @Autowired

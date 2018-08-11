@@ -24,7 +24,7 @@ import java.util.List;
  * @author jingshouyan
  * #date 2018/6/13 11:08
  */
-@Component
+@Component("relationship.addContact")
 public class AddContact implements Method<ContactAdd> {
 
     @Autowired

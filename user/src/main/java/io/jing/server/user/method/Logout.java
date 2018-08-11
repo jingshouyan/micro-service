@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @author jingshouyan
  * #date 2018/6/11 20:39
  */
-@Component
+@Component("user.logout")
 public class Logout implements Method<Empty> {
 
     @Autowired

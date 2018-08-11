@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @author jingshouyan
  * #date 2018/6/13 14:32
  */
-@Component
+@Component("relationship.listContact")
 public class ListContact implements Method<QueryParam> {
 
     @Autowired

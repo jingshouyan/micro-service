@@ -15,7 +15,7 @@ import java.util.List;
  * @author jingshouyan
  * #date 2018/6/16 16:36
  */
-@Component
+@Component("user.getUser")
 public class GetUser implements Method<UserGet> {
 
     @Autowired

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @author jingshouyan
  * #date 2018/6/13 12:17
  */
-@Component
+@Component("relationship.delContact")
 public class DelContact implements Method<ContactDel> {
     @Autowired
     private ContactDao contactDao;

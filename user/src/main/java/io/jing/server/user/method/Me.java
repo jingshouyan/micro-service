@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @author jingshouyan
  * #date 2018/7/6 23:14
  */
-@Component
+@Component("user.me")
 public class Me implements Method<Empty>{
 
     @Autowired

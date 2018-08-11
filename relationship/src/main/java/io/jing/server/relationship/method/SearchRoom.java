@@ -17,7 +17,7 @@ import java.util.List;
  * @author jingshouyan
  * #date 2018/6/16 16:23
  */
-@Component
+@Component("relationship.searchRoom")
 public class SearchRoom implements Method<SearchReq> {
 
     @Autowired

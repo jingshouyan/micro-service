@@ -16,7 +16,7 @@ import java.util.Optional;
  * @author jingshouyan
  * #date 2018/6/13 14:52
  */
-@Component
+@Component("user.getToken")
 public class GetToken implements Method<Empty> {
 
     @Autowired

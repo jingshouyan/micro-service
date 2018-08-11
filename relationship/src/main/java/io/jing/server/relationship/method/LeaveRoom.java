@@ -17,7 +17,7 @@ import java.util.Optional;
  * @author jingshouyan
  * #date 2018/6/16 20:36
  */
-@Component
+@Component("relationship.leaveRoom")
 public class LeaveRoom implements Method<RoomLeave> {
 
     @Autowired

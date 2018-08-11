@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @author jingshouyan
  * #date 2018/6/14 17:48
  */
-@Component
+@Component("relationship.addRoomUser")
 public class AddRoomUser implements Method<RoomUserAdd> {
 
     @Autowired

@@ -18,7 +18,7 @@ import java.util.Optional;
  * @author jingshouyan
  * #date 2018/6/11 13:27
  */
-@Component
+@Component("user.regUser")
 public class RegUser implements Method<UserReg> {
 
     @Autowired
