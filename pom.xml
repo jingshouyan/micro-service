@@ -20,6 +20,7 @@
         <module>sms</module>
         <module>db-provider</module>
         <module>sign</module>
+        <module>fitness</module>
     </modules>
 
     <parent>
