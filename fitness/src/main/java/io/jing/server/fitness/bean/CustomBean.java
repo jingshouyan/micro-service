@@ -21,7 +21,7 @@ public class CustomBean extends BaseBean {
     @Key
     private Long id;
     @Column(comment = "微信 openId")
-    private String wxOpenId;
+    private String openId;
     @Column(comment = "客户姓名")
     private String name;
     @Column(comment = "联系方式")
