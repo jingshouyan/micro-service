@@ -3,6 +3,7 @@ package io.jing.server.fitness.bean;
 import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
 import io.jing.util.jdbc.core.util.db.annotation.Key;
+import io.jing.util.jdbc.core.util.db.annotation.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,6 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
+@Table(comment = "会员卡信息")
 public class ClubCardBean extends BaseBean {
 
     @Key
@@ -25,6 +27,8 @@ public class ClubCardBean extends BaseBean {
     private String type;
     @Column(comment = "会员卡时长，单位：天")
     private Integer days;
+    @Column(comment = "会员卡使用次数")
+    private Integer count;
     @Column(comment = "会员卡说明")
     private String note;
 

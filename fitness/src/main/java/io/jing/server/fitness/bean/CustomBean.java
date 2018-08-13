@@ -38,8 +38,9 @@ public class CustomBean extends BaseBean {
     private Long cardId;
     @Column(comment = "会员卡有效期 yyyyMMdd")
     private String cardPeriod;
-
-    @Ignore
+    @Column(comment = "会员卡可用次数")
+    private Integer usableCount;
+    @Ignore//对应的会员卡信息
     private ClubCardBean clubCard;
 
 }
