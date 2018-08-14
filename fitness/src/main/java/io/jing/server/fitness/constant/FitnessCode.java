@@ -16,6 +16,8 @@ public class FitnessCode {
     public static final int CARD_EXHAUSTED = 60005;
     public static final int LESSON_NOT_FUND = 60006;
     public static final int BOOKING_IS_FULL = 60007;
+    public static final int NO_RIGHT_TO_DO = 60008;
+    public static final int CARD_NOT_FUND = 60009;
     static {
         Code.regCode(CUSTOM_NOT_FUND,"custom not fund");
         Code.regCode(OPENID_IN_USE,"openId in use");
@@ -24,5 +26,7 @@ public class FitnessCode {
         Code.regCode(CARD_EXHAUSTED,"card exhausted");
         Code.regCode(LESSON_NOT_FUND,"lesson not fund");
         Code.regCode(BOOKING_IS_FULL,"booking is full");
+        Code.regCode(NO_RIGHT_TO_DO,"no right to do");
+        Code.regCode(CARD_NOT_FUND,"card not fund");
     }
 }
