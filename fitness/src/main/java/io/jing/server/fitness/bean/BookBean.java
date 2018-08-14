@@ -1,5 +1,6 @@
 package io.jing.server.fitness.bean;
 
+import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
 import io.jing.util.jdbc.core.util.db.annotation.Key;
 import io.jing.util.jdbc.core.util.db.annotation.Table;
@@ -15,7 +16,7 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true)
 @Table(comment = "预约信息")
-public class BookBean {
+public class BookBean extends BaseBean {
 
     @Key
     private Long id;

@@ -29,7 +29,7 @@ public class LessonBean extends BaseBean {
     @Column("课程人数")
     private Integer pCount;
     @Column("课程申请人数")
-    private Integer applyCount;
+    private Integer bookCount;
     @Column("课程地点")
     private String location;
     @Column("课程类型")
