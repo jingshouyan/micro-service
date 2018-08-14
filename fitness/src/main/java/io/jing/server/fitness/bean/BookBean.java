@@ -2,6 +2,7 @@ package io.jing.server.fitness.bean;
 
 import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
+import io.jing.util.jdbc.core.util.db.annotation.Ignore;
 import io.jing.util.jdbc.core.util.db.annotation.Key;
 import io.jing.util.jdbc.core.util.db.annotation.Table;
 import lombok.Getter;
@@ -24,4 +25,8 @@ public class BookBean extends BaseBean {
     private Long customId;
     @Column(comment = "课程id")
     private Long lessonId;
+    @Ignore
+    private CustomBean custom;
+    @Ignore
+    private LessonBean lesson;
 }

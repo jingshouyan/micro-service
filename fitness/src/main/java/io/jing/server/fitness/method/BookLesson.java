@@ -66,6 +66,7 @@ public class BookLesson implements Method<BookQ> {
         bookBean.setId(idHelper.genId(FitnessConstant.ID_TYPE_BOOK));
         bookBean.forCreate();
         bookDao.insert(bookBean);
-        return lessonBean;
+        bookBean.setLesson(lessonBean);
+        return bookBean;
     }
 }
