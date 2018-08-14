@@ -2,6 +2,7 @@ package io.jing.server.fitness.bean;
 
 import io.jing.util.jdbc.core.util.db.annotation.Column;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 /**
@@ -11,18 +12,21 @@ import lombok.Setter;
 @Getter@Setter
 public class CustomInfo {
 
+    @NonNull
     @Column(comment = "微信 openId")
     private String openId;
+    @NonNull
     @Column(comment = "客户姓名")
     private String name;
+    @NonNull
     @Column(comment = "联系方式")
     private String contact;
     @Column(comment = "身高")
-    private Double height;
+    private Double height = 180.0;
     @Column(comment = "体重")
-    private Double weight;
+    private Double weight = 50.0;
     @Column(comment = "出生年 yyyy")
-    private String birthyear;
+    private String birthyear = "1990";
     @Column(comment = "生日 MMdd")
-    private String birthday;
+    private String birthday="1212";
 }

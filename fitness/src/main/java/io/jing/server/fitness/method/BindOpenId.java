@@ -2,8 +2,10 @@ package io.jing.server.fitness.method;
 
 import io.jing.base.exception.MicroServiceException;
 import io.jing.server.fitness.bean.BindInfo;
+import io.jing.server.fitness.bean.ClubCardBean;
 import io.jing.server.fitness.bean.CustomBean;
 import io.jing.server.fitness.constant.FitnessCode;
+import io.jing.server.fitness.dao.ClubCardDao;
 import io.jing.server.fitness.dao.CustomDao;
 import io.jing.server.method.Method;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class BindOpenId implements Method<BindInfo> {
 
     @Autowired
     private CustomDao customDao;
+    @Autowired
+    private ClubCardDao clubCardDao;
 
     @Override
     public Object action(BindInfo bindInfo) {
@@ -35,6 +39,10 @@ public class BindOpenId implements Method<BindInfo> {
         customBean.setOpenId(bindInfo.getOpenId());
         customBean.forUpdate();
         customDao.update(customBean);
-        return null;
+        if (customBean.getCardId() != null && customBean.getCardId() != 0){
+            Optional<ClubCardBean> clubCardBeanOptional =clubCardDao.find(customBean.getCardId());
+            clubCardBeanOptional.ifPresent(customBean::setClubCard);
+        }
+        return customBean;
     }
 }
