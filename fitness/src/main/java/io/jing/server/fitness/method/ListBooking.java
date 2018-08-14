@@ -42,9 +42,7 @@ public class ListBooking implements Method<ListBookingQ> {
         List<LessonBean> lessonBeans = lessonDao.query(compares1);
         Map<Long,LessonBean> map = lessonBeans.stream()
                 .collect(Collectors.toMap(LessonBean::getId, l->l));
-        page.getList().forEach(bookBean -> {
-            bookBean.setLesson(map.get(bookBean.getLessonId()));
-        });
+        page.getList().forEach(bookBean -> bookBean.setLesson(map.get(bookBean.getLessonId())));
 
         return page;
     }
