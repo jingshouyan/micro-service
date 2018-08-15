@@ -47,6 +47,10 @@ public class BeanRowMapper2<T> implements RowMapper<T> ,Constant {
         for (int j = 1; j <= columnCount; j++) {
             String column = JdbcUtils.lookupColumnName(rsmd, j).toLowerCase();
             BeanColumn beanColumn = beanTable.getLowerCaseColumnMap().get(column);
+            //数据库中表字段在实体中没有对应的字段
+            if (beanColumn == null) {
+                continue;
+            }
             Class<?> clazz = String.class;
             if(!beanColumn.isJson()){
                 clazz = beanColumn.getField().getType();
