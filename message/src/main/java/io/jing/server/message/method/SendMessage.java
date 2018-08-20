@@ -109,7 +109,7 @@ public class SendMessage implements Method<Message> {
             }else{
                 Token token = ThreadLocalUtil.getToken();
                 Req req = Req.builder()
-                        .service(MessageConstant.THRIFT_SERVER_NAME)
+                        .service("message")
                         .router(serviceInstance)
                         .oneWay(true)
                         .method("pushMessage")
