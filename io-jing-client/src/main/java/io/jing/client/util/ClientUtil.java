@@ -45,7 +45,6 @@ public class ClientUtil {
     public static Rsp call(Token token,Req req){
         //如果是单服务
         if(BaseConstant.ALL_IN_ONE){
-            req.setMethod(req.getService()+"."+req.getMethod());
             Rsp r = MICRO_SERVICE.run(token,req);
             if(r.getData()!=null){
                 r.setResult(JsonUtil.toJsonString(r.getData()));

@@ -46,6 +46,9 @@ public class MicroServiceImpl implements MicroService.Iface{
         ReqAndRsp reqAndRsp = new ReqAndRsp();
         reqAndRsp.setTraceId(ThreadLocalUtil.getTrace().getTraceId());
         String methodName = req.getMethod();
+        if (BaseConstant.ALL_IN_ONE) {
+            methodName = req.getService()+ "."+methodName;
+        }
         long start = System.currentTimeMillis();
         log.info("call [{}] start.",methodName);
         log.info("call [{}] token: {}",methodName,token);

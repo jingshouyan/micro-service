@@ -33,7 +33,7 @@ public class MessageEventHandler {
         log.info("message:{}",message);
         Token token = ThreadLocalUtil.getToken();
         Req req = Req.builder()
-                .service(MessageConstant.THRIFT_SERVER_NAME)
+                .service("message")
                 .oneWay(false)
                 .method("sendMessage")
                 .paramObj(message)
