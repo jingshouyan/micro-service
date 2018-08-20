@@ -35,7 +35,7 @@ public class MessageEventHandler {
         Req req = Req.builder()
                 .service(MessageConstant.THRIFT_SERVER_NAME)
                 .oneWay(false)
-                .method("SendMessage")
+                .method("sendMessage")
                 .paramObj(message)
                 .build();
 
