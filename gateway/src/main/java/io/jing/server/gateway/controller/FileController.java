@@ -1,7 +1,11 @@
 package io.jing.server.gateway.controller;
 
+import com.google.common.collect.Maps;
+import io.jing.base.util.rsp.RspUtil;
+import io.jing.server.gateway.constant.AppCode;
 import io.jing.server.gateway.constant.AppConstant;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,12 +15,17 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @Slf4j
 public class FileController implements AppConstant {
 
+    private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy/MM/dd/");
     /**
      * 单文件上传
      *
@@ -25,25 +34,31 @@ public class FileController implements AppConstant {
      * @return
      */
     @PostMapping("/upload")
-    @ResponseBody
-    public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    public Object upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         if (!file.isEmpty()) {
-            String saveFileName = file.getOriginalFilename();
-            String f = UPLOAD_PATH;
-            File saveFile = new File(f + saveFileName);
+            String filename = file.getOriginalFilename();
+            String suffix = filename.substring(filename.lastIndexOf(".") + 1);
+            String sFilename = UUID.randomUUID().toString().replace("-","").toLowerCase();
+            if (!StringUtils.isBlank(suffix)) {
+                sFilename += "."+suffix;
+            }
+            String datePath = LocalDate.now().format(DTF);
+            String savePath = UPLOAD_PATH + datePath + sFilename ;
+            String fileUrl = UPLOAD_PROFFIX + "/" + datePath+sFilename;
+            File saveFile = new File(savePath);
             if (!saveFile.getParentFile().exists()) {
                 saveFile.getParentFile().mkdirs();
             }
             try(BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(saveFile));) {
                 out.write(file.getBytes());
                 out.flush();
-                return (saveFile.getName() + " 上传成功");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                return ("上传失败," + e.getMessage());
-            } catch (IOException e) {
-                e.printStackTrace();
-                return ("上传失败," + e.getMessage());
+                Map<String,String> map = Maps.newHashMap();
+                map.put("filename",filename);
+                map.put("fileUrl",fileUrl);
+                return RspUtil.success(map);
+            } catch (Exception e) {
+                log.error("file upload faild.",e);
+                return RspUtil.error(AppCode.FILE_UPLOAD_ERROR,e);
             }
         } else {
             return ("上传失败，因为文件为空.");
@@ -57,7 +72,6 @@ public class FileController implements AppConstant {
      * @return
      */
     @PostMapping("/uploadFiles")
-    @ResponseBody
     public String uploadFiles(HttpServletRequest request) throws IOException {
         File savePath = new File(request.getSession().getServletContext().getRealPath("/upload/"));
         if (!savePath.exists()) {

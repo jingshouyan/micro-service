@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppCode {
     public static final int TOKEN_INVALID = 990001;
-
+    public static final int FILE_UPLOAD_ERROR = 90001;
     static {
         Code.regCode(TOKEN_INVALID,"token invalid");
+        Code.regCode(FILE_UPLOAD_ERROR,"file upload error");
     }
 }

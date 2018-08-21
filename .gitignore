@@ -49,6 +49,7 @@ hs_err_pid*
 # Maven
 target/
 log/
+upload/
 
 ## Maven release plugin
 pom.xml.tag

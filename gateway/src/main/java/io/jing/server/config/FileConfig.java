@@ -10,7 +10,7 @@ public class FileConfig extends WebMvcConfigurerAdapter implements AppConstant {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/file/**").addResourceLocations("file:"+UPLOAD_PATH);
+        registry.addResourceHandler("/"+UPLOAD_PROFFIX+"/**").addResourceLocations("file:"+UPLOAD_PATH);
         super.addResourceHandlers(registry);
     }
 }

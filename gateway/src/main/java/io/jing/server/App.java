@@ -19,6 +19,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class App {
     public static void main(String[] args) {
-        Register.run(()->SpringApplication.run(App.class, args).getBean(MicroServiceImpl.class));
+//        Register.run(()->SpringApplication.run(App.class, args).getBean(MicroServiceImpl.class));
+        SpringApplication.run(App.class, args);
     }
 }
