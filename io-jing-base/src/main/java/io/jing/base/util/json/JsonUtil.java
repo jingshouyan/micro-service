@@ -47,6 +47,13 @@ public class JsonUtil implements BaseConstant {
     public static <T> T toBean(String json, Class<T> clazz){
         return OBJECT_MAPPER.readValue(json,clazz);
     }
+
+    @SneakyThrows
+    public static <T> T toBean(String json, Class<T> clazz,Class<?> classes){
+        JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructParametricType(clazz,classes);
+        return OBJECT_MAPPER.readValue(json,javaType);
+    }
+
     @SneakyThrows
     public static <T> T toBean(String json, Type type){
         JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructType(type);

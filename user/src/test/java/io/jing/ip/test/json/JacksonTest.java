@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Maps;
 import io.jing.base.thrift.ReqBean;
 import io.jing.base.util.json.JsonUtil;
+import io.jing.server.user.bean.TokenBean;
 import io.jing.server.user.bean.UserBean;
 import io.jing.server.user.constant.UserConstant;
+import io.jing.util.jdbc.core.util.db.Page;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TSerializer;
@@ -14,7 +16,10 @@ import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TCompactProtocol;
 import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TTupleProtocol;
+import org.assertj.core.util.Lists;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -45,8 +50,35 @@ public class JacksonTest implements UserConstant {
 //        jsonNode = JsonUtil.readTree(s);
 //        System.out.println(jsonNode);
 
-        t4();
+        t5();
 
+    }
+
+    @SneakyThrows
+    public static void t5(){
+        Page<UserBean> page = new Page<>();
+        page.setPageSize(10);
+        page.setPage(1);
+        page.setTotalCount(99);
+        page.setTotalPage(10);
+        page.addOrderBy("id",true);
+        page.addOrderBy("username",false);
+        UserBean userBean = new UserBean();
+        userBean.setId("u1");
+        userBean.setNickname("zhangsan");
+        userBean.setUsername("aadv");
+        userBean.forCreate();
+        List<UserBean> list = Lists.newArrayList(userBean);
+        page.setList(list);
+        String pageStr = JsonUtil.toJsonString(page);
+        System.out.println(pageStr);
+        page = JsonUtil.toBean(pageStr,Page.class);
+
+        System.out.println(page);
+        Page<UserBean> page2 = JsonUtil.toBean(pageStr,Page.class,TokenBean.class);
+
+        System.out.println(page2);
+        UserBean u = page2.getList().get(0);
     }
 
     @SneakyThrows
