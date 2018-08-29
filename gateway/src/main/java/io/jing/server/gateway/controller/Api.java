@@ -35,6 +35,16 @@ public class Api {
     @Autowired
     private TokenHelper tokenHelper;
 
+    @RequestMapping(path = "test")
+    public String test(HttpServletRequest request){
+        String cAddr = request.getRemoteAddr();
+        String cHost = request.getRemoteHost();
+        int cPort = request.getRemotePort();
+        String str = "addr:"+cAddr+",host:"+cHost+",port:"+cPort;
+        log.info(str);
+        return str;
+    }
+
     @RequestMapping(path = "{service}/{method}.json")
     public String api(@PathVariable String service, @PathVariable String method, HttpServletRequest request) throws Exception{
         Rsp rsp;
