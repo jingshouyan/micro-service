@@ -21,6 +21,7 @@
         <module>db-provider</module>
         <module>sign</module>
         <module>fitness</module>
+        <module>acl</module>
     </modules>
 
     <parent>
