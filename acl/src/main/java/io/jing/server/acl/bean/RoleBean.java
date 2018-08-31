@@ -24,7 +24,7 @@ public class RoleBean extends BaseBean {
     @Key
     private Long id;
     @Column(comment = "角色名称")
-    private String roleName;
+    private String name;
     @Column(comment = "说明")
     private String description;
     @Column(comment = "角色资源 id 列表",json = true)
