@@ -55,12 +55,13 @@ public class ClientUtil {
         Rsp rsp;
         log.info("call rpc | token:{}",token);
         log.info("call rpc | req:{}",req);
+        long start = System.currentTimeMillis();
         try{
             rsp = callRpc(token,req);
         }catch (MicroServiceException e){
             rsp = RspUtil.error(e);
-        }
-        log.info("call rpc | rsp:{}",rsp);
+        }long end = System.currentTimeMillis();
+        log.info("call rpc [{}ms] | rsp:{}",end-start,rsp);
         return rsp;
     }
 

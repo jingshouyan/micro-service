@@ -22,6 +22,7 @@
         <module>sign</module>
         <module>fitness</module>
         <module>acl</module>
+        <module>query-plugin</module>
     </modules>
 
     <parent>
@@ -148,6 +149,11 @@
             <dependency>
                 <groupId>io.jing</groupId>
                 <artifactId>db-provider</artifactId>
+                <version>${io.jing.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jing</groupId>
+                <artifactId>query-plugin</artifactId>
                 <version>${io.jing.framework.version}</version>
             </dependency>
             <dependency>
