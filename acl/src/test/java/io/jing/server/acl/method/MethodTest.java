@@ -49,8 +49,8 @@ public class MethodTest {
         List<RoleBean> list = Lists.newArrayList(role,role,role);
         C c = new C();
         c.setBean("role");
-        c.setType("single");
-        c.setData(JsonUtil.toJsonString(role));
+        c.setType("multiple");
+        c.setData(JsonUtil.toJsonString(list));
 
 
 
