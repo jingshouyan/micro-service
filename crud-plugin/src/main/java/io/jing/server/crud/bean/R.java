@@ -2,6 +2,7 @@ package io.jing.server.crud.bean;
 
 
 import com.google.common.collect.Lists;
+import io.jing.server.crud.constant.CrudConstant;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.Page;
 import lombok.Getter;
@@ -20,7 +21,7 @@ public class R {
     @NonNull
     private Page page = new Page();
     @NonNull
-    private String type;
+    private String type = CrudConstant.TYPE_SINGLE;
 
     private Object id;
 

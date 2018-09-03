@@ -17,6 +17,7 @@ import io.jing.client.listener.ZkListener;
 import io.jing.client.transport.Transport;
 import io.jing.client.transport.TransportProvider;
 import io.jing.server.iface.MicroServiceImpl;
+import io.jing.server.method.factory.MethodFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.shaded.com.google.common.collect.Lists;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -45,6 +46,14 @@ public class ClientUtil {
     public static Rsp call(Token token,Req req){
         //如果是单服务
         if(BaseConstant.ALL_IN_ONE){
+            //plugin 方法特殊处理
+            boolean fetch = MethodFactory.hasMethod(req.getService()+"."+req.getMethod());
+            if (!fetch) {
+                boolean plugin = MethodFactory.hasMethod("plugin."+req.getMethod());
+                if( plugin ){
+                    req.setService("plugin");
+                }
+            }
             Rsp r = MICRO_SERVICE.run(token,req);
             if(r.getData()!=null){
                 r.setResult(JsonUtil.toJsonString(r.getData()));

@@ -23,6 +23,7 @@
         <module>fitness</module>
         <module>acl</module>
         <module>crud-plugin</module>
+        <module>crud-api</module>
     </modules>
 
     <parent>
@@ -153,7 +154,12 @@
             </dependency>
             <dependency>
                 <groupId>io.jing</groupId>
-                <artifactId>query-plugin</artifactId>
+                <artifactId>crud-plugin</artifactId>
+                <version>${io.jing.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jing</groupId>
+                <artifactId>crud-api</artifactId>
                 <version>${io.jing.framework.version}</version>
             </dependency>
             <dependency>

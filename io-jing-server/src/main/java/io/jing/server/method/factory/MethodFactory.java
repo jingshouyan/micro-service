@@ -48,4 +48,8 @@ public class MethodFactory {
                 m -> {throw new MicroServiceException(Code.METHOD_NOT_FOUND);}
                 );
     }
+
+    public static boolean hasMethod(String methodName){
+        return METHOD_MAP.containsKey(methodName);
+    }
 }
