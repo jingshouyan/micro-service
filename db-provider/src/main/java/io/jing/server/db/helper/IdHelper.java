@@ -30,14 +30,12 @@ public class IdHelper implements KeyGenerator {
                     IdBean idBean = idBeanOptional.get();
                     id = idBean.getSeed();
                     idBean.setSeed(id + STEP*2);
-                    idBean.forUpdate();
                     idDao.update(idBean);
                 }else{
                     id = INIT_ID;
                     IdBean idBean = new IdBean();
                     idBean.setType(type);
                     idBean.setSeed(id + STEP*2);
-                    idBean.forCreate();
                     idDao.insert(idBean);
                 }
             }
@@ -47,7 +45,6 @@ public class IdHelper implements KeyGenerator {
                 IdBean idBean = new IdBean();
                 idBean.setType(type);
                 idBean.setSeed(id + STEP*2);
-                idBean.forUpdate();
                 idDao.update(idBean);
             }
             return id;
