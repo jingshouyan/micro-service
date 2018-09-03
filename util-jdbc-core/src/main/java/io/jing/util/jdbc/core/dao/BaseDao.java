@@ -15,6 +15,11 @@ import java.util.Optional;
  */
 public interface BaseDao<T extends BaseBean> {
     /**
+     * 获取 T 的类型
+     * @return
+     */
+    Class<T> getClazz();
+    /**
      * 根据主键查询数据
      *
      * @param id 主键

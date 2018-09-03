@@ -30,7 +30,7 @@ import java.util.stream.IntStream;
  */
 @Slf4j
 public abstract class BaseDaoImpl<T extends BaseBean> implements BaseDao<T> {
-    @Getter
+
     private Class<T> clazz;
     private RowMapper<T> rowMapper;
     private SqlGenerator<T> sqlGenerator;
@@ -53,6 +53,9 @@ public abstract class BaseDaoImpl<T extends BaseBean> implements BaseDao<T> {
     @Autowired
     protected NamedParameterJdbcTemplate template;
 
+    public Class<T> getClazz(){
+        return clazz;
+    }
 
     @Override
     public Optional<T> find(Object id) {
@@ -125,6 +128,7 @@ public abstract class BaseDaoImpl<T extends BaseBean> implements BaseDao<T> {
     private int insert(@NonNull List<T> list) {
         Preconditions.checkArgument(!list.isEmpty(), "list is empty!");
         for (T t : list) {
+            t.forCreate();
             //如果不设置主键，则使用 keygen 生成主键
             genKey(t);
             encrypt(t);
@@ -205,6 +209,7 @@ public abstract class BaseDaoImpl<T extends BaseBean> implements BaseDao<T> {
 
     @Override
     public int delete4List(List<?> ids) {
+        Preconditions.checkNotNull(ids, "ids is null");
         List<Compare> compares = CompareUtil.newInstance().field(key()).in(ids).compares();
         int fetch = delete4Batch(compares);
         //添加删除事件
