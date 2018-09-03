@@ -31,6 +31,8 @@ public class RoleBean extends BaseBean {
     private List<Long> resourceIds;
     @Column(comment = "状态 1 有效，2 失效")
     private Integer state;
+    @Column(comment = "是否拥有所有权限")
+    private Boolean all;
     @Ignore
     private List<ResourceBean> resources;
 }

@@ -19,9 +19,10 @@ public class MethodTest {
         List<Compare> compares = CompareUtil.newInstance()
                 .field("name").like("%1%")
                 .compares();
-        q.setCompares(compares);
+//        q.setCompares(compares);
         q.setBean("role");
         q.setType("id");
+        q.setId(123);
         Token token = new Token();
         Req req = Req.builder().service("acl")
                 .method("query").paramObj(q).build();
