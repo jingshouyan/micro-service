@@ -162,6 +162,7 @@
                 <artifactId>crud-api</artifactId>
                 <version>${io.jing.framework.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcpkix-jdk15on</artifactId>
