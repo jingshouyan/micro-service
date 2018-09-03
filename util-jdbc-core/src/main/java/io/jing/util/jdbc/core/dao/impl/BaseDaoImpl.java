@@ -2,11 +2,13 @@ package io.jing.util.jdbc.core.dao.impl;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.dao.BaseDao;
 import io.jing.util.jdbc.core.event.DmlEventBus;
 import io.jing.util.jdbc.core.util.db.*;
 import io.jing.util.jdbc.core.util.db.sql.generator.SqlGenerator;
 import io.jing.util.jdbc.core.util.db.sql.generator.SqlGeneratorFactory;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,11 @@ import java.util.stream.IntStream;
 /**
  * 基于 spring-jdbc 的curl 抽象类
  * @author jingshouyan
- * @date 2018/4/14 17:25
+ * #date 2018/4/14 17:25
  */
 @Slf4j
-public abstract class BaseDaoImpl<T> implements BaseDao<T> {
+public abstract class BaseDaoImpl<T extends BaseBean> implements BaseDao<T> {
+    @Getter
     private Class<T> clazz;
     private RowMapper<T> rowMapper;
     private SqlGenerator<T> sqlGenerator;
@@ -53,6 +56,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
     @Override
     public Optional<T> find(Object id) {
+        Preconditions.checkNotNull(id,"id is null");
         List<Compare> compares = CompareUtil.newInstance().field(key()).eq(id).compares();
         List<T> ts = query(compares);
         return ts.stream().findFirst();
@@ -61,6 +65,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
     @Override
     public List<T> findByIds(List<?> ids) {
+        Preconditions.checkNotNull(ids, "ids is null");
         List<Compare> compares = CompareUtil.newInstance().field(key()).in(ids).compares();
         return query(compares);
     }
@@ -96,6 +101,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
     @Override
     public int update(T t, List<Compare> compares) {
         encrypt(t);
+        t.forUpdate();
         SqlPrepared sqlPrepared = sqlGenerator.update(t, compares);
         int fetch =  template.update(sqlPrepared.getSql(), sqlPrepared.getParams());
         decrypt(t);
@@ -140,6 +146,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
         List<Map<String, Object>> values = Lists.newArrayList();
         Map[] v = new Map[list.size()];
         for (T t : list) {
+            t.forCreate();
             //如果不设置主键，则使用 keygen 生成主键
             genKey(t);
             encrypt(t);

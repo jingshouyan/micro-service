@@ -22,7 +22,7 @@
         <module>sign</module>
         <module>fitness</module>
         <module>acl</module>
-        <module>query-plugin</module>
+        <module>crud-plugin</module>
     </modules>
 
     <parent>

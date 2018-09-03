@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * 数据实体抽象类
  * @author jingshouyan
- * @date 2018/4/14 17:25
+ * #date 2018/4/14 17:25
  */
 @Getter@Setter@ToString
 public abstract class BaseBean implements Serializable{
@@ -34,7 +34,6 @@ public abstract class BaseBean implements Serializable{
         long now = System.currentTimeMillis();
         createdAt = null;
         updatedAt = now;
-        deletedAt = null;
     }
 
     public void forDelete() {

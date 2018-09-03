@@ -1,5 +1,6 @@
 package io.jing.util.jdbc.core.dao;
 
+import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.Page;
 
@@ -10,9 +11,9 @@ import java.util.Optional;
 /**
  * 基于 spring-jdbc 的curl 接口
  * @author jingshouyan
- * @date 2018/4/14 17:25
+ * #date 2018/4/14 17:25
  */
-public interface BaseDao<T> {
+public interface BaseDao<T extends BaseBean> {
     /**
      * 根据主键查询数据
      *
