@@ -4,6 +4,7 @@ import io.jing.base.bean.Req;
 import io.jing.base.bean.Rsp;
 import io.jing.base.bean.Token;
 import io.jing.client.util.ClientUtil;
+import io.jing.server.acl.bean.RoleBean;
 import io.jing.server.query.bean.Q;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
@@ -20,11 +21,14 @@ public class MethodTest {
                 .compares();
         q.setCompares(compares);
         q.setBean("role");
+        q.setType("id");
         Token token = new Token();
         Req req = Req.builder().service("acl")
-                .method("queryPage").paramObj(q).build();
+                .method("query").paramObj(q).build();
         for (int i = 0; i < 10; i++) {
-            ClientUtil.call(token,req);
+            Rsp rsp = ClientUtil.call(token,req);
+            RoleBean role = rsp.get(RoleBean.class);
+            System.out.println(role);
         }
 
     }

@@ -19,4 +19,11 @@ public class Q {
     private List<Compare> compares = Lists.newArrayList();
     @NonNull
     private Page page = new Page();
+    @NonNull
+    private String type;
+
+    private Object id;
+
+    private List<Object> ids;
+
 }
