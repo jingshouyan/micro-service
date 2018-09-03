@@ -121,9 +121,23 @@ public class Bean4DbUtil implements Constant{
      * 设置对象的主键
      * @param bean 对象
      */
-    public static void genKey(Object bean) {
-        long id = IdUtil.longId();
-        setKey(bean,id);
+    @SneakyThrows
+    public static void genKey(Object bean,Class<?> clazz) {
+        BeanColumn key = getBeanTable(bean.getClass()).getKey();
+        if (null != key && key.isAutoGen()) {
+            Field field = key.getField();
+            boolean accessible = field.isAccessible();
+            if (!accessible) {
+                field.setAccessible(true);
+            }
+            Object fieldValue = field.get(bean);
+            if (null == fieldValue) {
+                long id = IdUtil.longId(clazz.getSimpleName());
+                setKey(bean,id);
+            }
+
+        }
+
     }
 
     /**

@@ -260,7 +260,7 @@ public abstract class BaseDaoImpl<T extends BaseBean> implements BaseDao<T> {
      * @param t 对象
      */
     private void genKey(T t) {
-        Bean4DbUtil.genKey(t);
+        Bean4DbUtil.genKey(t,clazz);
     }
 
     /**

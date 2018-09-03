@@ -24,8 +24,8 @@ public class MethodTest {
     public static void main(String[] args) {
 
 //        q();
-//        i();
-        d();
+        i();
+//        d();
     }
 
     public static void d(){

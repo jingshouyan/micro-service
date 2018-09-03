@@ -1,5 +1,8 @@
 package io.jing.util.jdbc.core.util.keygen;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * IdUtil id 生成器
  * @author jingshouyan
@@ -7,22 +10,22 @@ package io.jing.util.jdbc.core.util.keygen;
  */
 public class IdUtil {
 
-    private static DefaultKeyGenerator keyGenerator = DefaultKeyGenerator.getInstance();
+    @Getter
+    @Setter
+    private static KeyGenerator keyGenerator = DefaultKeyGenerator.getInstance();
 
-    public static long longId() {
-        return keyGenerator.generateKey().longValue();
+
+    public static long longId(String type) {
+        return keyGenerator.genId(type);
     }
 
-    public static int intId() {
-        return keyGenerator.generateKey().intValue();
+    public static int intId(String type) {
+        return (int) longId(type);
     }
 
-    public static String stringId() {
-        return String.valueOf(longId());
+    public static String stringId(String type) {
+        return String.valueOf(longId(type));
     }
 
-    public static String stringId(String preffix) {
-        return preffix + stringId();
-    }
 
 }

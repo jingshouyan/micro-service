@@ -3,6 +3,7 @@ package io.jing.server.db.helper;
 import com.google.common.collect.Maps;
 import io.jing.server.db.bean.IdBean;
 import io.jing.server.db.dao.IdDao;
+import io.jing.util.jdbc.core.util.keygen.KeyGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
-public class IdHelper {
+public class IdHelper implements KeyGenerator {
     @Autowired
     private IdDao idDao;
 

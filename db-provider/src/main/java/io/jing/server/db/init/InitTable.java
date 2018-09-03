@@ -2,7 +2,9 @@ package io.jing.server.db.init;
 
 import io.jing.base.util.config.ConfigSettings;
 import io.jing.server.constant.ServerConstant;
+import io.jing.server.db.helper.IdHelper;
 import io.jing.util.jdbc.core.dao.BaseDao;
+import io.jing.util.jdbc.core.util.keygen.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -22,6 +24,9 @@ public class InitTable{
     @Autowired
     private ApplicationContext ctx;
 
+    @Autowired
+    private IdHelper idHelper;
+
     @PostConstruct
     public void init(){
         long flag = ServerConstant.DS_INIT;
@@ -33,6 +38,8 @@ public class InitTable{
             dropTable();
             createTable();
         }
+
+        IdUtil.setKeyGenerator(idHelper);
     }
 
     private void createTable() {

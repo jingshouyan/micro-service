@@ -4,11 +4,13 @@ import com.google.common.collect.Lists;
 import io.jing.base.exception.MicroServiceException;
 import io.jing.base.util.code.Code;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
+import io.jing.server.db.helper.IdHelper;
 import io.jing.server.method.Method;
 import io.jing.server.relationship.bean.RoomBean;
 import io.jing.server.relationship.bean.RoomUser;
 import io.jing.server.relationship.bean.RoomUserAdd;
 import io.jing.server.relationship.bean.RoomUserBean;
+import io.jing.server.relationship.constant.RelationshipConstant;
 import io.jing.server.relationship.dao.RoomDao;
 import io.jing.server.relationship.dao.RoomUserDao;
 import io.jing.server.relationship.helper.RoomHelper;
@@ -35,6 +37,8 @@ public class AddRoomUser implements Method<RoomUserAdd> {
     private RoomUserDao roomUserDao;
     @Autowired
     private RoomHelper roomHelper;
+    @Autowired
+    private IdHelper idHelper;
 
     @Override
     public Object action(RoomUserAdd roomUserAdd) {
@@ -64,13 +68,13 @@ public class AddRoomUser implements Method<RoomUserAdd> {
             throw new MicroServiceException(Code.PERMISSION_DENIED);
         }
         List<RoomUserBean> u4UnDel = Lists.newArrayList();
-        long revisionRoom = IdUtil.longId();
+        long revisionRoom = idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_REVISION);
         for (RoomUserBean r : roomUserBeanList){
             if(map.containsKey(r.getUserId())){
                 if(r.deleted()){
                     RoomUser ru = map.get(r.getUserId());
                     r.setRevisionRoom(revisionRoom);
-                    r.setRevisionUser(IdUtil.longId());
+                    r.setRevisionUser(idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_USER_REVISION));
                     r.setRemark(ru.getRemark());
                     r.setUserLevel(ru.getUserLevel());
                     u4UnDel.add(r);
@@ -89,7 +93,7 @@ public class AddRoomUser implements Method<RoomUserAdd> {
                         rub.setUserId(r.getUserId());
                         rub.setRemark(r.getRemark());
                         rub.setUserLevel(r.getUserLevel());
-                        rub.setRevisionUser(IdUtil.longId());
+                        rub.setRevisionUser(idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_USER_REVISION));
                         rub.setRevisionRoom(revisionRoom);
                         rub.genId();
                         return rub;

@@ -13,7 +13,7 @@ import java.util.Date;
  * @date 2018/4/14 17:25
  */
 @Slf4j
-public class DefaultKeyGenerator {
+public class DefaultKeyGenerator implements KeyGenerator{
     public static final long EPOCH;
 
     private static final long SEQUENCE_BITS = 12L;
@@ -44,6 +44,11 @@ public class DefaultKeyGenerator {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         EPOCH = calendar.getTimeInMillis();
+    }
+
+    @Override
+    public long genId(String type) {
+        return generateKey().longValue();
     }
 
     private long sequence;

@@ -1,7 +1,9 @@
 package io.jing.server.relationship.helper;
 
+import io.jing.server.db.helper.IdHelper;
 import io.jing.server.relationship.bean.RoomBean;
 import io.jing.server.relationship.bean.RoomUserBean;
+import io.jing.server.relationship.constant.RelationshipConstant;
 import io.jing.server.relationship.dao.RoomDao;
 import io.jing.server.relationship.dao.RoomUserDao;
 import io.jing.util.jdbc.core.util.db.Compare;
@@ -25,8 +27,11 @@ public class RoomHelper {
     @Autowired
     private RoomUserDao roomUserDao;
 
+    @Autowired
+    private IdHelper idHelper;
+
     public int countRoomUser(String roomId){
-        long revisionRoom = IdUtil.longId();
+        long revisionRoom = idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_REVISION);;
         List<Compare> compareList = CompareUtil.newInstance()
                 .field("roomId").eq(roomId)
                 .field("deletedAt").eq(-1)

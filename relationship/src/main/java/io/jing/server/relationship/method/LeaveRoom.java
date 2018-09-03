@@ -2,9 +2,11 @@ package io.jing.server.relationship.method;
 
 import io.jing.base.bean.Empty;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
+import io.jing.server.db.helper.IdHelper;
 import io.jing.server.method.Method;
 import io.jing.server.relationship.bean.RoomLeave;
 import io.jing.server.relationship.bean.RoomUserBean;
+import io.jing.server.relationship.constant.RelationshipConstant;
 import io.jing.server.relationship.dao.RoomUserDao;
 import io.jing.server.relationship.helper.RoomHelper;
 import io.jing.util.jdbc.core.util.keygen.IdUtil;
@@ -26,6 +28,9 @@ public class LeaveRoom implements Method<RoomLeave> {
     @Autowired
     private RoomHelper roomHelper;
 
+    @Autowired
+    private IdHelper idHelper;
+
     @Override
     public Object action(RoomLeave roomLeave) {
         String myId = ThreadLocalUtil.userId();
@@ -36,8 +41,8 @@ public class LeaveRoom implements Method<RoomLeave> {
         if(roomUserBeanOptional.isPresent()){
             me = roomUserBeanOptional.get();
             if(!me.deleted()){
-                me.setRevisionUser(IdUtil.longId());
-                me.setRevisionRoom(IdUtil.longId());
+                me.setRevisionUser(idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_USER_REVISION));
+                me.setRevisionRoom(idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_REVISION));
                 me.forDelete();
                 roomUserDao.update(me);
                 roomHelper.countRoomUser(roomLeave.getRoomId());
