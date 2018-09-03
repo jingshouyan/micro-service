@@ -1,4 +1,4 @@
-package io.jing.server.query.bean;
+package io.jing.server.crud.bean;
 
 
 import com.google.common.collect.Lists;

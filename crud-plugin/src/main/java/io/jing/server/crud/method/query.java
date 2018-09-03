@@ -1,15 +1,15 @@
-package io.jing.server.query.method;
+package io.jing.server.crud.method;
 
 import com.google.common.base.Preconditions;
 import io.jing.server.method.Method;
-import io.jing.server.query.bean.Q;
+import io.jing.server.crud.bean.Q;
 import io.jing.util.jdbc.core.dao.BaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 
-@Component("plugin.query")
+@Component("plugin.crud")
 public class query implements Method<Q> {
 
     @Autowired
@@ -37,7 +37,7 @@ public class query implements Method<Q> {
             case "page":
                 return dao.query(q.getCompares(),q.getPage());
             default:
-                throw new RuntimeException("unsupported query type");
+                throw new RuntimeException("unsupported crud type");
         }
     }
 }
