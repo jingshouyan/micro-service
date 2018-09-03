@@ -38,6 +38,10 @@ public class Rsp {
         return JsonUtil.toBean(result,clazz);
     }
 
+    public <T> T get(Class<T> clazz,Class<?> classes){
+        return JsonUtil.toBean(result,clazz,classes);
+    }
+
     public <T> List<T> list(Class<T> clazz){
         return JsonUtil.toList(result,clazz);
     }

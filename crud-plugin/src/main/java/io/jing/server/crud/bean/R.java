@@ -12,7 +12,7 @@ import lombok.ToString;
 import java.util.List;
 
 @Getter@Setter@ToString
-public class Q {
+public class R {
     @NonNull
     private String bean;
     @NonNull
