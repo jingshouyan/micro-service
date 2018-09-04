@@ -67,6 +67,9 @@ public class AclInterceptor extends HandlerInterceptorAdapter implements AclCons
                         throw new MicroServiceException(AclCode.PERMISSION_DENIED);
                     }
                 }
+                if(Boolean.TRUE.equals(resource.getLogout())){
+                    aclHelper.removeToken(token);
+                }
             }
             return super.preHandle(request, response, handler);
         }catch (Exception e){
