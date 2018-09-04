@@ -7,6 +7,8 @@ import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.dao.BaseDao;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component("plugin.insert")
 public class Insert extends BaseCrud implements Method<C> {
 
@@ -16,9 +18,13 @@ public class Insert extends BaseCrud implements Method<C> {
         Class<BaseBean> clazz = dao.getClazz();
         switch (c.getType()){
             case TYPE_SINGLE:
-                return dao.insert(JsonUtil.toBean(c.getData(),clazz));
+                BaseBean bean = JsonUtil.toBean(c.getData(),clazz);
+                dao.insert(bean);
+                return bean;
             case TYPE_MULTIPLE:
-                return dao.batchInsert(JsonUtil.toList(c.getData(),clazz));
+                List<BaseBean> list = JsonUtil.toList(c.getData(),clazz);
+                dao.batchInsert(list);
+                return list;
             default:
                 throw new RuntimeException("unsupported insert type: "+c.getType());
         }
