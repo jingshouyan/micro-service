@@ -1,5 +1,6 @@
 package io.jing.base.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.jing.base.thrift.RspBean;
 import io.jing.base.util.json.JsonUtil;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class Rsp {
     private int code;
     private String message;
     private Object data;
+    @JsonIgnore
     private String result;
 
     public Rsp() { }

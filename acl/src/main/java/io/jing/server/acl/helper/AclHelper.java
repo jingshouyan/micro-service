@@ -149,11 +149,12 @@ public class AclHelper implements AclConstant{
             if(optRole != null && optRole.isPresent()){
                 RoleBean role = optRole.get();
                 // 角色可用,并且角色拥有该资源
-                if(role.getState() == AclConstant.STATE_ENABLE
-                        && role.getResourceIds() != null
-                        && role.getResourceIds().contains(resourceId)
-                        ){
-                    return true;
+                if(STATE_ENABLE.equals(role.getState())){
+                    boolean all = role.getAll() != null && role.getAll();
+                    boolean contains = role.getResourceIds() != null && role.getResourceIds().contains(resourceId);
+                    if(all || contains){
+                        return true;
+                    }
                 }
             }
         }
