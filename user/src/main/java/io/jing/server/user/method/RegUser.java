@@ -24,8 +24,8 @@ public class RegUser implements Method<UserReg> {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private IdHelper idHelper;
+//    @Autowired
+//    private IdHelper idHelper;
 
     @Override
     public Object action(UserReg userReg) {
@@ -34,7 +34,7 @@ public class RegUser implements Method<UserReg> {
             throw new MicroServiceException(UserCode.USERNAME_IN_USE);
         }
         UserBean userBean = new UserBean();
-        userBean.setId(idHelper.genIdStr(UserConstant.ID_TYPE_USER));
+//        userBean.setId(idHelper.genIdStr(UserConstant.ID_TYPE_USER));
         userBean.setUsername(userReg.getUsername());
         String salt = BCrypt.gensalt();
         String pwHash = BCrypt.hashpw(userReg.getPassword(),salt);
