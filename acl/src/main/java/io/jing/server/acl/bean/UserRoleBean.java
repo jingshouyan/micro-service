@@ -8,15 +8,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString(callSuper = true)
 @Table(comment = "用户角色")
 public class UserRoleBean extends BaseBean {
     @Key
-    private Long id;
     @Column(comment = "用户Id")
     private String userId;
-    @Column(comment = "角色Id")
-    private Long roleId;
+    @Column(comment = "角色Id 列表")
+    private List<Long> roleIds;
 }
