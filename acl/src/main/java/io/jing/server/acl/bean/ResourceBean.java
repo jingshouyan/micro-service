@@ -29,9 +29,11 @@ public class ResourceBean extends BaseBean {
     private String method;
     @Column(comment = "uri路径")
     private String uri;
-    @Column(comment = "是否为公开资源")
-    private Boolean pub;
+    @Column(comment = "资源类型 1 公开,2 需登录,3 需授权")
+    private Integer type;
     @Column(comment = "状态 1 有效，2 失效")
     private Integer state;
+    @Column(comment = "调用后退出")
+    private Boolean logout;
 }
 

@@ -3,6 +3,12 @@ package io.jing.server.acl.helper;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.google.common.eventbus.Subscribe;
+import io.jing.base.bean.Req;
+import io.jing.base.bean.Rsp;
+import io.jing.base.bean.Token;
+import io.jing.base.exception.MicroServiceException;
+import io.jing.base.util.code.Code;
+import io.jing.client.util.ClientUtil;
 import io.jing.server.acl.bean.ResourceBean;
 import io.jing.server.acl.bean.RoleBean;
 import io.jing.server.acl.bean.UserRoleBean;
@@ -23,7 +29,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class AclHelper {
+public class AclHelper implements AclConstant{
     @Autowired
     private UserRoleDao userRoleDao;
     @Autowired
@@ -32,18 +38,18 @@ public class AclHelper {
     private ResourceDao resourceDao;
 
     private final LoadingCache<String,Optional<UserRoleBean>> UR_CACHE = Caffeine.newBuilder()
-            .maximumSize(1000)
-            .expireAfterAccess(30,TimeUnit.SECONDS)
+            .maximumSize(CACHE_SIZE)
+            .expireAfterAccess(CACHE_HOLD_SECOND,TimeUnit.SECONDS)
             .build(userId -> userRoleDao.find(userId));
 
     private final LoadingCache<Long,Optional<RoleBean>> ROLE_CACHE = Caffeine.newBuilder()
-            .maximumSize(1000)
-            .expireAfterAccess(30,TimeUnit.SECONDS)
+            .maximumSize(CACHE_SIZE)
+            .expireAfterAccess(CACHE_HOLD_SECOND,TimeUnit.SECONDS)
             .build(roleId -> roleDao.find(roleId));
 
     private final LoadingCache<String,Optional<ResourceBean>> RESOURCE_CACHE = Caffeine.newBuilder()
-            .maximumSize(1000)
-            .expireAfterAccess(30,TimeUnit.SECONDS)
+            .maximumSize(CACHE_SIZE)
+            .expireAfterAccess(CACHE_HOLD_SECOND,TimeUnit.SECONDS)
             .build(path -> {
                 String[] strings = path.split("#");
                 String method = strings[0];
@@ -54,6 +60,21 @@ public class AclHelper {
                         .compares();
                 List<ResourceBean> resources = resourceDao.query(compares);
                 return resources.stream().findFirst();
+            });
+
+    private  final LoadingCache<String,Token> TOKEN_CACHE = Caffeine.newBuilder()
+            .maximumSize(CACHE_SIZE)
+            .expireAfterAccess(CACHE_HOLD_SECOND,TimeUnit.SECONDS)
+            .build(ticket->{
+                Token token = new Token();
+                token.setTicket(ticket);
+                Req req = Req.builder().service("user").method("getToken").param("{}").build();
+                Rsp rsp = ClientUtil.call(token,req);
+                if(rsp.getCode()!=Code.SUCCESS){
+                    throw new MicroServiceException(rsp.getCode(),"user:"+rsp.getMessage());
+                }
+                token = rsp.get(Token.class);
+                return token;
             });
 
     @PostConstruct
@@ -89,27 +110,30 @@ public class AclHelper {
     }
 
 
-    public boolean canActive(String userId,String method,String uri){
+
+    public Token getToken(String ticket){
+        return TOKEN_CACHE.get(ticket);
+    }
+
+    public void removeToken(Token token){
+        TOKEN_CACHE.invalidate(token.getTicket());
+        if(token.valid()){
+            Req req = Req.builder().service("user").method("logout").param("{}").build();
+            ClientUtil.call(token,req);
+        }
+    }
+
+    public ResourceBean getResource(String method,String uri) {
         String key = rKey(method,uri);
         Optional<ResourceBean> optResource = RESOURCE_CACHE.get(key);
-        // 没有注册的资源无法访问
-        if(optResource == null
-                || !optResource.isPresent()
-                ){
-            return false;
+        if(optResource == null) {
+            return null;
         }
+        return optResource.orElse(null);
+    }
 
-        ResourceBean resource = optResource.get();
-        // 非可用资源无法访问
-        if(resource.getState() != AclConstant.STATE_ENABLE){
-            return false;
-        }
-        boolean pub = resource.getPub() == null ? false : resource.getPub();
-        // 公开资源,无需认证
-        if(pub){
-            return true;
-        }
 
+    public boolean canActive(String userId,long resourceId) {
         Optional<UserRoleBean> optUr = UR_CACHE.get(userId);
         // 用户没有角色
         if(optUr == null || !optUr.isPresent()){
@@ -127,13 +151,12 @@ public class AclHelper {
                 // 角色可用,并且角色拥有该资源
                 if(role.getState() == AclConstant.STATE_ENABLE
                         && role.getResourceIds() != null
-                        && role.getResourceIds().contains(resource.getId())
+                        && role.getResourceIds().contains(resourceId)
                         ){
                     return true;
                 }
             }
         }
-
         return false;
     }
 

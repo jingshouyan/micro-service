@@ -42,7 +42,7 @@ public class TokenHelper implements AppConstant {
     public void removeToken(Token token){
         TOKEN_LOADING_CACHE.invalidate(token.getTicket());
         if(token.valid()){
-            Req req = Req.builder().service("user").method("Logout").param("{}").build();
+            Req req = Req.builder().service("user").method("logout").param("{}").build();
             ClientUtil.call(token,req);
         }
     }
