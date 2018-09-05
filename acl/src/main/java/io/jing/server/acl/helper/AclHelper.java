@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Component
 public class AclHelper implements AclConstant{
@@ -168,19 +167,22 @@ public class AclHelper implements AclConstant{
 
 
     public boolean canActive(String userId,long resourceId) {
-
-
+        //用户角色
         return getUserRoleOpt(userId)
+                // 角色Id
                 .map(UserRoleBean::getRoleIds)
+                // 转换资源
                 .flatMap(roleIds ->
+                        // 获取资源Id 列表
                         roleIds.stream().map(roleId->getRoleOpt(roleId).orElse(null))
                                 .filter(Objects::nonNull)
+                                //合并
                                 .flatMap(role -> role.getResourceIds().stream())
+                                //过滤
                                 .filter(id -> id == resourceId || id == ALL_RESOURCE_ID)
                                 .findFirst()
                 )
                 .isPresent();
-
     }
 
     private String rKey(String method,String uri){
