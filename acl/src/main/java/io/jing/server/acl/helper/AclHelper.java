@@ -28,8 +28,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Component
 public class AclHelper implements AclConstant{
@@ -166,24 +168,19 @@ public class AclHelper implements AclConstant{
 
 
     public boolean canActive(String userId,long resourceId) {
-        Optional<UserRoleBean> optUr = UR_CACHE.get(userId);
-        // 用户没有角色
-        if(optUr == null || !optUr.isPresent()){
-            return false;
-        }
-        UserRoleBean ur = optUr.get();
-        for (long roleId : ur.getRoleIds()){
-            Optional<RoleBean> optRole = ROLE_CACHE.get(roleId);
-            if(optRole != null && optRole.isPresent()){
-                RoleBean role = optRole.get();
-                boolean contains = role.getResourceIds().contains(resourceId)
-                        ||role.getResourceIds().contains(ALL_RESOURCE_ID);
-                if(contains){
-                    return true;
-                }
-            }
-        }
-        return false;
+
+
+        return getUserRoleOpt(userId)
+                .map(UserRoleBean::getRoleIds)
+                .flatMap(roleIds ->
+                        roleIds.stream().map(roleId->getRoleOpt(roleId).orElse(null))
+                                .filter(Objects::nonNull)
+                                .flatMap(role -> role.getResourceIds().stream())
+                                .filter(id -> id == resourceId || id == ALL_RESOURCE_ID)
+                                .findFirst()
+                )
+                .isPresent();
+
     }
 
     private String rKey(String method,String uri){

@@ -27,14 +27,12 @@ public class MyResource implements Method<Empty> {
         String myId = ThreadLocalUtil.userId();
         Set<Long> resourceIds = Sets.newHashSet();
         aclHelper.getUserRoleOpt(myId)
-                .ifPresent(ur -> {
+                .ifPresent(ur ->
                      ur.getRoleIds().stream()
                         .map(roleId -> aclHelper.getRoleOpt(roleId).orElse(null))
                              .filter(Objects::nonNull)
-                             .forEach(role -> {
-                                     resourceIds.addAll(role.getResourceIds());
-                             });
-                });
+                             .forEach(role -> resourceIds.addAll(role.getResourceIds()))
+                );
         return aclHelper.getResources().stream()
                 .filter(resource ->
                     resource.getType() == AclConstant.RESOURCE_TYPE_PUB
