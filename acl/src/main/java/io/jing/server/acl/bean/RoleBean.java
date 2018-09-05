@@ -27,12 +27,10 @@ public class RoleBean extends BaseBean {
     private String name;
     @Column(comment = "说明")
     private String description;
-    @Column(comment = "角色资源 id 列表",json = true)
+    @Column(comment = "角色资源 id 列表,777表示所有资源",json = true)
     private List<Long> resourceIds;
     @Column(comment = "状态 1 有效，2 失效")
     private Integer state;
-    @Column(comment = "是否拥有所有权限")
-    private Boolean all;
     @Ignore
     private List<ResourceBean> resources;
 }

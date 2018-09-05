@@ -14,6 +14,8 @@ public interface AclConstant extends ServerConstant {
     int RESOURCE_TYPE_LOGIN = 2;
     int RESOURCE_TYPE_AUTH = 3;
 
+    long ALL_RESOURCE_ID = 777L;
+
     long CACHE_SIZE = 1000;
     long CACHE_HOLD_SECOND = 300;
 }

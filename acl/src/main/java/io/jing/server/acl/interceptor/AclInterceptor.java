@@ -50,18 +50,13 @@ public class AclInterceptor extends HandlerInterceptorAdapter implements AclCons
             if (uri.startsWith(DOUBLE_SLASH)){
                 uri = uri.substring(1);
             }
-            ResourceBean resource = aclHelper.getResource(method,uri);
-            if(resource == null
-                    || STATE_ENABLE.equals(resource.getState())
-                    || null == resource.getType()
-                    ){
-                throw new MicroServiceException(AclCode.NOT_FOUND_RESOURCE);
-            }
+            ResourceBean resource = aclHelper.getResourceOpt(method,uri)
+                    .orElseThrow(() -> new MicroServiceException(AclCode.NOT_FOUND_RESOURCE));
             int rType = resource.getType();
-            if(RESOURCE_TYPE_PUB != resource.getType()){
+            if(RESOURCE_TYPE_PUB != rType){
                 Token token = aclHelper.getToken(ticket);
                 ThreadLocalUtil.setToken(token);
-                if(RESOURCE_TYPE_LOGIN !=resource.getType()){
+                if(RESOURCE_TYPE_LOGIN !=rType){
                     boolean canActive = aclHelper.canActive(token.getUserId(),resource.getId());
                     if(!canActive){
                         throw new MicroServiceException(AclCode.PERMISSION_DENIED);

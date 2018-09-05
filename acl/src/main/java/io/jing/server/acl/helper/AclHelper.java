@@ -2,6 +2,7 @@ package io.jing.server.acl.helper;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
+import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import io.jing.base.bean.Req;
 import io.jing.base.bean.Rsp;
@@ -12,6 +13,7 @@ import io.jing.client.util.ClientUtil;
 import io.jing.server.acl.bean.ResourceBean;
 import io.jing.server.acl.bean.RoleBean;
 import io.jing.server.acl.bean.UserRoleBean;
+import io.jing.server.acl.constant.AclCode;
 import io.jing.server.acl.constant.AclConstant;
 import io.jing.server.acl.dao.ResourceDao;
 import io.jing.server.acl.dao.RoleDao;
@@ -20,6 +22,7 @@ import io.jing.util.jdbc.core.event.DmlEventBus;
 import io.jing.util.jdbc.core.event.DmlType;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,12 +43,19 @@ public class AclHelper implements AclConstant{
     private final LoadingCache<String,Optional<UserRoleBean>> UR_CACHE = Caffeine.newBuilder()
             .maximumSize(CACHE_SIZE)
             .expireAfterAccess(CACHE_HOLD_SECOND,TimeUnit.SECONDS)
-            .build(userId -> userRoleDao.find(userId));
+            .build(
+                    userId -> userRoleDao.find(userId)
+                    .filter(ur -> ur.getRoleIds()!=null && !ur.getRoleIds().isEmpty())
+            );
 
     private final LoadingCache<Long,Optional<RoleBean>> ROLE_CACHE = Caffeine.newBuilder()
             .maximumSize(CACHE_SIZE)
             .expireAfterAccess(CACHE_HOLD_SECOND,TimeUnit.SECONDS)
-            .build(roleId -> roleDao.find(roleId));
+            .build(
+                    roleId -> roleDao.find(roleId)
+                            .filter(r -> STATE_ENABLE.equals(r.getState()))
+                            .filter(r -> r.getResourceIds() != null && !r.getResourceIds().isEmpty())
+            );
 
     private final LoadingCache<String,Optional<ResourceBean>> RESOURCE_CACHE = Caffeine.newBuilder()
             .maximumSize(CACHE_SIZE)
@@ -57,6 +67,8 @@ public class AclHelper implements AclConstant{
                 List<Compare> compares = CompareUtil.newInstance()
                         .field("method").eq(method)
                         .field("uri").eq(uri)
+                        .field("type").empty(false)
+                        .field("state").eq(STATE_ENABLE)
                         .compares();
                 List<ResourceBean> resources = resourceDao.query(compares);
                 return resources.stream().findFirst();
@@ -76,6 +88,17 @@ public class AclHelper implements AclConstant{
                 token = rsp.get(Token.class);
                 return token;
             });
+
+    @Getter
+    private List<ResourceBean> resources = Lists.newArrayList();
+
+    private void loadResource(){
+        List<Compare> compares = CompareUtil.newInstance()
+                .field("state").eq(STATE_ENABLE)
+                .field("type").empty(false)
+                .compares();
+        resources = resourceDao.query(compares);
+    }
 
     @PostConstruct
     public void init(){
@@ -99,14 +122,19 @@ public class AclHelper implements AclConstant{
                     String key = resource.getMethod() + "#" + resource.getUri();
                     RESOURCE_CACHE.invalidate(key);
                 }
+                loadResource();
             }
         };
+
+        DmlEventBus.getEventBus(DmlType.CREATE)
+                .register(obj);
 
         DmlEventBus.getEventBus(DmlType.UPDATE)
                 .register(obj);
 
         DmlEventBus.getEventBus(DmlType.DELETE)
                 .register(obj);
+        loadResource();
     }
 
 
@@ -123,13 +151,17 @@ public class AclHelper implements AclConstant{
         }
     }
 
-    public ResourceBean getResource(String method,String uri) {
+    public Optional<ResourceBean> getResourceOpt(String method, String uri) {
         String key = rKey(method,uri);
-        Optional<ResourceBean> optResource = RESOURCE_CACHE.get(key);
-        if(optResource == null) {
-            return null;
-        }
-        return optResource.orElse(null);
+        return RESOURCE_CACHE.get(key);
+    }
+
+    public Optional<UserRoleBean> getUserRoleOpt(String userId){
+        return UR_CACHE.get(userId);
+    }
+
+    public Optional<RoleBean> getRoleOpt(long roleId){
+        return ROLE_CACHE.get(roleId);
     }
 
 
@@ -140,21 +172,14 @@ public class AclHelper implements AclConstant{
             return false;
         }
         UserRoleBean ur = optUr.get();
-        // 角色列表为空
-        if(ur.getRoleIds() == null || ur.getRoleIds().isEmpty()){
-            return false;
-        }
         for (long roleId : ur.getRoleIds()){
             Optional<RoleBean> optRole = ROLE_CACHE.get(roleId);
             if(optRole != null && optRole.isPresent()){
                 RoleBean role = optRole.get();
-                // 角色可用,并且角色拥有该资源
-                if(STATE_ENABLE.equals(role.getState())){
-                    boolean all = role.getAll() != null && role.getAll();
-                    boolean contains = role.getResourceIds() != null && role.getResourceIds().contains(resourceId);
-                    if(all || contains){
-                        return true;
-                    }
+                boolean contains = role.getResourceIds().contains(resourceId)
+                        ||role.getResourceIds().contains(ALL_RESOURCE_ID);
+                if(contains){
+                    return true;
                 }
             }
         }
