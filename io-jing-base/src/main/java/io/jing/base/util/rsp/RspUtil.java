@@ -1,7 +1,6 @@
 package io.jing.base.util.rsp;
 
 import io.jing.base.bean.Rsp;
-import io.jing.base.constant.BaseConstant;
 import io.jing.base.exception.MicroServiceException;
 import io.jing.base.util.code.Code;
 

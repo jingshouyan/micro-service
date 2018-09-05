@@ -8,7 +8,6 @@ import io.jing.util.jdbc.core.event.DmlEventBus;
 import io.jing.util.jdbc.core.util.db.*;
 import io.jing.util.jdbc.core.util.db.sql.generator.SqlGenerator;
 import io.jing.util.jdbc.core.util.db.sql.generator.SqlGeneratorFactory;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -9,7 +9,6 @@ import io.jing.base.util.code.Code;
 import io.jing.base.util.rsp.RspUtil;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.client.util.ClientUtil;
-import io.jing.server.gateway.constant.AppCode;
 import io.jing.server.gateway.helper.TokenHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -22,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * @author jingshouyan

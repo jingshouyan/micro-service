@@ -1,7 +1,6 @@
 package io.jing.server.relationship.method;
 
 import io.jing.server.method.Method;
-
 import io.jing.server.relationship.bean.RoomBean;
 import io.jing.server.relationship.bean.SearchReq;
 import io.jing.server.relationship.dao.RoomDao;

@@ -3,9 +3,7 @@ package io.jing.server.util.http;
 import com.google.common.collect.Maps;
 import io.jing.server.sms.util.http.HttpUtil;
 import io.jing.server.sms.util.http.Response;
-import org.springframework.util.ClassUtils;
 
-import java.io.File;
 import java.util.Map;
 
 public class HttpTest {

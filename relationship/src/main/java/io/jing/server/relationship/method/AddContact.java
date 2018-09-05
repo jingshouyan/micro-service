@@ -1,6 +1,5 @@
 package io.jing.server.relationship.method;
 
-import com.sun.corba.se.pept.transport.ListenerThread;
 import io.jing.base.bean.Req;
 import io.jing.base.bean.Rsp;
 import io.jing.base.bean.Token;

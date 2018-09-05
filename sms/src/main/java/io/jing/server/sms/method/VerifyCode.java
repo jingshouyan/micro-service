@@ -1,7 +1,6 @@
 package io.jing.server.sms.method;
 
 import io.jing.base.exception.MicroServiceException;
-import io.jing.base.thrift.MicroService;
 import io.jing.server.method.Method;
 import io.jing.server.sms.bean.CodeVerify;
 import io.jing.server.sms.bean.SmsRecord;

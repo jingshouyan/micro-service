@@ -13,7 +13,6 @@ import io.jing.client.util.ClientUtil;
 import io.jing.server.acl.bean.ResourceBean;
 import io.jing.server.acl.bean.RoleBean;
 import io.jing.server.acl.bean.UserRoleBean;
-import io.jing.server.acl.constant.AclCode;
 import io.jing.server.acl.constant.AclConstant;
 import io.jing.server.acl.dao.ResourceDao;
 import io.jing.server.acl.dao.RoleDao;

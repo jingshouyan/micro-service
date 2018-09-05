@@ -18,7 +18,6 @@ import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TTupleProtocol;
 import org.assertj.core.util.Lists;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

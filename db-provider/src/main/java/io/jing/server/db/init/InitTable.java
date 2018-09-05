@@ -1,6 +1,5 @@
 package io.jing.server.db.init;
 
-import io.jing.base.util.config.ConfigSettings;
 import io.jing.server.constant.ServerConstant;
 import io.jing.server.db.helper.IdHelper;
 import io.jing.util.jdbc.core.dao.BaseDao;

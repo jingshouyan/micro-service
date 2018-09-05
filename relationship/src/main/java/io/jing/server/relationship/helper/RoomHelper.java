@@ -8,7 +8,6 @@ import io.jing.server.relationship.dao.RoomDao;
 import io.jing.server.relationship.dao.RoomUserDao;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
-import io.jing.util.jdbc.core.util.keygen.IdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

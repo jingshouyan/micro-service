@@ -9,7 +9,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.jing.base.bean.Req;
 import io.jing.base.bean.Rsp;
 import io.jing.base.bean.Token;
-import io.jing.base.exception.MicroServiceException;
 import io.jing.base.util.code.Code;
 import io.jing.base.util.thread.ExecUtil;
 import io.jing.client.util.ClientUtil;

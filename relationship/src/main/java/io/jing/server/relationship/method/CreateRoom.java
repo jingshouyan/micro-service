@@ -12,7 +12,6 @@ import io.jing.server.relationship.bean.RoomUserBean;
 import io.jing.server.relationship.constant.RelationshipConstant;
 import io.jing.server.relationship.dao.RoomDao;
 import io.jing.server.relationship.dao.RoomUserDao;
-import io.jing.util.jdbc.core.util.keygen.IdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

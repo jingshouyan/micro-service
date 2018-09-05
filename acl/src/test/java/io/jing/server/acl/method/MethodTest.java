@@ -1,6 +1,5 @@
 package io.jing.server.acl.method;
 
-import com.google.common.collect.Maps;
 import io.jing.base.bean.Req;
 import io.jing.base.bean.Rsp;
 import io.jing.base.bean.Token;
@@ -12,12 +11,10 @@ import io.jing.server.crud.bean.D;
 import io.jing.server.crud.bean.R;
 import io.jing.util.jdbc.core.util.db.Compare;
 import io.jing.util.jdbc.core.util.db.CompareUtil;
-import io.jing.util.jdbc.core.util.db.Page;
 import org.assertj.core.util.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MethodTest {
 
@@ -44,7 +41,6 @@ public class MethodTest {
         RoleBean role = new RoleBean();
         role.setName("test221");
         role.setDescription("test tst");
-        role.setAll(true);
         role.setResourceIds(Lists.newArrayList(1L,2L,3L));
         List<RoleBean> list = Lists.newArrayList(role,role,role);
         C c = new C();

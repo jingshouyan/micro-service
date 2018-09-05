@@ -1,7 +1,6 @@
 package io.jing.server.user.method;
 
 import io.jing.base.bean.Empty;
-import io.jing.base.bean.Token;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.server.method.Method;
 import io.jing.server.user.dao.TokenDao;

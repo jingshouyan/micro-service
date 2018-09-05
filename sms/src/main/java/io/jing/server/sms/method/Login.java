@@ -8,13 +8,10 @@ import io.jing.server.sms.bean.UserBean;
 import io.jing.server.sms.constant.SmsCode;
 import io.jing.server.sms.dao.UserDao;
 import io.jing.server.sms.util.jwt.JwtUtil;
-import io.jing.util.jdbc.core.util.db.Compare;
-import io.jing.util.jdbc.core.util.db.CompareUtil;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 

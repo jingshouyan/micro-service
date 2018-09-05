@@ -1,12 +1,9 @@
 package io.jing.server.crud.method;
 
-import com.google.common.base.Preconditions;
 import io.jing.server.crud.bean.R;
 import io.jing.server.method.Method;
 import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.dao.BaseDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 

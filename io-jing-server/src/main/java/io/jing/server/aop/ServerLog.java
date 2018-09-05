@@ -1,14 +1,9 @@
 package io.jing.server.aop;
 
-import io.jing.server.constant.ServerConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * Created by 29017 on 2017/8/12.

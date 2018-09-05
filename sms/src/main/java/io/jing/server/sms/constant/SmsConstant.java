@@ -1,6 +1,5 @@
 package io.jing.server.sms.constant;
 
-import com.auth0.jwt.algorithms.Algorithm;
 import io.jing.base.util.config.ConfigSettings;
 import io.jing.server.constant.ServerConstant;
 

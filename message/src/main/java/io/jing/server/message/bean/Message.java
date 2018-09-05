@@ -1,6 +1,5 @@
 package io.jing.server.message.bean;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

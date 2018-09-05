@@ -1,6 +1,5 @@
 package io.jing.server.acl.method;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import io.jing.base.bean.Empty;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
@@ -10,7 +9,6 @@ import io.jing.server.method.Method;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;

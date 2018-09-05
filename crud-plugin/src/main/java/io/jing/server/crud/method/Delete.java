@@ -1,6 +1,5 @@
 package io.jing.server.crud.method;
 
-import io.jing.server.crud.bean.C;
 import io.jing.server.crud.bean.D;
 import io.jing.server.method.Method;
 import io.jing.util.jdbc.core.bean.BaseBean;

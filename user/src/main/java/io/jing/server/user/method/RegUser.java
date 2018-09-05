@@ -1,12 +1,10 @@
 package io.jing.server.user.method;
 
 import io.jing.base.exception.MicroServiceException;
-import io.jing.server.db.helper.IdHelper;
 import io.jing.server.method.Method;
 import io.jing.server.user.bean.UserBean;
 import io.jing.server.user.bean.UserReg;
 import io.jing.server.user.constant.UserCode;
-import io.jing.server.user.constant.UserConstant;
 import io.jing.server.user.dao.UserDao;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;

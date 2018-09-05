@@ -1,6 +1,5 @@
 package io.jing.server.relationship.method;
 
-import io.jing.base.bean.Empty;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.server.db.helper.IdHelper;
 import io.jing.server.method.Method;
@@ -9,7 +8,6 @@ import io.jing.server.relationship.bean.RoomUserBean;
 import io.jing.server.relationship.constant.RelationshipConstant;
 import io.jing.server.relationship.dao.RoomUserDao;
 import io.jing.server.relationship.helper.RoomHelper;
-import io.jing.util.jdbc.core.util.keygen.IdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -3,7 +3,6 @@ package io.jing.server.sms.util.netease;
 import com.google.common.collect.Maps;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
-import com.google.common.io.BaseEncoding;
 import io.jing.base.util.json.JsonUtil;
 import io.jing.server.sms.constant.SmsConstant;
 import io.jing.server.sms.util.http.HttpUtil;
