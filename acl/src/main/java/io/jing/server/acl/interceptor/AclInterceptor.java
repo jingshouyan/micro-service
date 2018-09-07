@@ -73,7 +73,16 @@ public class AclInterceptor extends HandlerInterceptorAdapter implements AclCons
         }
     }
 
-    private void rspErr(Exception e,HttpServletResponse response) throws IOException {
+    @Override
+    public void afterCompletion(HttpServletRequest request,
+                                HttpServletResponse response,
+                                Object handler,
+                                Exception ex) throws Exception {
+        ThreadLocalUtil.removeToken();
+        ThreadLocalUtil.removeTrace();
+    }
+
+    private void rspErr(Exception e, HttpServletResponse response) throws IOException {
         Rsp rsp;
         if(e instanceof MicroServiceException){
             rsp = RspUtil.error((MicroServiceException)e);
@@ -82,7 +91,7 @@ public class AclInterceptor extends HandlerInterceptorAdapter implements AclCons
         }
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().print(JsonUtil.toJsonString(rsp));
+        response.getWriter().print(rsp.json());
     }
 
 }
