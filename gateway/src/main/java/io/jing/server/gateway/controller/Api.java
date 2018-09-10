@@ -58,7 +58,7 @@ public class Api {
             while ((len = in.read(buf))>0){
                 out.write(buf,0,len);
             }
-            String data = out.toString();
+            String data = out.toString("utf-8");
             log.info("{}.{} data:{}",service,method,data);
             if(StringUtils.isEmpty(data)){
                 data = "{}";

@@ -49,7 +49,10 @@ public class FileController implements AppConstant {
             String fileUrl = UPLOAD_PROFFIX + "/" + datePath+sFilename;
             File saveFile = new File(savePath);
             if (!saveFile.getParentFile().exists()) {
-                saveFile.getParentFile().mkdirs();
+                boolean done = saveFile.getParentFile().mkdirs();
+                if(!done) {
+                    return RspUtil.error(AppCode.FILE_UPLOAD_ERROR);
+                }
             }
             try(BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(saveFile));) {
                 out.write(file.getBytes());
@@ -77,7 +80,10 @@ public class FileController implements AppConstant {
     public String uploadFiles(HttpServletRequest request) throws IOException {
         File savePath = new File(request.getSession().getServletContext().getRealPath("/upload/"));
         if (!savePath.exists()) {
-            savePath.mkdirs();
+            boolean done = savePath.mkdirs();
+            if(!done) {
+                return "失败";
+            }
         }
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
         MultipartFile file = null;

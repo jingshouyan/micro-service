@@ -24,7 +24,7 @@ public class ContactDaoImpl extends BaseDaoImpl<ContactBean> implements ContactD
     private IdHelper idHelper;
 
     @Override
-    public List<ContactBean> ListContacts(String myId, long revision, int size, boolean containDel) {
+    public List<ContactBean> listContacts(String myId, long revision, int size, boolean containDel) {
         List<Compare> compares = CompareUtil.newInstance()
                 .field("myId").eq(myId)
                 .field("revision").gt(revision)

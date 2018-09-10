@@ -46,8 +46,6 @@ public class PayController implements SmsConstant {
         payOrder.setPayId(PAY92_PAYID);
         payOrder.setPayChannel("alipay");
         payOrder.setMoney(1);
-        payOrder.setOrderNumber(IdUtil.stringId());
-        payOrder.forCreate();
         payOrder.setState(1);
         payOrderDao.insert(payOrder);
         Map<String,Object> data = payData(payOrder);

@@ -89,8 +89,19 @@ public class AclHelper implements AclConstant{
                 return token;
             });
 
-    @Getter
-    private List<ResourceBean> resources = Lists.newArrayList();
+
+    private List<ResourceBean> resources = null;
+
+    /**
+     * 获取有效资源列表，懒加载
+     * @return
+     */
+    public synchronized List<ResourceBean> getResources(){
+        if (resources == null) {
+            loadResource();
+        }
+        return resources;
+    }
 
     private void loadResource(){
         List<Compare> compares = CompareUtil.newInstance()
@@ -134,7 +145,6 @@ public class AclHelper implements AclConstant{
 
         DmlEventBus.getEventBus(DmlType.DELETE)
                 .register(obj);
-        loadResource();
     }
 
 

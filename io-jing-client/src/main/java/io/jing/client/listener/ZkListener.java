@@ -3,6 +3,7 @@ package io.jing.client.listener;
 import io.jing.base.bean.ServiceInfo;
 import io.jing.base.util.json.JsonUtil;
 import io.jing.client.constant.ClientConstant;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -74,10 +75,11 @@ public class ZkListener implements ClientConstant {
         return info;
     }
 
+    @SneakyThrows
     private static String byte2String(byte[] b) {
         if (b == null){
             return null;
         }
-        return new String(b);
+        return new String(b,"utf-8");
     }
 }

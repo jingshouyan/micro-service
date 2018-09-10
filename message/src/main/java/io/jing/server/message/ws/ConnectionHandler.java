@@ -23,6 +23,7 @@ import io.jing.server.message.dao.WsConnDao;
 import io.jing.server.message.method.PushMessage;
 import io.jing.server.message.util.MessageConverter;
 import io.jing.server.zk.Register;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -176,7 +177,7 @@ public class ConnectionHandler  implements CommandLineRunner {
         });
     }
 
-    @ToString
+    @ToString@EqualsAndHashCode
     private static class ConnDelayed implements Delayed {
         private long runAt;
         @Getter

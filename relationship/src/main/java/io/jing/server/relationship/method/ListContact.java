@@ -20,6 +20,6 @@ public class ListContact implements Method<QueryParam> {
     @Override
     public Object action(QueryParam queryParam) {
         String userId = ThreadLocalUtil.userId();
-        return contactDao.ListContacts(userId,queryParam.getRevision(),queryParam.getSize(),queryParam.isContainDel());
+        return contactDao.listContacts(userId,queryParam.getRevision(),queryParam.getSize(),queryParam.isContainDel());
     }
 }

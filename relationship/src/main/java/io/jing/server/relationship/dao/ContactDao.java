@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface ContactDao extends BaseDao<ContactBean> {
 
-    List<ContactBean> ListContacts(String myId, long revision, int size, boolean containDel);
+    List<ContactBean> listContacts(String myId, long revision, int size, boolean containDel);
     int addContacts(ContactBean contactsBean);
     int delContacts(String myId,String userId);
 }

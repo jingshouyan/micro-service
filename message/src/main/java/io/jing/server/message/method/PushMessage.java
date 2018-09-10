@@ -91,7 +91,10 @@ public class PushMessage implements Method<MessagePush> , CommandLineRunner {
                                 MessageRes res = new MessageRes();
                                 res.setId(messageBeanId);
                                 res.setClientType(token.getClientType());
-                                queue.offer(res);
+                                boolean qed = queue.offer(res);
+                                if(!qed){
+                                    log.warn("queue is full,res:{}",res);
+                                }
                             }
                         },
                         messagePush.getMessage());
