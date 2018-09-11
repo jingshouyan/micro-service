@@ -24,6 +24,7 @@
         <module>acl</module>
         <module>crud-plugin</module>
         <module>crud-api</module>
+        <module>admin</module>
     </modules>
 
     <parent>

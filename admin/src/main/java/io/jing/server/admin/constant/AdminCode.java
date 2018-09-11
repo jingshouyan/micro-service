@@ -1,4 +1,4 @@
-package io.jing.server.user.constant;
+package io.jing.server.admin.constant;
 
 import io.jing.base.util.code.Code;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * #date 2018/6/11 17:43
  */
 @Component
-public class UserCode {
+public class AdminCode {
     public static final int USERNAME_IN_USE = 10001;
     public static final int PASSWORD_ILLEGALLY = 10002;
     public static final int USER_UNREGISTER = 10003;

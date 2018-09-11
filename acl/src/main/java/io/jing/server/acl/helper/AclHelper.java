@@ -80,7 +80,7 @@ public class AclHelper implements AclConstant{
             .build(ticket->{
                 Token token = new Token();
                 token.setTicket(ticket);
-                Req req = Req.builder().service("user").method("getToken").param("{}").build();
+                Req req = Req.builder().service("admin").method("getToken").param("{}").build();
                 Rsp rsp = ClientUtil.call(token,req);
                 if(rsp.getCode()!=Code.SUCCESS){
                     throw new MicroServiceException(rsp.getCode(),"user:"+rsp.getMessage());
