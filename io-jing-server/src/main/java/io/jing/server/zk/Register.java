@@ -9,9 +9,19 @@ import io.jing.server.constant.ServerConstant;
 import io.jing.server.iface.ServiceLoad;
 import io.jing.server.monitor.MonitorUtil;
 import io.jing.server.thrift.ThreadSelectorServer;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.api.CuratorEvent;
+import org.apache.curator.framework.api.CuratorListener;
+import org.apache.curator.framework.recipes.cache.PathChildrenCache;
+import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
+import org.apache.curator.framework.recipes.cache.TreeCache;
+import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
+import org.apache.curator.framework.state.ConnectionState;
+import org.apache.curator.framework.state.ConnectionStateListener;
+import org.apache.curator.retry.RetryForever;
 import org.apache.curator.retry.RetryNTimes;
 import org.apache.thrift.server.TServer;
 import org.apache.zookeeper.CreateMode;
@@ -32,7 +42,10 @@ public class Register implements ServerConstant {
     public static final ServiceInfo SERVICE_INSTANCE = new ServiceInfo();
 
     private static final String host = NetUtil.getIp(THRIFT_SERVER_IP);
-    private static final CuratorFramework client = CuratorFrameworkFactory.newClient(ZK_ADDRESS, new RetryNTimes(10, 5000));
+    private static final CuratorFramework client = CuratorFrameworkFactory
+            .builder().connectString(ZK_ADDRESS).canBeReadOnly(true)
+            .retryPolicy(new RetryForever(5000))
+            .build();
 
     private static final ExecutorService executor = new ThreadPoolExecutor(1,
             1,0L,TimeUnit.MICROSECONDS,new SynchronousQueue<>(),
@@ -70,27 +83,30 @@ public class Register implements ServerConstant {
     private static void registerService(ServiceInfo info) {
         try{
             log.info("register zk starting...");
-            String fullPath = fullPath(info);
-            info.setMonitorInfo(MonitorUtil.monitor());
-            String data = JsonUtil.toJsonString(info);
-            String realPath = client.create().
-                    creatingParentContainersIfNeeded()
-                    .withMode(CreateMode.EPHEMERAL)
-                    .forPath(fullPath, data.getBytes());
-            log.info("register zk path:[{}] data:[{}]", realPath, data);
-            log.info("serviceInstance:[{}]", SERVICE_INSTANCE);
+            String path = fullPath(info);
+            createZkNode(info);
+            log.info("serviceInstance:[{}]", info);
 
+            TreeCache cache = new TreeCache(client, path);
+            cache.getListenable().addListener((cf,event)->{
+                log.info("TREE CACHE {},{}",event.getType(),event.toString());
+                if(event.getType() == TreeCacheEvent.Type.NODE_REMOVED
+                        && path.equals(event.getData().getPath())){
+                    createZkNode(info);
+                }
+            });
+            cache.start();
 
             service.scheduleAtFixedRate(()->updateService(info),UPDATE_DELAY,UPDATE_DELAY,TimeUnit.SECONDS);
 
             Runtime.getRuntime().addShutdownHook(new Thread(()->{
                 try{
                     log.info("server stop...");
-                    client.delete().forPath(realPath);
+                    client.delete().forPath(path);
                     client.close();
-                    log.info("delete zk node [{}] .",realPath);
+                    log.info("delete zk node [{}] .",path);
                 }catch (Exception e){
-                    log.error("delete zk node [{}] error.",realPath,e);
+                    log.error("delete zk node [{}] error.",path,e);
                 }
             }));
 
@@ -98,6 +114,19 @@ public class Register implements ServerConstant {
             log.error("register zk error.",e);
             System.exit(-1);
         }
+    }
+
+    @SneakyThrows
+    private static String createZkNode(ServiceInfo info){
+        String path = fullPath(info);
+        info.setMonitorInfo(MonitorUtil.monitor());
+        String data = JsonUtil.toJsonString(info);
+        String realPath = client.create().
+                creatingParentContainersIfNeeded()
+                .withMode(CreateMode.EPHEMERAL)
+                .forPath(path, data.getBytes());
+        log.info("create zk node :{},data:{}",path,data);
+        return realPath;
     }
 
     private static String fullPath(ServiceInfo info){
