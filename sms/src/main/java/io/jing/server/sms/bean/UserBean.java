@@ -1,6 +1,7 @@
 package io.jing.server.sms.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.jing.util.jdbc.core.bean.BaseBean;
 import io.jing.util.jdbc.core.util.Constant;
 import io.jing.util.jdbc.core.util.db.annotation.Column;
@@ -15,7 +16,7 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@ToString(callSuper = true)
+@ToString(callSuper = true,exclude = "id")
 public class UserBean extends BaseBean {
     @Key
     @Column(comment = "id")
