@@ -210,13 +210,14 @@ public abstract class BaseDaoImpl<T extends BaseBean> implements BaseDao<T> {
     public int delete4List(List<?> ids) {
         Preconditions.checkNotNull(ids, "ids is null");
         List<Compare> compares = CompareUtil.newInstance().field(key()).in(ids).compares();
+        List<T> list = Lists.newArrayList();
+        if(DmlEventBus.isDeleteOn()){
+            list = findByIds(ids);
+        }
         int fetch = delete4Batch(compares);
         //添加删除事件
         if(DmlEventBus.isDeleteOn()){
-            ids.forEach((id)->{
-                T t = Bean4DbUtil.newInstanceWithKey(clazz,id);
-                DmlEventBus.onDelete(t);
-            });
+            list.forEach(DmlEventBus::onDelete);
         }
         return fetch;
     }
