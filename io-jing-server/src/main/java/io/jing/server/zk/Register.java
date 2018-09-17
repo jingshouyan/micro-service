@@ -102,6 +102,7 @@ public class Register implements ServerConstant {
             Runtime.getRuntime().addShutdownHook(new Thread(()->{
                 try{
                     log.info("server stop...");
+                    cache.close();
                     client.delete().forPath(path);
                     client.close();
                     log.info("delete zk node [{}] .",path);
