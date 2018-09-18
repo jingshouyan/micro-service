@@ -25,6 +25,8 @@
         <module>crud-plugin</module>
         <module>crud-api</module>
         <module>admin</module>
+        <module>web-flux</module>
+        <module>benchmark</module>
     </modules>
 
     <parent>
