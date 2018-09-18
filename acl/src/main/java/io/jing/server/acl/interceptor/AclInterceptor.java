@@ -37,62 +37,45 @@ public class AclInterceptor extends HandlerInterceptorAdapter implements AclCons
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) throws Exception{
-        try{
-            String traceId = request.getHeader("Trace-Id");
-            if(null == traceId) {
-                traceId = Long.toHexString(System.nanoTime());
-            }
-            ThreadLocalUtil.setTraceId(traceId);
-            String ticket = request.getHeader("Ticket");
-            String method = request.getMethod();
-            String uri = request.getRequestURI();
-            uri = uri.substring(contextPath.length());
-            if (uri.startsWith(DOUBLE_SLASH)){
-                uri = uri.substring(1);
-            }
-            ResourceBean resource = aclHelper.getResourceOpt(method,uri)
-                    .orElseThrow(() -> new MicroServiceException(AclCode.NOT_FOUND_RESOURCE));
-            int rType = resource.getType();
-            if(RESOURCE_TYPE_PUB != rType){
-                Token token = aclHelper.getToken(ticket);
-                ThreadLocalUtil.setToken(token);
-                if(RESOURCE_TYPE_LOGIN !=rType){
-                    boolean canActive = aclHelper.canActive(token.getUserId(),resource.getId());
-                    if(!canActive){
-                        throw new MicroServiceException(AclCode.PERMISSION_DENIED);
-                    }
-                }
-                if(Boolean.TRUE.equals(resource.getLogout())){
-                    aclHelper.removeToken(token);
-                }
-            }
-            return super.preHandle(request, response, handler);
-        }catch (Exception e){
-            rspErr(e,response);
-            return false;
+        String traceId = request.getHeader("Trace-Id");
+        if(null == traceId) {
+            traceId = Long.toHexString(System.nanoTime());
         }
+        ThreadLocalUtil.setTraceId(traceId);
+        String ticket = request.getHeader("Ticket");
+        String method = request.getMethod();
+        String uri = request.getRequestURI();
+        uri = uri.substring(contextPath.length());
+        if (uri.startsWith(DOUBLE_SLASH)){
+            uri = uri.substring(1);
+        }
+        ResourceBean resource = aclHelper.getResourceOpt(method,uri)
+                .orElseThrow(() -> new MicroServiceException(AclCode.NOT_FOUND_RESOURCE));
+        int rType = resource.getType();
+        if(RESOURCE_TYPE_PUB != rType){
+            Token token = aclHelper.getToken(ticket);
+            ThreadLocalUtil.setToken(token);
+            if(RESOURCE_TYPE_LOGIN !=rType){
+                boolean canActive = aclHelper.canActive(token.getUserId(),resource.getId());
+                if(!canActive){
+                    throw new MicroServiceException(AclCode.PERMISSION_DENIED);
+                }
+            }
+            if(Boolean.TRUE.equals(resource.getLogout())){
+                aclHelper.removeToken(token);
+            }
+        }
+        return super.preHandle(request, response, handler);
+
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Object handler,
-                                Exception ex) throws Exception {
+                                Exception ex){
         ThreadLocalUtil.removeToken();
         ThreadLocalUtil.removeTrace();
-    }
-
-    private void rspErr(Exception e, HttpServletResponse response) throws IOException {
-        Rsp rsp;
-        if(e instanceof MicroServiceException){
-            rsp = RspUtil.error((MicroServiceException)e);
-        }else {
-            rsp = RspUtil.error(Code.SERVER_ERROR,e);
-            log.warn("error",e);
-        }
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().print(rsp.json());
     }
 
 }
