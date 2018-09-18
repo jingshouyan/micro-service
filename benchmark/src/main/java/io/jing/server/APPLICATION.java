@@ -1,5 +1,6 @@
 package io.jing.server;
 
+import io.jing.base.util.config.ConfigSettings;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
@@ -17,13 +18,13 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Benchmark)
-public class App {
+public class APPLICATION {
 
-    public static final int CONCURRENCY = 32;
+    private static final int CONCURRENCY = ConfigSettings.get("threads").map(Integer::parseInt).orElse(8);
 
-    @Benchmark
-    @BenchmarkMode({ Mode.Throughput, Mode.AverageTime, Mode.SampleTime })
-    @OutputTimeUnit(TimeUnit.MILLISECONDS)
+//    @Benchmark
+//    @BenchmarkMode({ Mode.Throughput, Mode.AverageTime, Mode.SampleTime })
+//    @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public ResourceBean getResourceById(){
         Token token = new Token();
         R r = new R();
@@ -44,23 +45,25 @@ public class App {
         Rsp rsp = ClientUtil.call(token,req);
         return rsp.list(ResourceBean.class);
     }
+    @Benchmark
+    @BenchmarkMode({ Mode.Throughput, Mode.AverageTime, Mode.SampleTime })
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    public List<ResourceBean> myResource(){
+        Token token = new Token();
+        Req req = Req.builder().service("acl").method("myResource").param("{}").build();
+        Rsp rsp = ClientUtil.call(token,req);
+        return rsp.list(ResourceBean.class);
+    }
 
     public static void main(String[] args) throws Exception {
-        App client = new App();
+        APPLICATION client = new APPLICATION();
 
-        List<ResourceBean> resourceBeans = client.all();
+        client.myResource();
 
-        for (int i = 0; i < 100; i++) {
-            try {
-                System.out.println(client.getResourceById());
-            } catch (Exception e) {
-                Thread.sleep(50);
-            }
-        }
         Thread.sleep(3000);
 
         Options opt = new OptionsBuilder()//
-                .include(App.class.getSimpleName())//
+                .include(APPLICATION.class.getSimpleName())//
                 .warmupIterations(3)//
                 .warmupTime(TimeValue.seconds(10))//
                 .measurementIterations(3)//
