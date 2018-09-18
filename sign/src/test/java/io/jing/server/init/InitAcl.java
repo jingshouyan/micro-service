@@ -1,4 +1,4 @@
-package io.jing.server.acl.method;
+package io.jing.server.init;
 
 import io.jing.server.App;
 import io.jing.server.acl.bean.ResourceBean;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = App.class)
-public class InitData implements AclConstant {
+public class InitAcl implements AclConstant {
 
     @Autowired
     private ResourceDao resourceDao;
@@ -32,19 +32,23 @@ public class InitData implements AclConstant {
     @Test
     public void init(){
         List<String> list = Lists.newArrayList(
-             "资源,RESOURCE,acl"
+                "资源,RESOURCE,acl",
+                "角色,ROLE,acl",
+                "用户角色,USER_ROLE,acl",
+                "管理员,ADMIN,admin",
+                "用户,USER,user"
 
         );
         List<String> strings = Lists.newArrayList(
-                "查询,QUERY",
-                "新增,INSERT",
-                "修改,UPDATE",
-                "删除,DELETE"
+                "查询,query",
+                "新增,insert",
+                "修改,update",
+                "删除,delete"
         );
 
 
 
-        List<ResourceBean> rs = list.stream().map(str ->{
+        final List<ResourceBean> rs = list.stream().map(str ->{
             String[] ss = str.split(",");
             return ss;
         }).flatMap(s2 ->{
@@ -52,7 +56,7 @@ public class InitData implements AclConstant {
                 String[] ss = s.split(",");
                 String name = s2[0]+ss[0];
                 String code = (s2[1]+"_"+ss[1]).toUpperCase();
-                String url = ("/"+s2[2]+"/"+s2[1]+"/"+ss[1]).toLowerCase();
+                String url = ("/"+s2[2]+"/"+StringUtil.underline2Camel(s2[1],true)+"/"+ss[1]);
                 ResourceBean r = new ResourceBean();
                 r.setCode(code);
                 r.setDescription("");
@@ -69,8 +73,8 @@ public class InitData implements AclConstant {
         ctx.getBeansOfType(Method.class).keySet().forEach(key ->{
             String[] ss = key.split("\\.");
             if(!"plugin".equals(ss[0])){
-                String code = StringUtil.camel2Underline(ss[1]);
-                String name = ss[1];
+                String code = ss[0].toUpperCase()+"_"+StringUtil.camel2Underline(ss[1]);
+                String name = key;
                 String url = "/"+ss[0]+"/"+ss[1];
                 ResourceBean r = new ResourceBean();
                 r.setCode(code);
@@ -81,6 +85,7 @@ public class InitData implements AclConstant {
                 r.setState(STATE_ENABLE);
                 r.setType(RESOURCE_TYPE_PUB);
                 r.setUri(url);
+                rs.add(r);
             }
         });
 
@@ -89,8 +94,8 @@ public class InitData implements AclConstant {
                 .field("code").in(codes).compares();
         List<ResourceBean> rs2 = resourceDao.query(compares);
         List<String> codes2 = rs2.stream().map(ResourceBean::getCode).collect(Collectors.toList());
-        rs = rs.stream().filter(r-> !codes2.contains(r.getCode())).collect(Collectors.toList());
-        resourceDao.batchInsert(rs);
+        List<ResourceBean> rs3 = rs.stream().filter(r-> !codes2.contains(r.getCode())).collect(Collectors.toList());
+        resourceDao.batchInsert(rs3);
     }
 
     public static void main(String[] args) {

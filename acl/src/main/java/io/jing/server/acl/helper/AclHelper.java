@@ -130,7 +130,7 @@ public class AclHelper implements AclConstant{
                     //不知道改了啥,清除全部缓存
                     RESOURCE_CACHE.invalidateAll();
                 } else {
-                    String key = resource.getMethod() + "#" + resource.getUri();
+                    String key = rKey(resource.getMethod(),resource.getUri());
                     RESOURCE_CACHE.invalidate(key);
                 }
                 loadResource();

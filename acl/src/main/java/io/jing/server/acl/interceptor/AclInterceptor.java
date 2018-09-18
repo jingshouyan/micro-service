@@ -25,7 +25,7 @@ import java.io.IOException;
 @Slf4j
 public class AclInterceptor extends HandlerInterceptorAdapter implements AclConstant {
 
-    @Value("${server.context-path:}")
+    @Value("${server.servlet.context-path:}")
     private String contextPath;
 
     private static String DOUBLE_SLASH = "//";
@@ -88,6 +88,7 @@ public class AclInterceptor extends HandlerInterceptorAdapter implements AclCons
             rsp = RspUtil.error((MicroServiceException)e);
         }else {
             rsp = RspUtil.error(Code.SERVER_ERROR,e);
+            log.warn("error",e);
         }
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
