@@ -1,6 +1,7 @@
 package io.jing.server;
 
 import io.jing.base.util.config.ConfigSettings;
+import lombok.SneakyThrows;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
@@ -22,48 +23,43 @@ public class APPLICATION {
 
     private static final int CONCURRENCY = ConfigSettings.get("threads").map(Integer::parseInt).orElse(8);
 
-//    @Benchmark
-//    @BenchmarkMode({ Mode.Throughput, Mode.AverageTime, Mode.SampleTime })
-//    @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    public ResourceBean getResourceById(){
-        Token token = new Token();
-        R r = new R();
-        r.setType("single");
-        r.setId(10001L);
-        r.setBean("resource");
-        Req req = Req.builder().service("acl").method("query").paramObj(r).build();
-        Rsp rsp = ClientUtil.call(token,req);
-        return rsp.get(ResourceBean.class);
-    }
-
-    public List<ResourceBean> all(){
-        Token token = new Token();
-        R r = new R();
-        r.setType("list");
-        r.setBean("resource");
-        Req req = Req.builder().service("acl").method("query").paramObj(r).build();
-        Rsp rsp = ClientUtil.call(token,req);
-        return rsp.list(ResourceBean.class);
-    }
-    @Benchmark
-    @BenchmarkMode({ Mode.Throughput, Mode.AverageTime, Mode.SampleTime })
-    @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    public List<ResourceBean> myResource(){
-        Token token = new Token();
-        Req req = Req.builder().service("acl").method("myResource").param("{}").build();
-        Rsp rsp = ClientUtil.call(token,req);
-        return rsp.list(ResourceBean.class);
-    }
 
     public static void main(String[] args) throws Exception {
-        APPLICATION client = new APPLICATION();
+        micro();
+//        thrift();
+    }
+
+    @SneakyThrows
+    public static void micro() {
+        MicroTest client = new MicroTest();
 
         client.myResource();
 
         Thread.sleep(3000);
 
         Options opt = new OptionsBuilder()//
-                .include(APPLICATION.class.getSimpleName())//
+                .include(MicroTest.class.getSimpleName())//
+                .warmupIterations(3)//
+                .warmupTime(TimeValue.seconds(10))//
+                .measurementIterations(3)//
+                .measurementTime(TimeValue.seconds(10))//
+                .threads(CONCURRENCY)//
+                .forks(1)//
+                .build();
+
+        new Runner(opt).run();
+    }
+
+    @SneakyThrows
+    public static void thrift(){
+        ThriftTest client = new ThriftTest();
+
+        client.myResource();
+
+        Thread.sleep(3000);
+
+        Options opt = new OptionsBuilder()//
+                .include(ThriftTest.class.getSimpleName())//
                 .warmupIterations(3)//
                 .warmupTime(TimeValue.seconds(10))//
                 .measurementIterations(3)//

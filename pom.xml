@@ -27,6 +27,7 @@
         <module>admin</module>
         <module>web-flux</module>
         <module>benchmark</module>
+        <module>acl-thrift</module>
     </modules>
 
     <parent>
