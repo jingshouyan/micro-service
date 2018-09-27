@@ -80,6 +80,7 @@ public class SendMessage implements Method<Message> {
                             case 3:
                                 messageBean.setPush3(MessageConstant.MESSAGE_PUSH_YES);
                                 break;
+                            default:
                         }
                         messageBean.setPush(MessageConstant.MESSAGE_PUSH_YES);
                     }

@@ -12,14 +12,11 @@ public class UserRelated implements Related{
 
     @Override
     public void actionBatch(Message message, Consumer<List<String>> consumer) {
-        List<String> userIdList = Lists.newArrayList();
-        userIdList.add(message.getSenderId());
+        List<String> userIds = Lists.newArrayList();
+        userIds.add(message.getSenderId());
         if(!message.selfMessage()){
-            userIdList.add(message.getTargetId());
+            userIds.add(message.getTargetId());
         }
-        userIdList = filterRelated(message,userIdList);
-        if(!userIdList.isEmpty()){
-            consumer.accept(userIdList);
-        }
+        consumer.accept(userIds);
     }
 }
