@@ -37,14 +37,14 @@ public class APPLICATION {
 
         Thread.sleep(3000);
 
-        Options opt = new OptionsBuilder()//
-                .include(MicroTest.class.getSimpleName())//
-                .warmupIterations(3)//
-                .warmupTime(TimeValue.seconds(10))//
-                .measurementIterations(3)//
-                .measurementTime(TimeValue.seconds(10))//
-                .threads(CONCURRENCY)//
-                .forks(1)//
+        Options opt = new OptionsBuilder()
+                .include(MicroTest.class.getSimpleName())
+                .warmupIterations(3)
+                .warmupTime(TimeValue.seconds(10))
+                .measurementIterations(3)
+                .measurementTime(TimeValue.seconds(10))
+                .threads(CONCURRENCY)
+                .forks(1)
                 .build();
 
         new Runner(opt).run();
@@ -58,14 +58,14 @@ public class APPLICATION {
 
         Thread.sleep(3000);
 
-        Options opt = new OptionsBuilder()//
-                .include(ThriftTest.class.getSimpleName())//
-                .warmupIterations(3)//
-                .warmupTime(TimeValue.seconds(10))//
-                .measurementIterations(3)//
-                .measurementTime(TimeValue.seconds(10))//
-                .threads(CONCURRENCY)//
-                .forks(1)//
+        Options opt = new OptionsBuilder()
+                .include(ThriftTest.class.getSimpleName())
+                .warmupIterations(3)
+                .warmupTime(TimeValue.seconds(10))
+                .measurementIterations(3)
+                .measurementTime(TimeValue.seconds(10))
+                .threads(CONCURRENCY)
+                .forks(1)
                 .build();
 
         new Runner(opt).run();
