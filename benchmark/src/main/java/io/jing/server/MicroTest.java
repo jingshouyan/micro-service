@@ -13,12 +13,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Benchmark)
+@BenchmarkMode({ Mode.Throughput, Mode.AverageTime, Mode.SampleTime })
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@Warmup(iterations = 1,time = 10)
+@Measurement(iterations = 3,time = 10)
+@Threads(32)
+@Fork(1)
 public class MicroTest {
 
 
     @Benchmark
-    @BenchmarkMode({ Mode.Throughput, Mode.AverageTime, Mode.SampleTime })
-    @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public List<ResourceBean> myResource(){
         Token token = new Token();
         Req req = Req.builder().service("acl").method("myResource").param("{}").build();
@@ -27,8 +31,8 @@ public class MicroTest {
     }
 
 
-    public static void main(String[] args) {
-        MicroTest microTest = new MicroTest();
-        microTest.myResource();
-    }
+//    public static void main(String[] args) {
+//        MicroTest microTest = new MicroTest();
+//        microTest.myResource();
+//    }
 }

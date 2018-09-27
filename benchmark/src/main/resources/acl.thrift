@@ -10,6 +10,9 @@ struct ResourceT {
     7: optional i32 type;
     8: optional i32 state;
     9: optional bool logout;
+    10: optional i64 createdAt;
+    11: optional i64 updatedAt;
+    12: optional i64 deletedAt;
 }
 
 struct ResponseT {
