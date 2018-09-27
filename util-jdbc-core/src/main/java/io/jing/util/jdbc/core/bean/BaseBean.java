@@ -15,6 +15,8 @@ import java.io.Serializable;
 @Getter@Setter@ToString
 public abstract class BaseBean implements Serializable{
 
+    public static final long DELETE = -1;
+
     @Column(order = 1001,comment = "创建时间")
     private Long createdAt;
     @Column(order = 1002,comment = "修改时间")
@@ -27,7 +29,7 @@ public abstract class BaseBean implements Serializable{
         long now = System.currentTimeMillis();
         createdAt = now;
         updatedAt = now;
-        deletedAt = -1L;
+        deletedAt = DELETE;
     }
 
     public void forUpdate() {
@@ -47,12 +49,12 @@ public abstract class BaseBean implements Serializable{
         long now = System.currentTimeMillis();
         createdAt = null;
         updatedAt = now;
-        deletedAt = -1L;
+        deletedAt = DELETE;
     }
 
 
     public boolean deleted() {
-        return deletedAt != null && !deletedAt.equals(-1L);
+        return deletedAt != null && deletedAt != DELETE;
     }
 
     public static boolean deleted(BaseBean bean) {

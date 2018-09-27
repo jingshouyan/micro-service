@@ -52,6 +52,7 @@ public abstract class BaseDaoImpl<T extends BaseBean> implements BaseDao<T> {
     @Autowired
     protected NamedParameterJdbcTemplate template;
 
+    @Autowired
     public Class<T> getClazz(){
         return clazz;
     }
