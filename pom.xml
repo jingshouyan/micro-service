@@ -7,7 +7,7 @@
     <groupId>io.jing</groupId>
     <artifactId>micro-service</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <modules>
         <module>util-jdbc-core</module>
         <module>io-jing-base</module>
@@ -38,7 +38,7 @@
     </parent>
 
     <properties>
-        <io.jing.framework.version>1.0-SNAPSHOT</io.jing.framework.version>
+        <io.jing.framework.version>1.0.0</io.jing.framework.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <zookeeper.version>3.4.10</zookeeper.version>
@@ -515,7 +515,7 @@
                         </goals>
                         <configuration>
                             <outputDirectory>
-                                /data/java/lib2
+                                /data/java/lib
                             </outputDirectory>
                         </configuration>
                     </execution>
