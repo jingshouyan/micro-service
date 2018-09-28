@@ -28,7 +28,7 @@ public class RelatedProxy implements Related,MessageConstant {
     @Autowired
     private RoomRelated roomRelated;
 
-    private final ExecutorService exec = new ThreadPoolExecutor(1, 10,
+    private final ExecutorService exec = new ThreadPoolExecutor(10, 100,
             60, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(1024),
             new ThreadFactoryBuilder().setNameFormat("related-pool-%d").build(),
