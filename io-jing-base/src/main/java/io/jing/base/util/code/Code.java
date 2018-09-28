@@ -8,7 +8,7 @@ import java.util.Map;
  * @date 2018/4/15 9:36
  */
 public class Code {
-    public static final int SUCCESS = 0;
+    public static final int SUCCESS = 1;
     public static final int CLIENT_ERROR = 99700001;
     public static final int SERVICE_NOT_FUND = 99800001;
     public static final int INSTANCE_NOT_FUND = 99800002;
