@@ -4,15 +4,26 @@ import io.jing.base.bean.Req;
 import io.jing.base.bean.Rsp;
 import io.jing.base.bean.Token;
 import io.jing.client.util.ClientUtil;
+import io.jing.server.App;
 import io.jing.server.user.bean.TokenBean;
 import io.jing.server.user.bean.UserLogin;
 import io.jing.server.user.bean.UserReg;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author jingshouyan
  * #date 2018/6/11 18:47
  */
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = App.class)
 public class RegTest {
+
+    @Autowired
+    private RegUser regUser;
 
     public static void main(String[] args) {
         Token token = new Token();
