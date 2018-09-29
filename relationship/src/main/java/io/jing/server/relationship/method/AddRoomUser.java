@@ -93,7 +93,7 @@ public class AddRoomUser implements Method<RoomUserAdd> {
                         rub.setUserLevel(r.getUserLevel());
                         rub.setRevisionUser(idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_USER_REVISION));
                         rub.setRevisionRoom(revisionRoom);
-                        rub.genId();
+                        rub.setId(rub.genId());
                         return rub;
                     }).collect(Collectors.toList());
             roomUserDao.batchInsert(u4Insert);

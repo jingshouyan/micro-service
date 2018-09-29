@@ -5,6 +5,7 @@ import io.jing.base.bean.Req;
 import io.jing.base.bean.Rsp;
 import io.jing.base.bean.Token;
 import io.jing.base.util.code.Code;
+import io.jing.base.util.json.JsonUtil;
 import io.jing.base.util.threadlocal.ThreadLocalUtil;
 import io.jing.client.util.ClientUtil;
 import io.jing.server.message.bean.Message;
@@ -26,11 +27,13 @@ public class RoomRelated implements Related {
         long revision = 0;
         while(true){
             Map<String,Object> param = Maps.newHashMap();
+            param.put("id",message.getTargetId());
             param.put("revision",revision);
             param.put("size",BATCH_SIZE);
             param.put("containDel",false);
+            String str = JsonUtil.toJsonString(param);
             Req req = Req.builder().service("relationship")
-                    .method("listRoomUser").paramObj(param).build();
+                    .method("listRoomUser").param(str).build();
             Rsp rsp = ClientUtil.call(token,req);
             if(rsp.getCode() != Code.SUCCESS){
                 break;

@@ -52,6 +52,7 @@ public class CreateRoom implements Method<RoomCreate> {
         owner.setUserLevel(RelationshipConstant.ROOM_LEVEL_OWNER);
         owner.setRevisionUser(idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_USER_REVISION));
         owner.setRevisionRoom(roomBean.getRevision());
+        owner.setId(owner.genId());
         owner.forCreate();
         roomUserBeanList.add(owner);
         for (RoomUser roomUser : roomCreate.getRoomUsers()){
@@ -66,7 +67,7 @@ public class CreateRoom implements Method<RoomCreate> {
             roomUserBean.setUserLevel(roomUser.getUserLevel());
             roomUserBean.setRevisionUser(idHelper.genId(RelationshipConstant.ID_TYPE_ROOM_USER_REVISION));
             roomUserBean.setRevisionRoom(roomBean.getRevision());
-            roomUserBean.genId();
+            roomUserBean.setId(roomUserBean.genId());
             roomUserBean.forCreate();
             roomUserBeanList.add(roomUserBean);
         }
