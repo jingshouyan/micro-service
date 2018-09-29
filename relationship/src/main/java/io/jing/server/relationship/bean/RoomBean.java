@@ -23,4 +23,4 @@ public class RoomBean extends BaseBean {
     private Integer userCount;
     @Column(comment = "版本号")
     private Long revision;
-    }
+}

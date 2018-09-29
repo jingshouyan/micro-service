@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @author jingshouyan
  * #date 2018/6/15 11:23
  */
-@Component("relationship.ListRoom")
+@Component("relationship.listRoom")
 public class ListRoom implements Method<QueryParam> {
 
     @Autowired
