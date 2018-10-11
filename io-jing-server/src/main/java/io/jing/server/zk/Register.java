@@ -95,7 +95,7 @@ public class Register implements ServerConstant {
             });
             cache.start();
 
-            service.scheduleAtFixedRate(()->updateService(info),UPDATE_DELAY,UPDATE_DELAY,TimeUnit.SECONDS);
+            service.scheduleAtFixedRate(()->updateService(tServer,info),UPDATE_DELAY,UPDATE_DELAY,TimeUnit.SECONDS);
 
             Runtime.getRuntime().addShutdownHook(new Thread(()->{
                 try{
@@ -134,13 +134,23 @@ public class Register implements ServerConstant {
         return fullPath;
     }
 
-    public static void updateService(ServiceInfo info){
+    public static void updateService(TServer tServer,ServiceInfo info){
         try{
             String fullPath = fullPath(info);
-            info.setUpdatedAt(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-            info.setMonitorInfo(MonitorUtil.monitor());
-            String data = JsonUtil.toJsonString(info);
-            client.setData().forPath(fullPath,data.getBytes());
+            if(tServer.isServing()){
+                info.setUpdatedAt(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                info.setMonitorInfo(MonitorUtil.monitor());
+                String data = JsonUtil.toJsonString(info);
+                boolean exist = client.checkExists().forPath(fullPath) != null;
+                if(exist){
+                    client.setData().forPath(fullPath,data.getBytes());
+                }else {
+                    createZkNode(info);
+                }
+            }else{
+                client.delete().forPath(fullPath);
+            }
+
         }catch (Exception e){
             log.error("update zk error",e);
         }
