@@ -48,6 +48,7 @@ public class ThreadSelectorServer {
             log.error("thrift service start failed", e);
         }
         log.info("thrift service started.  [port:{}]", port);
+        
         return server;
     }
 }

@@ -68,13 +68,16 @@ public class Register implements ServerConstant {
 
         System.setProperty("SERVER_INSTANCE",SERVICE_INSTANCE.key());
         TServer tServer = threadPoolServer(serviceLoad.load(),SERVICE_INSTANCE);
-        executor.submit(()->registerService(SERVICE_INSTANCE));
+        executor.submit(()->registerService(tServer,SERVICE_INSTANCE));
         tServer.serve();
     }
 
 
-    private static void registerService(ServiceInfo info) {
+    private static void registerService(TServer tServer,ServiceInfo info) {
         try{
+            while(!tServer.isServing()){
+                Thread.sleep(1000);
+            }
             log.info("register zk starting...");
             String path = fullPath(info);
             createZkNode(info);
@@ -82,9 +85,11 @@ public class Register implements ServerConstant {
 
             TreeCache cache = new TreeCache(client, path);
             cache.getListenable().addListener((cf,event)->{
-                log.info("TREE CACHE {},{}",event.getType(),event.toString());
+                log.info("TREE {} {}",event.getType(),event.getData().getPath());
                 if(event.getType() == TreeCacheEvent.Type.NODE_REMOVED
-                        && path.equals(event.getData().getPath())){
+                        && path.equals(event.getData().getPath())
+                        && tServer.isServing()
+                ){
                     createZkNode(info);
                 }
             });
