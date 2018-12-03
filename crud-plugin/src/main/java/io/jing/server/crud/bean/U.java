@@ -6,15 +6,17 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @ToString
 public class U {
-    @NonNull
+    @NotNull
     private String bean;
-    @NonNull
+    @NotNull
     private String type = CrudConstant.TYPE_SINGLE;
-    @NonNull
+    @NotNull
     private String data;
 
 }

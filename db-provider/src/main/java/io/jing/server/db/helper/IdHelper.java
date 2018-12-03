@@ -21,6 +21,7 @@ public class IdHelper implements KeyGenerator {
 
     private static final Map<String,Long> MAP = Maps.newConcurrentMap();
 
+    @Override
     public long genId(String type){
         synchronized (type.intern()){
             Long id = MAP.get(type);

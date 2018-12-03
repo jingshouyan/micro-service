@@ -10,17 +10,18 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter@Setter@ToString
 public class R {
-    @NonNull
+    @NotNull
     private String bean;
-    @NonNull
+    @NotNull
     private List<Compare> compares = Lists.newArrayList();
-    @NonNull
+    @NotNull
     private Page page = new Page();
-    @NonNull
+    @NotNull
     private String type = CrudConstant.TYPE_SINGLE;
 
     private Object id;

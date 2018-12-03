@@ -24,7 +24,6 @@ public class SqlGeneratorFactory {
         if(envDatabaseId!=null){
             databaseId = envDatabaseId;
         }
-//        databaseId = KINGBASE;
     }
 
     public static <T> SqlGenerator<T> getSqlGenerator(Class<T> clazz) {
